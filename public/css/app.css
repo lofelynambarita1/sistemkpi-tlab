@@ -1,0 +1,207 @@
+/* ================================
+   SISTEM KPI — Custom Styles
+   ================================ */
+
+:root {
+    --primary:     #2563eb;
+    --primary-dk:  #1d4ed8;
+    --success:     #16a34a;
+    --warning:     #ca8a04;
+    --danger:      #dc2626;
+    --info:        #0891b2;
+    --light-bg:    #f8fafc;
+    --card-border: #e2e8f0;
+    --text-muted:  #64748b;
+}
+
+body {
+    background-color: var(--light-bg);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: #1e293b;
+}
+
+/* ---- Navbar ---- */
+.navbar-brand { letter-spacing: .5px; }
+
+.avatar-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: .8rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+/* ---- Cards ---- */
+.card {
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.card-header {
+    background: #fff;
+    border-bottom: 1px solid var(--card-border);
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1rem 1.25rem;
+}
+
+/* ---- Stat Cards ---- */
+.stat-card {
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+.stat-card .stat-icon {
+    font-size: 2.5rem;
+    opacity: .25;
+    position: absolute;
+    right: 1rem;
+    top: .75rem;
+}
+.stat-card .stat-value { font-size: 2rem; font-weight: 700; line-height: 1; }
+.stat-card .stat-label { font-size: .85rem; opacity: .85; margin-top: .25rem; }
+
+/* ---- Progress ---- */
+.progress-kpi {
+    height: 10px;
+    border-radius: 99px;
+    background: #e2e8f0;
+    overflow: hidden;
+}
+.progress-kpi .progress-bar {
+    border-radius: 99px;
+    transition: width .5s ease;
+}
+
+/* ---- Target Card ---- */
+.target-item {
+    padding: .75rem 0;
+    border-bottom: 1px solid var(--card-border);
+}
+.target-item:last-child { border-bottom: none; }
+.target-item .target-label { font-weight: 600; font-size: .9rem; }
+.target-item .target-pct {
+    font-size: .8rem;
+    font-weight: 700;
+    min-width: 42px;
+    text-align: right;
+}
+
+/* ---- Tables ---- */
+.table-kpi thead th {
+    background: #f1f5f9;
+    border-top: none;
+    font-weight: 600;
+    font-size: .85rem;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+.table-kpi tbody tr:hover { background: #f8fafc; }
+
+/* ---- Form Input Readonly ---- */
+.form-control-calculated {
+    background: #f1f5f9 !important;
+    color: var(--primary);
+    font-weight: 600;
+    border-color: #cbd5e1 !important;
+    cursor: not-allowed;
+}
+
+/* ---- Badges ---- */
+.badge-secondary { background: #94a3b8; color: #fff; }
+.badge-warning    { background: #f59e0b; color: #fff; }
+.badge-info       { background: #06b6d4; color: #fff; }
+.badge-success    { background: #22c55e; color: #fff; }
+.badge-danger     { background: #ef4444; color: #fff; }
+.badge-primary    { background: var(--primary); color: #fff; }
+
+/* ---- Status Badge ---- */
+.status-badge {
+    padding: .3em .7em;
+    border-radius: 99px;
+    font-size: .78rem;
+    font-weight: 600;
+}
+
+/* ---- Section Tabs ---- */
+.kpi-tabs .nav-link {
+    border-radius: 8px 8px 0 0;
+    font-weight: 500;
+    color: #475569;
+    padding: .6rem 1.1rem;
+}
+.kpi-tabs .nav-link.active {
+    background: #fff;
+    color: var(--primary);
+    border-color: var(--card-border) var(--card-border) #fff;
+    font-weight: 600;
+}
+
+/* ---- Row actions ---- */
+.btn-action {
+    padding: .2rem .5rem;
+    font-size: .78rem;
+    border-radius: 6px;
+}
+
+/* ---- History ---- */
+.history-item {
+    position: relative;
+    padding-left: 2rem;
+    padding-bottom: 1rem;
+}
+.history-item::before {
+    content: '';
+    position: absolute;
+    left: .55rem;
+    top: 1.5rem;
+    bottom: 0;
+    width: 2px;
+    background: #e2e8f0;
+}
+.history-item:last-child::before { display: none; }
+.history-dot {
+    position: absolute;
+    left: 0;
+    top: .35rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #e2e8f0;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .stat-card { margin-bottom: 1rem; }
+    .table-responsive { font-size: .83rem; }
+}
+
+/* ---- Section header ---- */
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid var(--primary);
+}
+.section-header i { color: var(--primary); }
+
+/* ---- Print ---- */
+@media print {
+    .navbar, .btn, .nav-tabs, .alert { display: none !important; }
+    .card { box-shadow: none !important; border: 1px solid #ccc !important; }
+}
