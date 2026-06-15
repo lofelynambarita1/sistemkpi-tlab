@@ -1,0 +1,138 @@
+@startuml
+title Workflow Approval KPI
+
+start
+:Pengguna mengisi Form KPI;
+:Submit KPI;
+:Status = Submitted;
+
+switch (Role Pengaju)
+
+case (Associate / Intermediate / Senior)
+
+    :Kirim ke Lead Section;
+    :Lead Section Review;
+
+    if (Approve?) then (Ya)
+        :Tambah komentar;
+        :Simpan History;
+
+        :Kirim ke Lead HR Section;
+        :Lead HR Review;
+
+        if (Approve?) then (Ya)
+            :Tambah komentar;
+            :Simpan History;
+
+            :Kirim ke Manager Section;
+            :Manager Review;
+
+            if (Approve?) then (Ya)
+                :Tambah komentar;
+                :Simpan History;
+                :Status = Approved;
+                :Kembalikan ke Pengaju;
+            else (Reject)
+                :Tambah komentar revisi;
+                :Simpan History;
+                :Status = Need Revision;
+                :Kembalikan ke Pengaju;
+            endif
+
+        else (Reject)
+            :Tambah komentar revisi;
+            :Simpan History;
+            :Status = Need Revision;
+            :Kembalikan ke Pengaju;
+        endif
+
+    else (Reject)
+        :Tambah komentar revisi;
+        :Simpan History;
+        :Status = Need Revision;
+        :Kembalikan ke Pengaju;
+    endif
+
+case (Principle)
+
+    :Kirim ke Lead HR Section;
+    :Lead HR Review;
+
+    if (Approve?) then (Ya)
+        :Tambah komentar;
+        :Simpan History;
+
+        :Kirim ke Manager Section;
+        :Manager Review;
+
+        if (Approve?) then (Ya)
+            :Tambah komentar;
+            :Simpan History;
+            :Status = Approved;
+            :Kembalikan ke Principle;
+        else (Reject)
+            :Tambah komentar revisi;
+            :Simpan History;
+            :Status = Need Revision;
+            :Kembalikan ke Principle;
+        endif
+
+    else (Reject)
+        :Tambah komentar revisi;
+        :Simpan History;
+        :Status = Need Revision;
+        :Kembalikan ke Principle;
+    endif
+
+case (Lead)
+
+    :Kirim ke Lead HR Section;
+    :Lead HR Review;
+
+    if (Approve?) then (Ya)
+        :Tambah komentar;
+        :Simpan History;
+
+        :Kirim ke Manager Section;
+        :Manager Review;
+
+        if (Approve?) then (Ya)
+            :Tambah komentar;
+            :Simpan History;
+            :Status = Approved;
+            :Kembalikan ke Lead;
+        else (Reject)
+            :Tambah komentar revisi;
+            :Simpan History;
+            :Status = Need Revision;
+            :Kembalikan ke Lead;
+        endif
+
+    else (Reject)
+        :Tambah komentar revisi;
+        :Simpan History;
+        :Status = Need Revision;
+        :Kembalikan ke Lead;
+    endif
+
+case (Lead HR)
+
+    :Kirim ke Manager Section;
+    :Manager Review;
+
+    if (Approve?) then (Ya)
+        :Tambah komentar;
+        :Simpan History;
+        :Status = Approved;
+        :Kembalikan ke Lead HR;
+    else (Reject)
+        :Tambah komentar revisi;
+        :Simpan History;
+        :Status = Need Revision;
+        :Kembalikan ke Lead HR;
+    endif
+
+endswitch
+
+stop
+@enduml
