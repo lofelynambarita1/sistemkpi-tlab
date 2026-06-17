@@ -1,0 +1,31 @@
+<ul class="space-y-1">
+    @php $role = auth()->user()->role; @endphp
+
+    @if($role === 'admin')
+        <li><a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('admin.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-gauge w-4"></i> Dashboard</a></li>
+        <li><a href="{{ route('admin.users.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('admin.users*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-users w-4"></i> Management User</a></li>
+        <li><a href="{{ route('admin.profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('admin.profile') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-user w-4"></i> Profile</a></li>
+    @elseif($role === 'manager')
+        <li><a href="{{ route('manager.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('manager.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-gauge w-4"></i> Dashboard</a></li>
+        <li><a href="{{ route('manager.review.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('manager.review*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-clipboard-check w-4"></i> Review KPI</a></li>
+        <li><a href="{{ route('manager.profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('manager.profile') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-user w-4"></i> Profile</a></li>
+    @elseif($role === 'lead_hr')
+        <li><a href="{{ route('leadhr.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('leadhr.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-gauge w-4"></i> Dashboard</a></li>
+        <li><a href="{{ route('leadhr.kpi.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('leadhr.kpi*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-file-alt w-4"></i> Form KPI</a></li>
+        <li><a href="{{ route('leadhr.review.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('leadhr.review*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-clipboard-check w-4"></i> Review KPI</a></li>
+        <li><a href="{{ route('leadhr.profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('leadhr.profile') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-user w-4"></i> Profile</a></li>
+    @elseif($role === 'lead')
+        <li><a href="{{ route('lead.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('lead.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-gauge w-4"></i> Dashboard</a></li>
+        <li><a href="{{ route('lead.kpi.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('lead.kpi*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-file-alt w-4"></i> Form KPI</a></li>
+        <li><a href="{{ route('lead.review.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('lead.review*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-clipboard-check w-4"></i> Review KPI</a></li>
+        <li><a href="{{ route('lead.profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('lead.profile') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-user w-4"></i> Profile</a></li>
+    @elseif($role === 'principle')
+        <li><a href="{{ route('principle.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('principle.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-gauge w-4"></i> Dashboard</a></li>
+        <li><a href="{{ route('principle.kpi.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('principle.kpi*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-file-alt w-4"></i> Form KPI</a></li>
+        <li><a href="{{ route('principle.profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('principle.profile') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-user w-4"></i> Profile</a></li>
+    @else
+        <li><a href="{{ route('employee.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('employee.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-gauge w-4"></i> Dashboard</a></li>
+        <li><a href="{{ route('employee.kpi.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('employee.kpi*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-file-alt w-4"></i> Form KPI</a></li>
+        <li><a href="{{ route('employee.profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('employee.profile') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-user w-4"></i> Profile</a></li>
+    @endif
+</ul>
