@@ -1,59 +1,85 @@
 @extends('layouts.app')
-@section('title', 'Management User')
+@section('title', 'Manajemen User')
 @section('content')
-<div class="mb-6 flex items-center justify-between">
-    <div>
-        <h1 class="text-2xl font-bold text-gray-800">Management User</h1>
-        <p class="text-gray-500 text-sm mt-1">Kelola seluruh akun pengguna sistem</p>
+<nav class="mb-4 text-sm">
+    <ol class="flex text-gray-500 gap-2">
+        <li><a href="{{ route('dashboard') }}" class="text-red-700 hover:underline">Home</a></li>
+        <li>/</li>
+        <li class="text-gray-700">Manajemen User</li>
+    </ol>
+</nav>
+
+<header class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Manajemen User</h1>
+    <p class="text-gray-600">Pengelolaan akun karyawan dan hierarki</p>
+</header>
+
+<div class="bg-white rounded-lg shadow p-6">
+    <div class="flex gap-3 mb-4">
+        <form method="GET" class="flex-1 flex gap-3">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari karyawan..." class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700">
+            <button type="submit" class="btn-primary">Cari</button>
+            @if(request('search') || request('role') || request('status'))
+                <a href="{{ route('admin.users.index') }}" class="btn-secondary">Reset</a>
+            @endif
+        </form>
+        <a href="{{ route('admin.users.export') }}" class="btn-secondary">Export Excel</a>
+        <a href="{{ route('admin.users.create') }}" class="btn-primary">+ Tambah User</a>
     </div>
-    <a href="{{ route('admin.users.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition">
-        <i class="fa-solid fa-plus"></i> Tambah Pengguna
-    </a>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Jabatan</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Atasan</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @forelse($users as $u)
+                <tr>
+                    <td class="px-4 py-4 font-medium text-gray-800">{{ $u->name }}</td>
+                    <td class="px-4 py-4 text-gray-600">{{ $u->email }}</td>
+                    <td class="px-4 py-4"><span class="bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full text-xs">{{ $u->role_label }}</span></td>
+                    <td class="px-4 py-4 text-gray-600">{{ $u->jabatan ?? '-' }}</td>
+                    <td class="px-4 py-4 text-gray-600">{{ $u->atasan->name ?? '-' }}</td>
+                    <td class="px-4 py-4">
+                        @if($u->is_active)
+                            <span class="badge badge-aktif">AKTIF</span>
+                        @else
+                            <span class="badge badge-dicabut">NONAKTIF</span>
+                        @endif
+                    </td>
+                    <td class="px-4 py-4 text-right">
+                        <a href="{{ route('admin.users.edit', $u) }}" class="text-blue-600 hover:underline text-sm mr-3">Edit</a>
+                        <form method="POST" action="{{ route('admin.users.toggle-status', $u) }}" class="inline">
+                            @csrf
+                            <button type="submit" class="text-red-600 hover:underline text-sm mr-3">{{ $u->is_active ? 'Nonaktif' : 'Aktifkan' }}</button>
+                        </form>
+                        <button type="button"
+                            class="text-red-600 hover:underline text-sm"
+                            data-delete-url="{{ route('admin.users.destroy', $u) }}"
+                            data-delete-desc="User {{ $u->name }} akan dihapus permanen.">
+                            Hapus
+                        </button>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="7" class="px-4 py-8 text-center text-gray-400">Tidak ada pengguna ditemukan.</td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
-<form method="GET" class="mb-4 flex gap-2">
-    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, email, divisi..." class="border border-gray-300 rounded-lg px-3 py-2 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-indigo-300">
-    <button class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm"><i class="fa-solid fa-search"></i></button>
-</form>
-<div class="bg-white rounded-xl shadow overflow-hidden">
-    <table class="w-full text-sm">
-        <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
-            <tr>
-                <th class="px-4 py-3 text-left">Nama</th>
-                <th class="px-4 py-3 text-left">Email</th>
-                <th class="px-4 py-3 text-left">Role</th>
-                <th class="px-4 py-3 text-left">Divisi</th>
-                <th class="px-4 py-3 text-left">Status</th>
-                <th class="px-4 py-3 text-center">Aksi</th>
-            </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-100">
-            @forelse($users as $user)
-            <tr class="hover:bg-gray-50">
-                <td class="px-4 py-3 font-medium text-gray-800">{{ $user->name }}</td>
-                <td class="px-4 py-3 text-gray-600">{{ $user->email }}</td>
-                <td class="px-4 py-3"><span class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full text-xs font-medium">{{ $user->role }}</span></td>
-                <td class="px-4 py-3 text-gray-600">{{ $user->divisi ?? '-' }}</td>
-                <td class="px-4 py-3">
-                    @if($user->is_active)
-                        <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs">Aktif</span>
-                    @else
-                        <span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-xs">Nonaktif</span>
-                    @endif
-                </td>
-                <td class="px-4 py-3">
-                    <div class="flex items-center justify-center gap-2">
-                        <a href="{{ route('admin.users.show', $user) }}" class="text-gray-500 hover:text-indigo-600"><i class="fa-solid fa-eye"></i></a>
-                        <a href="{{ route('admin.users.edit', $user) }}" class="text-gray-500 hover:text-yellow-600"><i class="fa-solid fa-pen"></i></a>
-                        <form method="POST" action="{{ route('admin.users.toggle-status', $user) }}" class="inline">@csrf<button type="submit" class="text-gray-500 hover:text-blue-600"><i class="fa-solid {{ $user->is_active ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i></button></form>
-                        <form method="POST" action="{{ route('admin.users.destroy', $user) }}" class="inline" onsubmit="return confirm('Hapus pengguna ini?')">@csrf @method('DELETE')<button type="submit" class="text-gray-500 hover:text-red-600"><i class="fa-solid fa-trash"></i></button></form>
-                    </div>
-                </td>
-            </tr>
-            @empty
-            <tr><td colspan="6" class="px-4 py-8 text-center text-gray-400">Tidak ada pengguna.</td></tr>
-            @endforelse
-        </tbody>
-    </table>
-</div>
+
+@if($users instanceof \Illuminate\Pagination\LengthAwarePaginator && $users->hasPages())
 <div class="mt-4">{{ $users->links() }}</div>
+@endif
 @endsection

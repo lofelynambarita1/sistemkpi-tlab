@@ -1,29 +1,94 @@
 @extends('layouts.app')
-@section('title', 'Tambah Pengguna')
+@section('title', 'Tambah User')
 @section('content')
-<div class="mb-6"><h1 class="text-2xl font-bold text-gray-800">Tambah Pengguna</h1></div>
-<div class="bg-white rounded-xl shadow p-6 max-w-2xl">
+<nav class="mb-4 text-sm">
+    <ol class="flex text-gray-500 gap-2">
+        <li><a href="{{ route('dashboard') }}" class="text-red-700 hover:underline">Home</a></li>
+        <li>/</li>
+        <li><a href="{{ route('admin.users.index') }}" class="text-red-700 hover:underline">Manajemen User</a></li>
+        <li>/</li>
+        <li class="text-gray-700">Tambah User</li>
+    </ol>
+</nav>
+
+<header class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Tambah User</h1>
+    <p class="text-gray-600">Pendaftaran akun karyawan baru</p>
+</header>
+
+<div class="bg-white rounded-lg shadow p-6 max-w-2xl">
     <form method="POST" action="{{ route('admin.users.store') }}">
         @csrf
-        <div class="grid grid-cols-1 gap-4">
-            <div><label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label><input type="text" name="name" value="{{ old('name') }}" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"></div>
-            <div><label class="block text-sm font-medium text-gray-700 mb-1">Email</label><input type="email" name="email" value="{{ old('email') }}" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"></div>
-            <div><label class="block text-sm font-medium text-gray-700 mb-1">Password</label><input type="password" name="password" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"></div>
-            <div><label class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label><input type="password" name="password_confirmation" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"></div>
-            <div><label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
-                <select name="role" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
-                    <option value="">-- Pilih Role --</option>
-                    @foreach(['associate','intermediate','senior','lead','lead_hr','principle','manager'] as $r)
-                    <option value="{{ $r }}" {{ old('role') == $r ? 'selected' : '' }}>{{ ucfirst(str_replace('_',' ',$r)) }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div><label class="block text-sm font-medium text-gray-700 mb-1">Jabatan</label><input type="text" name="jabatan" value="{{ old('jabatan') }}" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"></div>
-            <div><label class="block text-sm font-medium text-gray-700 mb-1">Divisi</label><input type="text" name="divisi" value="{{ old('divisi') }}" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"></div>
+        <div class="mb-4">
+            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
+            <input type="text" id="name" name="name" value="{{ old('name') }}" required maxlength="255"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 @error('name') border-red-500 @enderror"
+                   placeholder="Rian Pratama">
+            @error('name')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
         </div>
-        <div class="mt-6 flex gap-3">
-            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-sm font-medium">Simpan</button>
-            <a href="{{ route('admin.users.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-2 rounded-lg text-sm font-medium">Batal</a>
+        <div class="mb-4">
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+            <input type="email" id="email" name="email" value="{{ old('email') }}" required maxlength="255"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 @error('email') border-red-500 @enderror"
+                   placeholder="rian.associate@company.com">
+            @error('email')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+        </div>
+        <div class="mb-4">
+            <label for="jabatan" class="block text-sm font-medium text-gray-700 mb-1">Jabatan <span class="text-red-500">*</span></label>
+            <input type="text" id="jabatan" name="jabatan" value="{{ old('jabatan') }}" required maxlength="100"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 @error('jabatan') border-red-500 @enderror"
+                   placeholder="Software Engineer">
+            @error('jabatan')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+        </div>
+        <div class="mb-4">
+            <label for="divisi" class="block text-sm font-medium text-gray-700 mb-1">Divisi <span class="text-red-500">*</span></label>
+            <input type="text" id="divisi" name="divisi" value="{{ old('divisi') }}" required maxlength="100"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 @error('divisi') border-red-500 @enderror"
+                   placeholder="Engineering">
+            @error('divisi')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+        </div>
+        <div class="mb-4">
+            <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Role <span class="text-red-500">*</span></label>
+            <select id="role" name="role" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 @error('role') border-red-500 @enderror">
+                <option value="">-- Pilih Role --</option>
+                @foreach(['associate','intermediate','senior','lead','principle','lead_hr','hr','manager','admin'] as $r)
+                <option value="{{ $r }}" {{ old('role') == $r ? 'selected' : '' }}>{{ ucfirst(str_replace('_', ' ', $r)) }}</option>
+                @endforeach
+            </select>
+            @error('role')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+        </div>
+        <div class="mb-4">
+            <label for="atasan_id" class="block text-sm font-medium text-gray-700 mb-1">Atasan</label>
+            <select id="atasan_id" name="atasan_id" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700">
+                <option value="">-- Tanpa Atasan (untuk Manager/Admin) --</option>
+                @foreach($users as $u)
+                <option value="{{ $u->id }}" {{ old('atasan_id') == $u->id ? 'selected' : '' }}>{{ $u->name }} ({{ $u->role_label }})</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-4">
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password <span class="text-red-500">*</span></label>
+            <input type="password" id="password" name="password" required minlength="8" maxlength="255"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 @error('password') border-red-500 @enderror"
+                   placeholder="Minimal 8 karakter">
+            @error('password')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+        </div>
+        <div class="mb-4">
+            <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password <span class="text-red-500">*</span></label>
+            <input type="password" id="password_confirmation" name="password_confirmation" required minlength="8"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700"
+                   placeholder="Ulangi password">
+        </div>
+        <div class="mb-4">
+            <label for="status_akun" class="block text-sm font-medium text-gray-700 mb-1">Status Akun</label>
+            <select id="status_akun" name="status_akun" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700">
+                <option value="aktif" {{ old('status_akun', 'aktif') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                <option value="nonaktif" {{ old('status_akun') == 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+            </select>
+        </div>
+        <div class="flex justify-end gap-3 mt-6 pt-4 border-t">
+            <a href="{{ route('admin.users.index') }}" class="btn-secondary">Batal</a>
+            <button type="submit" class="btn-primary">Simpan</button>
         </div>
     </form>
 </div>

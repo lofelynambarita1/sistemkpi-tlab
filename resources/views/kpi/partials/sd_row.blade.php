@@ -5,10 +5,10 @@
     $koef    = $row->koefisien ?? 0;
     $point   = $row->point     ?? 0;
 @endphp
-<td>{{ $index + 1 }}</td>
+<td class="px-3 py-2 text-sm text-gray-500">{{ $index + 1 }}</td>
 <td>
     <select name="sd[{{ $index }}][jenis_sd]"
-            class="form-select sd-jenis"
+            class="form-input sd-jenis"
             onchange="calcSDRow(this.closest('tr'))">
         <option value="">-- Pilih Jenis SD --</option>
         @foreach($sdOptions as $opt)
@@ -19,33 +19,37 @@
 <td>
     <input type="text"
            name="sd[{{ $index }}][kegiatan]"
-           class="form-control"
+           class="form-input"
            placeholder="Nama kegiatan..."
            value="{{ $kegiatan }}">
 </td>
 <td>
     <input type="number"
            name="sd[{{ $index }}][mandays]"
-           class="form-control sd-mandays"
+           class="form-input sd-mandays"
            min="0" step="0.01"
            value="{{ number_format((float)$mandays, 2, '.', '') }}"
            oninput="calcSDRow(this.closest('tr'))">
 </td>
 <td>
     <input type="text"
-           class="form-control calc-field sd-koef"
+           class="form-input calc-field sd-koef"
            value="{{ number_format((float)$koef, 4, '.', '') }}"
-           readonly tabindex="-1">
+           readonly tabindex="-1"
+           style="background:#fefce8 !important;color:#ca8a04;font-weight:600;">
 </td>
 <td>
     <input type="text"
-           class="form-control calc-field sd-point"
+           class="form-input calc-field sd-point"
            value="{{ number_format((float)$point, 4, '.', '') }}"
-           readonly tabindex="-1">
+           readonly tabindex="-1"
+           style="background:#fefce8 !important;color:#ca8a04;font-weight:600;">
 </td>
 <td>
-    <button type="button" class="btn btn-sm btn-outline-danger"
+    <button type="button" class="px-2 py-1 text-xs text-red-600 hover:bg-red-50 rounded border border-red-200"
             onclick="this.closest('tr').remove(); updateSDTotal();">
-        <i class="bi bi-trash3"></i>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+        </svg>
     </button>
 </td>

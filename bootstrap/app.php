@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\HrManagerOnly;
 use App\Http\Middleware\StaffOnly;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Session\TokenMismatchException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -17,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
+            'admin.only'      => AdminOnly::class,
             'staff.only'      => StaffOnly::class,
             'hr.manager.only' => HrManagerOnly::class,
         ]);
@@ -34,6 +37,13 @@ return Application::configure(basePath: dirname(__DIR__))
                 return response()->json(['message' => 'Forbidden'], 403);
             }
             return response()->view('errors.403', ['exception' => $e], 403);
+        });
+
+        $exceptions->render(function (TokenMismatchException $e, Request $request) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Session expired. Silakan login kembali.'], 419);
+            }
+            return response()->view('errors.419', ['exception' => $e], 419);
         });
     })
     ->create();

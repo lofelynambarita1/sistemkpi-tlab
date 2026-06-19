@@ -4,53 +4,64 @@
 
 @push('styles')
 <style>
-.form-section { background:#fff; border-radius:12px; border:1px solid #e2e8f0; margin-bottom:1.5rem; overflow:hidden; }
-.form-section-header { background: linear-gradient(90deg,#2563eb,#1d4ed8); color:#fff; padding:.9rem 1.25rem; font-weight:600; display:flex; align-items:center; gap:.5rem; }
-.form-section-body { padding:1.25rem; }
-.subform-table th { background:#f8fafc; font-size:.8rem; font-weight:600; text-transform:uppercase; color:#64748b; white-space:nowrap; }
-.subform-table td { vertical-align:middle; }
+.subform-table th { background:#f8fafc; font-size:.75rem; font-weight:600; text-transform:uppercase; color:#64748b; white-space:nowrap; padding:0.5rem 0.75rem; }
+.subform-table td { padding:0.5rem 0.75rem; vertical-align:middle; }
 .subform-table input, .subform-table select { font-size:.85rem; }
-.calc-field { background:#eff6ff !important; color:#2563eb; font-weight:600; border-color:#bfdbfe !important; }
+.calc-field { cursor:not-allowed; }
 .btn-add-row { border-style:dashed; }
-.tab-form-nav .nav-link { border-radius:8px 8px 0 0; font-weight:500; }
-.tab-form-nav .nav-link.active { background:#fff; color:#2563eb; border-bottom:2px solid #2563eb; font-weight:600; }
+.tab-form-nav .nav-link { border-radius:8px 8px 0 0; font-weight:500; padding:0.5rem 1rem; color:#6b7280; border:1px solid transparent; }
+.tab-form-nav .nav-link.active { background:#fff; color:#B91C1C; border-bottom:2px solid #B91C1C; font-weight:600; }
 </style>
 @endpush
 
 @section('content')
-<div class="row mt-4 mb-3 align-items-center">
-    <div class="col">
-        <h4 class="fw-bold mb-0"><i class="bi bi-file-earmark-plus text-primary me-2"></i>Buat Dokumen KPI Baru</h4>
-        <small class="text-muted">{{ $user->name }} · {{ $user->role_label }}</small>
+<nav class="mb-4 text-sm">
+    <ol class="flex text-gray-500 gap-2">
+        <li><a href="{{ route('dashboard') }}" class="text-red-700 hover:underline">Home</a></li>
+        <li>/</li>
+        <li><a href="{{ route('kpi.index') }}" class="text-red-700 hover:underline">KPI Saya</a></li>
+        <li>/</li>
+        <li class="text-gray-700 font-semibold">Buat KPI Baru</li>
+    </ol>
+</nav>
+
+<header class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800">Buat Dokumen KPI Baru</h1>
+        <p class="text-gray-600">{{ $user->name }} · {{ $user->role_label }}</p>
     </div>
-    <div class="col-auto">
-        <a href="{{ route('kpi.index') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i>Kembali
-        </a>
-    </div>
-</div>
+    <a href="{{ route('kpi.index') }}" class="btn-secondary">
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Kembali
+    </a>
+</header>
 
 <form method="POST" action="{{ route('kpi.store') }}" id="kpiForm">
     @csrf
 
     {{-- Header Info --}}
-    <div class="form-section">
-        <div class="form-section-header">
-            <i class="bi bi-info-circle"></i> Informasi Dokumen KPI
+    <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
+        <div class="bg-red-700 text-white px-5 py-3 font-semibold flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Informasi Dokumen KPI
         </div>
-        <div class="form-section-body">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label fw-semibold">Periode Tahun <span class="text-danger">*</span></label>
-                    <select name="period_year" class="form-select @error('period_year') is-invalid @enderror" required>
+        <div class="p-5">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Periode Tahun <span class="text-red-500">*</span></label>
+                    <select name="period_year" class="form-input @error('period_year') border-red-500 @enderror" required>
                         @for($y = date('Y'); $y >= 2020; $y--)
                             <option value="{{ $y }}" {{ old('period_year', date('Y')) == $y ? 'selected' : '' }}>{{ $y }}</option>
                         @endfor
                     </select>
                 </div>
-                <div class="col-md-9">
-                    <label class="form-label fw-semibold">Catatan (Opsional)</label>
-                    <input type="text" name="notes" class="form-control" placeholder="Catatan tambahan..."
+                <div class="md:col-span-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Catatan (Opsional)</label>
+                    <input type="text" name="notes" class="form-input" placeholder="Catatan tambahan..."
                            value="{{ old('notes') }}">
                 </div>
             </div>
@@ -58,177 +69,191 @@
     </div>
 
     {{-- TAB NAVIGATION --}}
-    <ul class="nav tab-form-nav border-bottom mb-0" style="background:#f8fafc; padding:.75rem 1rem 0; border-radius:12px 12px 0 0; border:1px solid #e2e8f0; border-bottom:none;">
-        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-hasil">Penilaian Kinerja Hasil</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-perilaku">Penilaian Kinerja Perilaku</a></li>
-    </ul>
+    <div class="border-b border-gray-200 bg-gray-50 rounded-t-lg px-4 pt-3">
+        <ul class="flex gap-1 tab-form-nav">
+            <li><a class="nav-link active inline-block" data-bs-toggle="tab" href="#tab-hasil">Penilaian Kinerja Hasil</a></li>
+            <li><a class="nav-link inline-block" data-bs-toggle="tab" href="#tab-perilaku">Penilaian Kinerja Perilaku</a></li>
+        </ul>
+    </div>
 
-    <div class="tab-content" style="background:#f8fafc; border:1px solid #e2e8f0; border-top:none; border-radius:0 0 12px 12px; padding:1.25rem;">
+    <div class="bg-gray-50 border border-t-0 border-gray-200 rounded-b-lg p-5">
 
         {{-- ========== TAB 1: PENILAIAN KINERJA HASIL ========== --}}
         <div class="tab-pane fade show active" id="tab-hasil">
 
-            {{-- SUBFORM 1: JOBDESC --}}
-            <div class="form-section">
-                <div class="form-section-header" style="background:linear-gradient(90deg,#1d4ed8,#2563eb);">
-                    <i class="bi bi-briefcase"></i> Sub Form 1: Jobdesc
+            {{-- JOBDESC --}}
+            <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
+                <div class="bg-red-700 text-white px-5 py-3 font-semibold flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    Sub Form 1: Jobdesc
                 </div>
-                <div class="form-section-body">
-                    <div class="table-responsive">
-                        <table class="table subform-table table-bordered" id="jobdescTable">
+                <div class="p-5">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 subform-table" id="jobdescTable">
                             <thead>
                                 <tr>
-                                    <th style="min-width:50px">#</th>
-                                    <th style="min-width:180px">Penilaian Koefisien On Time &amp; On Budget <span class="text-danger">*</span></th>
-                                    <th style="min-width:160px">Penilaian Grade Project <span class="text-danger">*</span></th>
-                                    <th style="min-width:200px">Nama Kegiatan dan Bukti</th>
-                                    <th style="min-width:120px">Mandays Proyek</th>
-                                    <th style="min-width:200px" class="text-info">Jumlah Koefisien (OTB + Grade) <i class="bi bi-lock-fill ms-1" title="Otomatis"></i></th>
-                                    <th style="min-width:200px" class="text-info">Total Mandays Penugasan <i class="bi bi-lock-fill ms-1" title="Otomatis"></i></th>
-                                    <th style="min-width:50px">Aksi</th>
+                                    <th>#</th>
+                                    <th>Penilaian Koef. On Time &amp; On Budget <span class="text-red-500">*</span></th>
+                                    <th>Penilaian Grade Project <span class="text-red-500">*</span></th>
+                                    <th>Nama Kegiatan dan Bukti</th>
+                                    <th>Mandays Proyek</th>
+                                    <th class="text-blue-600">Jml Koef (OTB+Grade) <svg class="w-3 h-3 inline mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
+                                    <th class="text-blue-600">Total Mandays Penugasan <svg class="w-3 h-3 inline mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="jobdescBody">
-                                <tr class="jobdesc-row" data-row="0">
+                            <tbody id="jobdescBody" class="divide-y divide-gray-200">
+                                <tr class="jobdesc-row">
                                     @include('kpi.partials.jobdesc_row', ['index' => 0, 'row' => null])
                                 </tr>
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="8" class="bg-light">
-                                        <button type="button" class="btn btn-outline-primary btn-sm btn-add-row" onclick="addJobdescRow()">
-                                            <i class="bi bi-plus-lg me-1"></i>Tambah Baris
-                                        </button>
-                                        <span class="ms-3 text-muted small">
-                                            Total Mandays: <strong class="text-primary" id="jobdescTotal">0.00</strong>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tfoot>
                         </table>
+                    </div>
+                    <div class="mt-3 flex items-center gap-3">
+                        <button type="button" class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded border border-dashed border-gray-400 text-gray-600 hover:border-red-400 hover:text-red-700 transition"
+                                onclick="addJobdescRow()">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15"/>
+                            </svg>
+                            Tambah Baris
+                        </button>
+                        <span class="text-xs text-gray-500">
+                            Total Mandays: <strong class="text-red-700" id="jobdescTotal">0.00</strong>
+                        </span>
                     </div>
                 </div>
             </div>
 
-            {{-- SUBFORM 2: CONTINUES IMPROVEMENT --}}
-            <div class="form-section">
-                <div class="form-section-header" style="background:linear-gradient(90deg,#16a34a,#22c55e);">
-                    <i class="bi bi-arrow-repeat"></i> Sub Form 2: Continues Improvement
+            {{-- CI --}}
+            <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
+                <div class="bg-green-700 text-white px-5 py-3 font-semibold flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    Sub Form 2: Continues Improvement
                 </div>
-                <div class="form-section-body">
-                    <div class="table-responsive">
-                        <table class="table subform-table table-bordered" id="ciTable">
+                <div class="p-5">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 subform-table" id="ciTable">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th style="min-width:220px">Jenis Kegiatan / Bukti <span class="text-danger">*</span></th>
-                                    <th style="min-width:200px">Kegiatan</th>
-                                    <th style="min-width:110px">Mandays</th>
-                                    <th style="min-width:110px" class="text-info">Koefisien <i class="bi bi-lock-fill ms-1"></i></th>
-                                    <th style="min-width:110px" class="text-info">Point <i class="bi bi-lock-fill ms-1"></i></th>
+                                    <th>Jenis Kegiatan / Bukti <span class="text-red-500">*</span></th>
+                                    <th>Kegiatan</th>
+                                    <th>Mandays</th>
+                                    <th class="text-green-600">Koefisien <svg class="w-3 h-3 inline mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
+                                    <th class="text-green-600">Point <svg class="w-3 h-3 inline mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="ciBody">
+                            <tbody id="ciBody" class="divide-y divide-gray-200">
                                 <tr class="ci-row">
                                     @include('kpi.partials.ci_row', ['index' => 0, 'row' => null, 'ciOptions' => $ciOptions])
                                 </tr>
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="7" class="bg-light">
-                                        <button type="button" class="btn btn-outline-success btn-sm btn-add-row" onclick="addCIRow()">
-                                            <i class="bi bi-plus-lg me-1"></i>Tambah Baris
-                                        </button>
-                                        <span class="ms-3 text-muted small">
-                                            Total Point: <strong class="text-success" id="ciTotal">0.00</strong>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tfoot>
                         </table>
+                    </div>
+                    <div class="mt-3 flex items-center gap-3">
+                        <button type="button" class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded border border-dashed border-gray-400 text-gray-600 hover:border-green-400 hover:text-green-700 transition"
+                                onclick="addCIRow()">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15"/>
+                            </svg>
+                            Tambah Baris
+                        </button>
+                        <span class="text-xs text-gray-500">
+                            Total Point: <strong class="text-green-700" id="ciTotal">0.00</strong>
+                        </span>
                     </div>
                 </div>
             </div>
 
-            {{-- SUBFORM 3: SELF DEVELOPMENT --}}
-            <div class="form-section">
-                <div class="form-section-header" style="background:linear-gradient(90deg,#ca8a04,#fbbf24);">
-                    <i class="bi bi-person-check"></i> Sub Form 3: Self Development
+            {{-- SD --}}
+            <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
+                <div class="bg-yellow-600 text-white px-5 py-3 font-semibold flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    Sub Form 3: Self Development
                 </div>
-                <div class="form-section-body">
-                    <div class="table-responsive">
-                        <table class="table subform-table table-bordered" id="sdTable">
+                <div class="p-5">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 subform-table" id="sdTable">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th style="min-width:220px">Jenis SD <span class="text-danger">*</span></th>
-                                    <th style="min-width:200px">Kegiatan</th>
-                                    <th style="min-width:110px">Mandays</th>
-                                    <th style="min-width:110px" class="text-info">Koefisien <i class="bi bi-lock-fill ms-1"></i></th>
-                                    <th style="min-width:110px" class="text-info">Point <i class="bi bi-lock-fill ms-1"></i></th>
+                                    <th>Jenis SD <span class="text-red-500">*</span></th>
+                                    <th>Kegiatan</th>
+                                    <th>Mandays</th>
+                                    <th class="text-yellow-600">Koefisien <svg class="w-3 h-3 inline mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
+                                    <th class="text-yellow-600">Point <svg class="w-3 h-3 inline mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="sdBody">
+                            <tbody id="sdBody" class="divide-y divide-gray-200">
                                 <tr class="sd-row">
                                     @include('kpi.partials.sd_row', ['index' => 0, 'row' => null, 'sdOptions' => $sdOptions])
                                 </tr>
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="7" class="bg-light">
-                                        <button type="button" class="btn btn-outline-warning btn-sm btn-add-row" onclick="addSDRow()">
-                                            <i class="bi bi-plus-lg me-1"></i>Tambah Baris
-                                        </button>
-                                        <span class="ms-3 text-muted small">
-                                            Total Point: <strong class="text-warning" id="sdTotal">0.00</strong>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tfoot>
                         </table>
+                    </div>
+                    <div class="mt-3 flex items-center gap-3">
+                        <button type="button" class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded border border-dashed border-gray-400 text-gray-600 hover:border-yellow-500 hover:text-yellow-700 transition"
+                                onclick="addSDRow()">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15"/>
+                            </svg>
+                            Tambah Baris
+                        </button>
+                        <span class="text-xs text-gray-500">
+                            Total Point: <strong class="text-yellow-600" id="sdTotal">0.00</strong>
+                        </span>
                     </div>
                 </div>
             </div>
 
-            {{-- SUBFORM 4: HR ACTIVITY --}}
-            <div class="form-section">
-                <div class="form-section-header" style="background:linear-gradient(90deg,#7c3aed,#8b5cf6);">
-                    <i class="bi bi-people"></i> Sub Form 4: HR Activity
+            {{-- HRA --}}
+            <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
+                <div class="bg-purple-700 text-white px-5 py-3 font-semibold flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    Sub Form 4: HR Activity
                 </div>
-                <div class="form-section-body">
-                    <div class="table-responsive">
-                        <table class="table subform-table table-bordered" id="hrTable">
+                <div class="p-5">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 subform-table" id="hrTable">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th style="min-width:220px">Jenis Kegiatan <span class="text-danger">*</span></th>
-                                    <th style="min-width:200px">Kegiatan</th>
-                                    <th style="min-width:110px">Mandays</th>
-                                    <th style="min-width:110px" class="text-info">Koefisien <i class="bi bi-lock-fill ms-1"></i></th>
-                                    <th style="min-width:110px" class="text-info">Point <i class="bi bi-lock-fill ms-1"></i></th>
+                                    <th>Jenis Kegiatan <span class="text-red-500">*</span></th>
+                                    <th>Kegiatan</th>
+                                    <th>Mandays</th>
+                                    <th class="text-purple-600">Koefisien <svg class="w-3 h-3 inline mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
+                                    <th class="text-purple-600">Point <svg class="w-3 h-3 inline mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="hrBody">
+                            <tbody id="hrBody" class="divide-y divide-gray-200">
                                 <tr class="hr-row">
                                     @include('kpi.partials.hr_row', ['index' => 0, 'row' => null, 'hrOptions' => $hrOptions])
                                 </tr>
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="7" class="bg-light">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm btn-add-row" onclick="addHRRow()">
-                                            <i class="bi bi-plus-lg me-1"></i>Tambah Baris
-                                        </button>
-                                        <span class="ms-3 text-muted small">
-                                            Total Point: <strong class="text-secondary" id="hrTotal">0.00</strong>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tfoot>
                         </table>
+                    </div>
+                    <div class="mt-3 flex items-center gap-3">
+                        <button type="button" class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded border border-dashed border-gray-400 text-gray-600 hover:border-purple-400 hover:text-purple-700 transition"
+                                onclick="addHRRow()">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15"/>
+                            </svg>
+                            Tambah Baris
+                        </button>
+                        <span class="text-xs text-gray-500">
+                            Total Point: <strong class="text-purple-700" id="hrTotal">0.00</strong>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -237,58 +262,60 @@
 
         {{-- ========== TAB 2: PENILAIAN KINERJA PERILAKU ========== --}}
         <div class="tab-pane fade" id="tab-perilaku">
-            <div class="form-section">
-                <div class="form-section-header" style="background:linear-gradient(90deg,#0891b2,#22d3ee);">
-                    <i class="bi bi-star-half"></i> Sub Form: Kinerja Perilaku
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="bg-cyan-700 text-white px-5 py-3 font-semibold flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                    </svg>
+                    Sub Form: Kinerja Perilaku
                 </div>
-                <div class="form-section-body">
-                    <div class="alert alert-info py-2">
-                        <i class="bi bi-info-circle me-2"></i>
-                        Kolom Aspek Kinerja, Definisi, Minimum Capaian, Indikator, dan Deskripsi sudah ditentukan dan tidak dapat diubah.
-                        Isi hanya kolom <strong>Score</strong> untuk setiap aspek.
+                <div class="p-5">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 text-sm text-blue-700 flex items-start gap-2">
+                        <svg class="w-4 h-4 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>Kolom Aspek Kinerja, Definisi, Minimum Capaian, Indikator, dan Deskripsi sudah ditentukan dan tidak dapat diubah. Isi hanya kolom <strong>Score</strong> untuk setiap aspek.</span>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table subform-table table-bordered table-hover">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 subform-table">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th style="min-width:160px">Aspek Kinerja <i class="bi bi-lock-fill ms-1 text-info"></i></th>
-                                    <th style="min-width:250px">Definisi <i class="bi bi-lock-fill ms-1 text-info"></i></th>
-                                    <th style="min-width:100px">Min. Capaian <i class="bi bi-lock-fill ms-1 text-info"></i></th>
-                                    <th style="min-width:220px">Indikator <i class="bi bi-lock-fill ms-1 text-info"></i></th>
-                                    <th style="min-width:250px">Deskripsi <i class="bi bi-lock-fill ms-1 text-info"></i></th>
-                                    <th style="min-width:100px">Score <span class="text-danger">*</span></th>
+                                    <th>Aspek Kinerja <svg class="w-3 h-3 inline mb-0.5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
+                                    <th>Definisi <svg class="w-3 h-3 inline mb-0.5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
+                                    <th>Min. Capaian <svg class="w-3 h-3 inline mb-0.5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
+                                    <th>Indikator <svg class="w-3 h-3 inline mb-0.5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
+                                    <th>Deskripsi <svg class="w-3 h-3 inline mb-0.5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10"/></svg></th>
+                                    <th>Score <span class="text-red-500">*</span></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="divide-y divide-gray-200">
                                 @foreach($masterPerilaku as $i => $p)
-                                    <tr>
-                                        <td>{{ $i + 1 }}</td>
-                                        <td><span class="fw-semibold">{{ $p['aspek_kinerja'] }}</span></td>
-                                        <td><small>{{ $p['definisi'] }}</small></td>
-                                        <td class="text-center">
-                                            <span class="badge bg-warning text-dark">≥ {{ $p['minimum_capaian'] }}</span>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-3 py-2 text-sm text-gray-500">{{ $i + 1 }}</td>
+                                        <td class="px-3 py-2 text-sm font-semibold text-gray-800">{{ $p['aspek_kinerja'] }}</td>
+                                        <td class="px-3 py-2 text-xs text-gray-500">{{ $p['definisi'] }}</td>
+                                        <td class="px-3 py-2 text-center">
+                                            <span class="badge badge-draft text-[10px]">≥ {{ $p['minimum_capaian'] }}</span>
                                         </td>
-                                        <td><small>{{ $p['indikator'] }}</small></td>
-                                        <td><small>{{ $p['deskripsi'] }}</small></td>
-                                        <td>
+                                        <td class="px-3 py-2 text-xs text-gray-500">{{ $p['indikator'] }}</td>
+                                        <td class="px-3 py-2 text-xs text-gray-500">{{ $p['deskripsi'] }}</td>
+                                        <td class="px-3 py-2">
                                             <input type="number" name="perilaku[{{ $i }}][score]"
-                                                   class="form-control perilaku-score"
+                                                   class="form-input perilaku-score w-20"
                                                    min="0" max="100" step="0.01"
-                                                   placeholder="0 - 100"
+                                                   placeholder="0-100"
                                                    value="{{ old('perilaku.'.$i.'.score', 0) }}"
                                                    data-min="{{ $p['minimum_capaian'] }}">
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
-                                <tr class="table-info">
-                                    <td colspan="6" class="text-end fw-bold">Total Score Perilaku:</td>
-                                    <td><strong class="text-primary" id="perilakuTotal">0.00</strong></td>
-                                </tr>
-                            </tfoot>
                         </table>
+                    </div>
+                    <div class="mt-3 bg-cyan-50 rounded p-3 text-sm flex items-center gap-2">
+                        <span class="font-medium text-gray-700">Total Score Perilaku:</span>
+                        <strong class="text-cyan-700" id="perilakuTotal">0.00</strong>
                     </div>
                 </div>
             </div>
@@ -297,43 +324,47 @@
     </div>{{-- end tab-content --}}
 
     {{-- SUMMARY & ACTIONS --}}
-    <div class="card border-primary mt-4">
-        <div class="card-body">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <div class="row g-2 text-center">
-                        <div class="col">
-                            <small class="text-muted d-block">Jobdesc</small>
-                            <strong class="text-primary" id="summJobdesc">0.00</strong>
-                        </div>
-                        <div class="col">
-                            <small class="text-muted d-block">CI</small>
-                            <strong class="text-success" id="summCI">0.00</strong>
-                        </div>
-                        <div class="col">
-                            <small class="text-muted d-block">Self Dev</small>
-                            <strong class="text-warning" id="summSD">0.00</strong>
-                        </div>
-                        <div class="col">
-                            <small class="text-muted d-block">HR Act</small>
-                            <strong class="text-secondary" id="summHR">0.00</strong>
-                        </div>
-                        <div class="col">
-                            <small class="text-muted d-block">Perilaku</small>
-                            <strong class="text-info" id="summPerilaku">0.00</strong>
-                        </div>
-                        <div class="col border-start">
-                            <small class="text-muted d-block">TOTAL</small>
-                            <strong class="text-dark fs-5" id="summTotal">0.00</strong>
-                        </div>
+    <div class="bg-white rounded-lg shadow mt-6 border-t-4 border-red-700">
+        <div class="p-5">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="grid grid-cols-3 sm:grid-cols-6 gap-3 text-center flex-1">
+                    <div>
+                        <p class="text-xs text-gray-500">Jobdesc</p>
+                        <strong class="text-red-700" id="summJobdesc">0.00</strong>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500">CI</p>
+                        <strong class="text-green-700" id="summCI">0.00</strong>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500">Self Dev</p>
+                        <strong class="text-yellow-600" id="summSD">0.00</strong>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500">HR Act</p>
+                        <strong class="text-purple-700" id="summHR">0.00</strong>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500">Perilaku</p>
+                        <strong class="text-cyan-700" id="summPerilaku">0.00</strong>
+                    </div>
+                    <div class="border-l border-gray-200 pl-3">
+                        <p class="text-xs text-gray-500 font-semibold">TOTAL</p>
+                        <strong class="text-lg text-gray-800" id="summTotal">0.00</strong>
                     </div>
                 </div>
-                <div class="col-md-4 d-flex justify-content-end gap-2 mt-3 mt-md-0">
-                    <button type="submit" name="action" value="draft" class="btn btn-outline-secondary">
-                        <i class="bi bi-floppy me-1"></i>Simpan Draft
+                <div class="flex gap-2 shrink-0">
+                    <button type="submit" name="action" value="draft" class="btn-secondary text-sm">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
+                        </svg>
+                        Simpan Draft
                     </button>
-                    <button type="submit" name="action" value="submit" class="btn btn-primary">
-                        <i class="bi bi-send me-1"></i>Submit KPI
+                    <button type="submit" name="action" value="submit" class="btn-primary text-sm">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                        Submit KPI
                     </button>
                 </div>
             </div>
@@ -344,26 +375,18 @@
 
 @push('scripts')
 <script>
-// ==============================
-// KOEFISIEN MAPS (from PHP)
-// ==============================
 const CI_KOEFISIEN = @json(\App\Models\KpiContinuesImprovement::$koefisienMap);
 const SD_KOEFISIEN = @json(\App\Models\KpiSelfDevelopment::$koefisienMap);
 const HR_KOEFISIEN = @json(\App\Models\KpiHrActivity::$koefisienMap);
 
-// ==============================
-// JOBDESC LOGIC
-// ==============================
 let jobdescRowCount = 1;
 
 function calcJobdescRow(row) {
     const otb     = parseFloat(row.querySelector('.jd-otb').value) || 0;
     const grade   = parseFloat(row.querySelector('.jd-grade').value) || 0;
     const mandays = parseFloat(row.querySelector('.jd-mandays').value) || 0;
-
-    const jumlah = otb + grade;
-    const total  = jumlah * mandays;
-
+    const jumlah  = otb + grade;
+    const total   = jumlah * mandays;
     row.querySelector('.jd-jumlah').value = jumlah.toFixed(2);
     row.querySelector('.jd-total').value  = total.toFixed(2);
     updateJobdescTotal();
@@ -383,20 +406,17 @@ function addJobdescRow() {
     const tr    = document.createElement('tr');
     tr.className = 'jobdesc-row';
     tr.innerHTML = `
-        <td>${idx + 1}</td>
-        <td><input type="number" name="jobdesc[${idx}][penilaian_koefisien_ontime_onbudget]" class="form-control jd-otb" min="0" step="0.01" value="0" oninput="calcJobdescRow(this.closest('tr'))"></td>
-        <td><input type="number" name="jobdesc[${idx}][penilaian_grade_project]" class="form-control jd-grade" min="0" step="0.01" value="0" oninput="calcJobdescRow(this.closest('tr'))"></td>
-        <td><input type="text" name="jobdesc[${idx}][nama_kegiatan_bukti]" class="form-control" placeholder="Nama kegiatan & bukti..."></td>
-        <td><input type="number" name="jobdesc[${idx}][mandays_proyek]" class="form-control jd-mandays" min="0" step="0.01" value="0" oninput="calcJobdescRow(this.closest('tr'))"></td>
-        <td><input type="text" class="form-control calc-field jd-jumlah" value="0.00" readonly tabindex="-1"></td>
-        <td><input type="text" class="form-control calc-field jd-total" value="0.00" readonly tabindex="-1"></td>
-        <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('tr').remove(); updateJobdescTotal();"><i class="bi bi-trash3"></i></button></td>`;
+        <td class="px-3 py-2 text-sm text-gray-500">${idx + 1}</td>
+        <td class="px-3 py-2"><input type="number" name="jobdesc[${idx}][penilaian_koefisien_ontime_onbudget]" class="form-input jd-otb" min="0" step="0.01" value="0" oninput="calcJobdescRow(this.closest('tr'))"></td>
+        <td class="px-3 py-2"><input type="number" name="jobdesc[${idx}][penilaian_grade_project]" class="form-input jd-grade" min="0" step="0.01" value="0" oninput="calcJobdescRow(this.closest('tr'))"></td>
+        <td class="px-3 py-2"><input type="text" name="jobdesc[${idx}][nama_kegiatan_bukti]" class="form-input" placeholder="Nama kegiatan & bukti..."></td>
+        <td class="px-3 py-2"><input type="number" name="jobdesc[${idx}][mandays_proyek]" class="form-input jd-mandays" min="0" step="0.01" value="0" oninput="calcJobdescRow(this.closest('tr'))"></td>
+        <td class="px-3 py-2"><input type="text" class="form-input calc-field jd-jumlah" value="0.00" readonly tabindex="-1" style="background:#eff6ff!important;color:#2563eb;font-weight:600;"></td>
+        <td class="px-3 py-2"><input type="text" class="form-input calc-field jd-total" value="0.00" readonly tabindex="-1" style="background:#eff6ff!important;color:#2563eb;font-weight:600;"></td>
+        <td class="px-3 py-2"><button type="button" class="px-2 py-1 text-xs text-red-600 hover:bg-red-50 rounded border border-red-200" onclick="this.closest('tr').remove();updateJobdescTotal();"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></td>`;
     tbody.appendChild(tr);
 }
 
-// ==============================
-// CI LOGIC
-// ==============================
 let ciRowCount = 1;
 
 function calcCIRow(row) {
@@ -404,7 +424,6 @@ function calcCIRow(row) {
     const mandays = parseFloat(row.querySelector('.ci-mandays').value) || 0;
     const koef    = CI_KOEFISIEN[jenis] || 0.5;
     const point   = koef * mandays;
-
     row.querySelector('.ci-koef').value  = koef.toFixed(4);
     row.querySelector('.ci-point').value = point.toFixed(4);
     updateCITotal();
@@ -428,19 +447,16 @@ function addCIRow() {
     const tr    = document.createElement('tr');
     tr.className = 'ci-row';
     tr.innerHTML = `
-        <td>${idx + 1}</td>
-        <td><select name="ci[${idx}][jenis_kegiatan_bukti]" class="form-select ci-jenis" onchange="calcCIRow(this.closest('tr'))"><option value="">-- Pilih --</option>${getCIOptions()}</select></td>
-        <td><input type="text" name="ci[${idx}][kegiatan]" class="form-control" placeholder="Nama kegiatan..."></td>
-        <td><input type="number" name="ci[${idx}][mandays]" class="form-control ci-mandays" min="0" step="0.01" value="0" oninput="calcCIRow(this.closest('tr'))"></td>
-        <td><input type="text" class="form-control calc-field ci-koef" value="0.0000" readonly tabindex="-1"></td>
-        <td><input type="text" class="form-control calc-field ci-point" value="0.0000" readonly tabindex="-1"></td>
-        <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('tr').remove(); updateCITotal();"><i class="bi bi-trash3"></i></button></td>`;
+        <td class="px-3 py-2 text-sm text-gray-500">${idx + 1}</td>
+        <td class="px-3 py-2"><select name="ci[${idx}][jenis_kegiatan_bukti]" class="form-input ci-jenis" onchange="calcCIRow(this.closest('tr'))"><option value="">-- Pilih --</option>${getCIOptions()}</select></td>
+        <td class="px-3 py-2"><input type="text" name="ci[${idx}][kegiatan]" class="form-input" placeholder="Nama kegiatan..."></td>
+        <td class="px-3 py-2"><input type="number" name="ci[${idx}][mandays]" class="form-input ci-mandays" min="0" step="0.01" value="0" oninput="calcCIRow(this.closest('tr'))"></td>
+        <td class="px-3 py-2"><input type="text" class="form-input calc-field ci-koef" value="0.0000" readonly tabindex="-1" style="background:#f0fdf4!important;color:#16a34a;font-weight:600;"></td>
+        <td class="px-3 py-2"><input type="text" class="form-input calc-field ci-point" value="0.0000" readonly tabindex="-1" style="background:#f0fdf4!important;color:#16a34a;font-weight:600;"></td>
+        <td class="px-3 py-2"><button type="button" class="px-2 py-1 text-xs text-red-600 hover:bg-red-50 rounded border border-red-200" onclick="this.closest('tr').remove();updateCITotal();"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></td>`;
     tbody.appendChild(tr);
 }
 
-// ==============================
-// SD LOGIC
-// ==============================
 let sdRowCount = 1;
 
 function calcSDRow(row) {
@@ -448,7 +464,6 @@ function calcSDRow(row) {
     const mandays = parseFloat(row.querySelector('.sd-mandays').value) || 0;
     const koef    = SD_KOEFISIEN[jenis] || 0.5;
     const point   = koef * mandays;
-
     row.querySelector('.sd-koef').value  = koef.toFixed(4);
     row.querySelector('.sd-point').value = point.toFixed(4);
     updateSDTotal();
@@ -472,19 +487,16 @@ function addSDRow() {
     const tr    = document.createElement('tr');
     tr.className = 'sd-row';
     tr.innerHTML = `
-        <td>${idx + 1}</td>
-        <td><select name="sd[${idx}][jenis_sd]" class="form-select sd-jenis" onchange="calcSDRow(this.closest('tr'))"><option value="">-- Pilih --</option>${getSDOptions()}</select></td>
-        <td><input type="text" name="sd[${idx}][kegiatan]" class="form-control" placeholder="Nama kegiatan..."></td>
-        <td><input type="number" name="sd[${idx}][mandays]" class="form-control sd-mandays" min="0" step="0.01" value="0" oninput="calcSDRow(this.closest('tr'))"></td>
-        <td><input type="text" class="form-control calc-field sd-koef" value="0.0000" readonly tabindex="-1"></td>
-        <td><input type="text" class="form-control calc-field sd-point" value="0.0000" readonly tabindex="-1"></td>
-        <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('tr').remove(); updateSDTotal();"><i class="bi bi-trash3"></i></button></td>`;
+        <td class="px-3 py-2 text-sm text-gray-500">${idx + 1}</td>
+        <td class="px-3 py-2"><select name="sd[${idx}][jenis_sd]" class="form-input sd-jenis" onchange="calcSDRow(this.closest('tr'))"><option value="">-- Pilih --</option>${getSDOptions()}</select></td>
+        <td class="px-3 py-2"><input type="text" name="sd[${idx}][kegiatan]" class="form-input" placeholder="Nama kegiatan..."></td>
+        <td class="px-3 py-2"><input type="number" name="sd[${idx}][mandays]" class="form-input sd-mandays" min="0" step="0.01" value="0" oninput="calcSDRow(this.closest('tr'))"></td>
+        <td class="px-3 py-2"><input type="text" class="form-input calc-field sd-koef" value="0.0000" readonly tabindex="-1" style="background:#fefce8!important;color:#ca8a04;font-weight:600;"></td>
+        <td class="px-3 py-2"><input type="text" class="form-input calc-field sd-point" value="0.0000" readonly tabindex="-1" style="background:#fefce8!important;color:#ca8a04;font-weight:600;"></td>
+        <td class="px-3 py-2"><button type="button" class="px-2 py-1 text-xs text-red-600 hover:bg-red-50 rounded border border-red-200" onclick="this.closest('tr').remove();updateSDTotal();"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></td>`;
     tbody.appendChild(tr);
 }
 
-// ==============================
-// HR ACTIVITY LOGIC
-// ==============================
 let hrRowCount = 1;
 
 function calcHRRow(row) {
@@ -492,7 +504,6 @@ function calcHRRow(row) {
     const mandays = parseFloat(row.querySelector('.hr-mandays').value) || 0;
     const koef    = HR_KOEFISIEN[jenis] || 0.5;
     const point   = koef * mandays;
-
     row.querySelector('.hr-koef').value  = koef.toFixed(4);
     row.querySelector('.hr-point').value = point.toFixed(4);
     updateHRTotal();
@@ -516,19 +527,16 @@ function addHRRow() {
     const tr    = document.createElement('tr');
     tr.className = 'hr-row';
     tr.innerHTML = `
-        <td>${idx + 1}</td>
-        <td><select name="hr[${idx}][jenis_kegiatan]" class="form-select hr-jenis" onchange="calcHRRow(this.closest('tr'))"><option value="">-- Pilih --</option>${getHROptions()}</select></td>
-        <td><input type="text" name="hr[${idx}][kegiatan]" class="form-control" placeholder="Nama kegiatan..."></td>
-        <td><input type="number" name="hr[${idx}][mandays]" class="form-control hr-mandays" min="0" step="0.01" value="0" oninput="calcHRRow(this.closest('tr'))"></td>
-        <td><input type="text" class="form-control calc-field hr-koef" value="0.0000" readonly tabindex="-1"></td>
-        <td><input type="text" class="form-control calc-field hr-point" value="0.0000" readonly tabindex="-1"></td>
-        <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('tr').remove(); updateHRTotal();"><i class="bi bi-trash3"></i></button></td>`;
+        <td class="px-3 py-2 text-sm text-gray-500">${idx + 1}</td>
+        <td class="px-3 py-2"><select name="hr[${idx}][jenis_kegiatan]" class="form-input hr-jenis" onchange="calcHRRow(this.closest('tr'))"><option value="">-- Pilih --</option>${getHROptions()}</select></td>
+        <td class="px-3 py-2"><input type="text" name="hr[${idx}][kegiatan]" class="form-input" placeholder="Nama kegiatan..."></td>
+        <td class="px-3 py-2"><input type="number" name="hr[${idx}][mandays]" class="form-input hr-mandays" min="0" step="0.01" value="0" oninput="calcHRRow(this.closest('tr'))"></td>
+        <td class="px-3 py-2"><input type="text" class="form-input calc-field hr-koef" value="0.0000" readonly tabindex="-1" style="background:#f5f3ff!important;color:#7c3aed;font-weight:600;"></td>
+        <td class="px-3 py-2"><input type="text" class="form-input calc-field hr-point" value="0.0000" readonly tabindex="-1" style="background:#f5f3ff!important;color:#7c3aed;font-weight:600;"></td>
+        <td class="px-3 py-2"><button type="button" class="px-2 py-1 text-xs text-red-600 hover:bg-red-50 rounded border border-red-200" onclick="this.closest('tr').remove();updateHRTotal();"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></td>`;
     tbody.appendChild(tr);
 }
 
-// ==============================
-// PERILAKU LOGIC
-// ==============================
 function updatePerilakuTotal() {
     let sum = 0;
     document.querySelectorAll('.perilaku-score').forEach(el => sum += parseFloat(el.value) || 0);
@@ -537,9 +545,6 @@ function updatePerilakuTotal() {
     updateGrandTotal();
 }
 
-// ==============================
-// GRAND TOTAL
-// ==============================
 function updateGrandTotal() {
     const j = parseFloat(document.getElementById('summJobdesc').textContent) || 0;
     const c = parseFloat(document.getElementById('summCI').textContent) || 0;
@@ -549,16 +554,10 @@ function updateGrandTotal() {
     document.getElementById('summTotal').textContent = (j + c + s + h + p).toFixed(2);
 }
 
-// ==============================
-// INIT
-// ==============================
 document.addEventListener('DOMContentLoaded', function () {
-    // Bind perilaku
     document.querySelectorAll('.perilaku-score').forEach(el => {
         el.addEventListener('input', updatePerilakuTotal);
     });
-
-    // Bind existing jobdesc rows
     document.querySelectorAll('.jobdesc-row').forEach(row => {
         row.querySelectorAll('.jd-otb,.jd-grade,.jd-mandays').forEach(inp => {
             inp.addEventListener('input', () => calcJobdescRow(row));

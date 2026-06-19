@@ -3,137 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Login — Sistem KPI</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <style>
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #1d4ed8 0%, #0891b2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+        .login-bg {
+            background: linear-gradient(135deg, #7F1D1D 0%, #991B1B 50%, #B91C1C 100%);
         }
         .login-card {
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,.2);
-            width: 100%;
-            max-width: 420px;
-            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.95);
         }
-        .login-logo {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, #2563eb, #0891b2);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 1.8rem;
-            margin: 0 auto 1rem;
+        .dark .login-card {
+            background: rgba(31,41,55,0.95);
         }
-        .form-control:focus { box-shadow: 0 0 0 3px rgba(37,99,235,.2); border-color: #2563eb; }
-        .btn-primary { background: #2563eb; border-color: #2563eb; border-radius: 10px; padding: .6rem; font-weight: 600; }
-        .btn-primary:hover { background: #1d4ed8; border-color: #1d4ed8; }
-        .input-group-text { background: #f1f5f9; border-color: #e2e8f0; }
-        .form-control { border-color: #e2e8f0; border-radius: 0 8px 8px 0; }
-        .input-group .input-group-text { border-radius: 8px 0 0 8px; }
-        .divider { display: flex; align-items: center; gap: .75rem; color: #94a3b8; font-size: .8rem; margin: 1.25rem 0; }
-        .divider::before, .divider::after { content: ''; flex: 1; border-top: 1px solid #e2e8f0; }
+        .user-select-item:hover {
+            background-color: #FEF2F2;
+        }
+        .dark .user-select-item:hover {
+            background-color: #374151;
+        }
     </style>
 </head>
-<body>
-    <div class="login-card">
-        <div class="login-logo">
-            <i class="bi bi-graph-up-arrow"></i>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center login-bg">
+    <div class="login-card rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4">
+        <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-red-700 rounded-xl mx-auto mb-3 flex items-center justify-center">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Sistem KPI</h1>
+            <p class="text-gray-500 text-sm dark:text-gray-400">Key Performance Indicator</p>
         </div>
-        <h4 class="text-center fw-bold mb-1">Sistem KPI</h4>
-        <p class="text-center text-muted small mb-4">Masuk ke akun Anda</p>
 
         @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show py-2">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                {{ $errors->first() }}
-                <button type="button" class="btn-close py-2" data-bs-dismiss="alert"></button>
-            </div>
+        <div class="mb-4 px-4 py-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {{ $errors->first() }}
+        </div>
         @endif
 
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show py-2">
-                <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
-                <button type="button" class="btn-close py-2" data-bs-dismiss="alert"></button>
-            </div>
+        <div class="mb-4 px-4 py-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {{ session('success') }}
+        </div>
         @endif
+
+        <!-- Demo User Selector -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Pilih User (Demo)</label>
+            <div class="border border-gray-300 rounded-lg overflow-hidden dark:border-gray-600">
+                <div class="user-select-item cursor-pointer p-3 border-b border-gray-200 dark:border-gray-600 flex items-center gap-3" onclick="selectUser('rian.associate@company.com', 'password123', 'Rian Pratama', 'Associate', this)">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center text-red-700 text-xs font-bold">RP</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-800 dark:text-white">Rian Pratama</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">rian.associate@company.com | Associate</p>
+                    </div>
+                </div>
+                <div class="user-select-item cursor-pointer p-3 border-b border-gray-200 dark:border-gray-600 flex items-center gap-3" onclick="selectUser('dewi.intermediate@company.com', 'password123', 'Dewi Lestari', 'Intermediate', this)">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center text-red-700 text-xs font-bold">DL</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-800 dark:text-white">Dewi Lestari</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">dewi.intermediate@company.com | Intermediate</p>
+                    </div>
+                </div>
+                <div class="user-select-item cursor-pointer p-3 border-b border-gray-200 dark:border-gray-600 flex items-center gap-3" onclick="selectUser('andi.senior@company.com', 'password123', 'Andi Wijaya', 'Senior', this)">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center text-red-700 text-xs font-bold">AW</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-800 dark:text-white">Andi Wijaya</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">andi.senior@company.com | Senior</p>
+                    </div>
+                </div>
+                <div class="user-select-item cursor-pointer p-3 border-b border-gray-200 dark:border-gray-600 flex items-center gap-3" onclick="selectUser('sari.principle@company.com', 'password123', 'Sari Indah', 'Principle', this)">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center text-red-700 text-xs font-bold">SI</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-800 dark:text-white">Sari Indah</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">sari.principle@company.com | Principle</p>
+                    </div>
+                </div>
+                <div class="user-select-item cursor-pointer p-3 border-b border-gray-200 dark:border-gray-600 flex items-center gap-3" onclick="selectUser('budi.lead@company.com', 'password123', 'Budi Santosa', 'Lead', this)">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center text-red-700 text-xs font-bold">BS</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-800 dark:text-white">Budi Santosa</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">budi.lead@company.com | Lead</p>
+                    </div>
+                </div>
+                <div class="user-select-item cursor-pointer p-3 border-b border-gray-200 dark:border-gray-600 flex items-center gap-3" onclick="selectUser('maya.leadhr@company.com', 'password123', 'Maya Putri', 'Lead HR', this)">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center text-red-700 text-xs font-bold">MP</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-800 dark:text-white">Maya Putri</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">maya.leadhr@company.com | Lead HR</p>
+                    </div>
+                </div>
+                <div class="user-select-item cursor-pointer p-3 border-b border-gray-200 dark:border-gray-600 flex items-center gap-3" onclick="selectUser('hendra.manager@company.com', 'password123', 'Hendra Kusuma', 'Manager', this)">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center text-red-700 text-xs font-bold">HK</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-800 dark:text-white">Hendra Kusuma</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">hendra.manager@company.com | Manager</p>
+                    </div>
+                </div>
+                <div class="user-select-item cursor-pointer p-3 flex items-center gap-3" onclick="selectUser('tata.admin@company.com', 'password123', 'Tata Permana', 'Admin', this)">
+                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center text-red-700 text-xs font-bold">TP</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-800 dark:text-white">Tata Permana</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">tata.admin@company.com | Admin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative flex items-center mb-4">
+            <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+            <span class="flex-shrink mx-4 text-gray-400 text-sm">atau login manual</span>
+            <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+        </div>
 
         <form method="POST" action="{{ route('login.post') }}">
             @csrf
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Email</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                    <input type="email" name="email"
-                           class="form-control @error('email') is-invalid @enderror"
-                           value="{{ old('email') }}"
-                           placeholder="nama@perusahaan.com" required autofocus>
-                </div>
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Email <span class="text-red-500">*</span></label>
+                <input type="email" id="email" name="email" required autocomplete="email" value="{{ old('email') }}"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                       placeholder="rian.associate@company.com">
             </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Password</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                    <input type="password" name="password" id="pwdField"
-                           class="form-control @error('password') is-invalid @enderror"
-                           placeholder="••••••••" required>
-                    <button class="btn btn-outline-secondary" type="button" id="togglePwd">
-                        <i class="bi bi-eye" id="pwdIcon"></i>
-                    </button>
-                </div>
+            <div class="mb-4">
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Password <span class="text-red-500">*</span></label>
+                <input type="password" id="password" name="password" required autocomplete="current-password" minlength="6"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                       placeholder="••••••••">
+                <p class="text-xs text-gray-500 mt-1 dark:text-gray-400">Password default: <code class="bg-gray-100 px-1 rounded dark:bg-gray-700">password123</code></p>
             </div>
-
-            <div class="mb-4 d-flex align-items-center justify-content-between">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                    <label class="form-check-label small" for="remember">Ingat saya</label>
-                </div>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Role</label>
+                <input type="text" id="role" disabled
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400"
+                       placeholder="Role akan terdeteksi otomatis">
             </div>
-
-            <button type="submit" class="btn btn-primary w-100">
-                <i class="bi bi-box-arrow-in-right me-2"></i>Masuk
-            </button>
+            <button type="submit" class="btn-primary w-full">Login</button>
         </form>
-
-        <div class="divider">atau</div>
-
-        <a href="{{ route('register') }}" class="btn btn-outline-primary w-100" style="border-radius:10px; font-weight:600;">
-            <i class="bi bi-person-plus me-2"></i>Buat Akun Baru
-        </a>
-
-        <div class="text-center mt-4">
-            <small class="text-muted">
-                <i class="bi bi-shield-lock me-1"></i>
-                Sistem KPI Perusahaan — Akses Terbatas
-            </small>
+        <div class="mt-4 text-center text-sm text-gray-500 dark:text-gray-400">
+            <p>Hubungi Admin untuk pembuatan akun</p>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('togglePwd').addEventListener('click', function () {
-            const pwd  = document.getElementById('pwdField');
-            const icon = document.getElementById('pwdIcon');
-            if (pwd.type === 'password') {
-                pwd.type = 'text';
-                icon.className = 'bi bi-eye-slash';
-            } else {
-                pwd.type = 'password';
-                icon.className = 'bi bi-eye';
-            }
-        });
+    function selectUser(email, password, name, role, element) {
+        document.getElementById('email').value = email;
+        document.getElementById('password').value = password;
+        document.getElementById('role').value = role + ' — ' + name;
+        document.querySelectorAll('.user-select-item').forEach(el => el.classList.remove('bg-red-50', 'dark:bg-gray-700'));
+        element.classList.add('bg-red-50', 'dark:bg-gray-700');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        if (localStorage.getItem('kpi_dark_mode') === 'true') {
+            document.body.classList.add('dark');
+        }
+    });
     </script>
 </body>
 </html>

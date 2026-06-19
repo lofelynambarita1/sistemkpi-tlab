@@ -1,15 +1,24 @@
 @extends('layouts.app')
 @section('title', 'Detail Pengguna')
 @section('content')
-<div class="mb-6 flex items-center justify-between">
+<nav class="mb-4 text-sm">
+    <ol class="flex text-gray-500 gap-2">
+        <li><a href="{{ route('dashboard') }}" class="text-red-700 hover:underline">Home</a></li>
+        <li>/</li>
+        <li><a href="{{ route('admin.users.index') }}" class="text-red-700 hover:underline">Manajemen User</a></li>
+        <li>/</li>
+        <li class="text-gray-700 font-semibold">Detail Pengguna</li>
+    </ol>
+</nav>
+
+<header class="mb-6">
     <h1 class="text-2xl font-bold text-gray-800">Detail Pengguna</h1>
-    <a href="{{ route('admin.users.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm">
-        <i class="fa-solid fa-arrow-left mr-1"></i> Kembali
-    </a>
-</div>
-<div class="bg-white rounded-xl shadow p-6 max-w-2xl">
+    <p class="text-gray-600">Informasi lengkap akun karyawan</p>
+</header>
+
+<div class="bg-white rounded-lg shadow p-6 max-w-2xl">
     <div class="flex items-center gap-4 mb-6">
-        <div class="bg-indigo-100 text-indigo-700 rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">
+        <div class="bg-red-100 text-red-700 rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">
             {{ strtoupper(substr($user->name, 0, 1)) }}
         </div>
         <div>
@@ -18,22 +27,25 @@
         </div>
     </div>
     <div class="grid grid-cols-2 gap-4 text-sm">
-        <div><p class="text-gray-500">Role</p><p class="font-medium">{{ ucfirst(str_replace('_',' ',$user->role)) }}</p></div>
+        <div><p class="text-gray-500">Role</p><p class="font-medium">{{ $user->role_label }}</p></div>
         <div><p class="text-gray-500">Jabatan</p><p class="font-medium">{{ $user->jabatan ?? '-' }}</p></div>
-        <div><p class="text-gray-500">Divisi</p><p class="font-medium">{{ $user->divisi ?? '-' }}</p></div>
+        <div><p class="text-gray-500">Divisi</p><p class="font-medium">{{ $user->department ?? '-' }}</p></div>
+        <div><p class="text-gray-500">Atasan</p><p class="font-medium">{{ $user->atasan->name ?? '-' }}</p></div>
         <div><p class="text-gray-500">Status</p>
             @if($user->is_active)
-                <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs">Aktif</span>
+                <span class="badge badge-aktif">AKTIF</span>
             @else
-                <span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-xs">Nonaktif</span>
+                <span class="badge badge-dicabut">NONAKTIF</span>
             @endif
         </div>
     </div>
     <div class="mt-6 flex gap-3">
         <a href="{{ route('admin.users.edit', $user) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm">Edit</a>
-        <form method="POST" action="{{ route('admin.users.reset-password', $user) }}" onsubmit="return confirm('Reset password ke password123?')">
+        <form method="POST" action="{{ route('admin.users.toggle-status', $user) }}" class="inline">
             @csrf
-            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">Reset Password</button>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">
+                {{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
+            </button>
         </form>
     </div>
 </div>

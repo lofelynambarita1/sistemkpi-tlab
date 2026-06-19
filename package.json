@@ -1,0 +1,24 @@
+{
+  "name": "sistemkpi-tlab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sidebar-component.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lofelynambarita1/sistemkpi-tlab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/lofelynambarita1/sistemkpi-tlab/issues"
+  },
+  "homepage": "https://github.com/lofelynambarita1/sistemkpi-tlab#readme",
+  "dependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}

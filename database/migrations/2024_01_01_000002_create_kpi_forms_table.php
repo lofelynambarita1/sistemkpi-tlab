@@ -12,15 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('current_approver_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->enum('status', [
-                'draft',
-                'submitted',
-                'waiting_lead',
-                'waiting_lead_hr',
-                'waiting_manager',
-                'need_revision',
-                'approved',
-            ])->default('draft');
+            $table->string('status')->default('draft');
             $table->integer('total_cuti')->default(0);
             $table->integer('hari_kerja_efektif')->default(240);
             // Target Points (calculated)

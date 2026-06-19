@@ -4,318 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Akun — Sistem KPI</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <style>
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #1d4ed8 0%, #0891b2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            padding: 2rem 1rem;
+        .login-bg {
+            background: linear-gradient(135deg, #7F1D1D 0%, #991B1B 50%, #B91C1C 100%);
         }
-        .register-card {
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,.2);
-            width: 100%;
-            max-width: 480px;
-            padding: 2.5rem;
+        .login-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.95);
         }
-        .login-logo {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, #2563eb, #0891b2);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 1.8rem;
-            margin: 0 auto 1rem;
-        }
-        .form-control:focus, .form-select:focus {
-            box-shadow: 0 0 0 3px rgba(37,99,235,.2);
-            border-color: #2563eb;
-        }
-        .btn-primary {
-            background: #2563eb;
-            border-color: #2563eb;
-            border-radius: 10px;
-            padding: .6rem;
-            font-weight: 600;
-        }
-        .btn-primary:hover { background: #1d4ed8; border-color: #1d4ed8; }
-        .input-group-text {
-            background: #f1f5f9;
-            border-color: #e2e8f0;
-        }
-        .form-control, .form-select {
-            border-color: #e2e8f0;
-        }
-        .input-group .input-group-text { border-radius: 8px 0 0 8px; }
-        .input-group .form-control { border-radius: 0 8px 8px 0; }
-        .form-select { border-radius: 8px; }
-        .role-card {
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: .75rem 1rem;
-            cursor: pointer;
-            transition: all .2s;
-            display: flex;
-            align-items: center;
-            gap: .75rem;
-        }
-        .role-card:hover { border-color: #93c5fd; background: #eff6ff; }
-        .role-card.selected { border-color: #2563eb; background: #eff6ff; }
-        .role-card .role-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-        .role-card .role-info small { color: #64748b; font-size: .75rem; }
-        .divider { border-top: 1px solid #e2e8f0; margin: 1.25rem 0; }
-        .step-badge {
-            width: 22px; height: 22px;
-            background: #2563eb;
-            color: #fff;
-            border-radius: 50%;
-            font-size: .7rem;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: .4rem;
+        .dark .login-card {
+            background: rgba(31,41,55,0.95);
         }
     </style>
 </head>
-<body>
-    <div class="register-card">
-        <div class="login-logo">
-            <i class="bi bi-graph-up-arrow"></i>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center login-bg p-4">
+    <div class="login-card rounded-2xl shadow-2xl p-8 w-full max-w-lg mx-4">
+        <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-red-700 rounded-xl mx-auto mb-3 flex items-center justify-center">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Daftar Akun Baru</h1>
+            <p class="text-gray-500 text-sm dark:text-gray-400">Sistem Key Performance Indicator</p>
         </div>
-        <h4 class="text-center fw-bold mb-1">Buat Akun Baru</h4>
-        <p class="text-center text-muted small mb-4">Daftarkan diri Anda ke Sistem KPI</p>
 
         @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show py-2">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                {{ $errors->first() }}
-                <button type="button" class="btn-close py-2" data-bs-dismiss="alert"></button>
-            </div>
+        <div class="mb-4 px-4 py-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <ul class="list-disc list-inside">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+        </div>
         @endif
 
         <form method="POST" action="{{ route('register.post') }}">
             @csrf
-
-            {{-- STEP 1: Info Pribadi --}}
-            <p class="fw-semibold mb-2 text-secondary" style="font-size:.8rem; text-transform:uppercase; letter-spacing:.05em;">
-                <span class="step-badge">1</span> Informasi Pribadi
-            </p>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold small">Nama Lengkap</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-person"></i></span>
-                    <input type="text" name="name"
-                           class="form-control @error('name') is-invalid @enderror"
-                           value="{{ old('name') }}"
-                           placeholder="Masukkan nama lengkap" required autofocus>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="md:col-span-2">
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Nama Lengkap <span class="text-red-500">*</span></label>
+                    <input type="text" id="name" name="name" value="{{ old('name') }}" required maxlength="255"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="John Doe">
                 </div>
-                @error('name')
-                    <div class="text-danger small mt-1">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold small">Email</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                    <input type="email" name="email"
-                           class="form-control @error('email') is-invalid @enderror"
-                           value="{{ old('email') }}"
-                           placeholder="nama@perusahaan.com" required>
+                <div class="md:col-span-2">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Email <span class="text-red-500">*</span></label>
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="nama@company.com">
                 </div>
-                @error('email')
-                    <div class="text-danger small mt-1">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="row g-2 mb-3">
-                <div class="col">
-                    <label class="form-label fw-semibold small">Departemen <span class="text-muted fw-normal">(opsional)</span></label>
-                    <input type="text" name="department"
-                           class="form-control @error('department') is-invalid @enderror"
-                           value="{{ old('department') }}"
-                           placeholder="Contoh: IT, Finance">
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Password <span class="text-red-500">*</span></label>
+                    <input type="password" id="password" name="password" required minlength="8"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="Min. 8 karakter">
                 </div>
-                <div class="col">
-                    <label class="form-label fw-semibold small">Jabatan <span class="text-muted fw-normal">(opsional)</span></label>
-                    <input type="text" name="position"
-                           class="form-control @error('position') is-invalid @enderror"
-                           value="{{ old('position') }}"
-                           placeholder="Contoh: Staff, Supervisor">
+                <div>
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Konfirmasi Password <span class="text-red-500">*</span></label>
+                    <input type="password" id="password_confirmation" name="password_confirmation" required minlength="8"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="Ulangi password">
+                </div>
+                <div>
+                    <label for="department" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Departemen</label>
+                    <input type="text" id="department" name="department" value="{{ old('department') }}"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="Engineering">
+                </div>
+                <div>
+                    <label for="position" class="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Jabatan</label>
+                    <input type="text" id="position" name="position" value="{{ old('position') }}"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="Software Engineer">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Role <span class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-3 gap-3">
+                        @foreach(['staff' => 'Staff KPI', 'hr' => 'HR', 'manager' => 'Manager'] as $val => $label)
+                        <label class="flex flex-col items-center p-4 border-2 rounded-lg cursor-pointer transition
+                                    {{ old('role') == $val ? 'border-red-700 bg-red-50' : 'border-gray-300 hover:border-red-400' }}">
+                            <input type="radio" name="role" value="{{ $val }}" {{ old('role') == $val ? 'checked' : '' }} class="sr-only">
+                            <span class="text-sm font-medium {{ old('role') == $val ? 'text-red-700' : 'text-gray-700' }}">{{ $label }}</span>
+                        </label>
+                        @endforeach
+                    </div>
                 </div>
             </div>
-
-            <div class="divider"></div>
-
-            {{-- STEP 2: Role --}}
-            <p class="fw-semibold mb-2 text-secondary" style="font-size:.8rem; text-transform:uppercase; letter-spacing:.05em;">
-                <span class="step-badge">2</span> Pilih Role
-            </p>
-
-            @error('role')
-                <div class="text-danger small mb-2">{{ $message }}</div>
-            @enderror
-
-            <div class="d-flex flex-column gap-2 mb-3">
-                <label class="role-card {{ old('role') == 'staff' ? 'selected' : '' }}">
-                    <input type="radio" name="role" value="staff" class="d-none" {{ old('role') == 'staff' ? 'checked' : '' }}>
-                    <div class="role-icon" style="background:#eff6ff; color:#2563eb;">
-                        <i class="bi bi-person-workspace"></i>
-                    </div>
-                    <div class="role-info">
-                        <div class="fw-semibold small">Staff</div>
-                        <small>Input & kelola dokumen KPI pribadi</small>
-                    </div>
-                    <i class="bi bi-check-circle-fill ms-auto text-primary d-none check-icon"></i>
-                </label>
-
-                <label class="role-card {{ old('role') == 'hr' ? 'selected' : '' }}">
-                    <input type="radio" name="role" value="hr" class="d-none" {{ old('role') == 'hr' ? 'checked' : '' }}>
-                    <div class="role-icon" style="background:#f0fdf4; color:#16a34a;">
-                        <i class="bi bi-people"></i>
-                    </div>
-                    <div class="role-info">
-                        <div class="fw-semibold small">HR</div>
-                        <small>Review & kelola KPI seluruh karyawan</small>
-                    </div>
-                    <i class="bi bi-check-circle-fill ms-auto text-success d-none check-icon"></i>
-                </label>
-
-                <label class="role-card {{ old('role') == 'manager' ? 'selected' : '' }}">
-                    <input type="radio" name="role" value="manager" class="d-none" {{ old('role') == 'manager' ? 'checked' : '' }}>
-                    <div class="role-icon" style="background:#fefce8; color:#ca8a04;">
-                        <i class="bi bi-briefcase"></i>
-                    </div>
-                    <div class="role-info">
-                        <div class="fw-semibold small">Manager</div>
-                        <small>Approval & monitoring KPI tim</small>
-                    </div>
-                    <i class="bi bi-check-circle-fill ms-auto text-warning d-none check-icon"></i>
-                </label>
-            </div>
-
-            <div class="divider"></div>
-
-            {{-- STEP 3: Password --}}
-            <p class="fw-semibold mb-2 text-secondary" style="font-size:.8rem; text-transform:uppercase; letter-spacing:.05em;">
-                <span class="step-badge">3</span> Buat Password
-            </p>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold small">Password</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                    <input type="password" name="password" id="pwdField"
-                           class="form-control @error('password') is-invalid @enderror"
-                           placeholder="Minimal 8 karakter" required>
-                    <button class="btn btn-outline-secondary" type="button" id="togglePwd">
-                        <i class="bi bi-eye" id="pwdIcon"></i>
-                    </button>
-                </div>
-                @error('password')
-                    <div class="text-danger small mt-1">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label class="form-label fw-semibold small">Konfirmasi Password</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                    <input type="password" name="password_confirmation" id="pwdConfirm"
-                           class="form-control"
-                           placeholder="Ulangi password" required>
-                    <button class="btn btn-outline-secondary" type="button" id="togglePwdConfirm">
-                        <i class="bi bi-eye" id="pwdConfirmIcon"></i>
-                    </button>
-                </div>
-                <div id="pwdMatch" class="small mt-1 d-none"></div>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100 mb-3">
-                <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
-            </button>
-
-            <p class="text-center small text-muted mb-0">
-                Sudah punya akun?
-                <a href="{{ route('login') }}" class="text-primary fw-semibold text-decoration-none">Masuk di sini</a>
-            </p>
+            <button type="submit" class="btn-primary w-full mt-6">Daftar</button>
         </form>
+        <div class="mt-4 text-center text-sm text-gray-500">
+            <p>Sudah punya akun? <a href="{{ route('login') }}" class="text-red-700 hover:underline">Login di sini</a></p>
+        </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Toggle password visibility
-        function togglePassword(fieldId, iconId) {
-            const field = document.getElementById(fieldId);
-            const icon  = document.getElementById(iconId);
-            if (field.type === 'password') {
-                field.type = 'text';
-                icon.className = 'bi bi-eye-slash';
-            } else {
-                field.type = 'password';
-                icon.className = 'bi bi-eye';
-            }
-        }
-        document.getElementById('togglePwd').addEventListener('click', () => togglePassword('pwdField', 'pwdIcon'));
-        document.getElementById('togglePwdConfirm').addEventListener('click', () => togglePassword('pwdConfirm', 'pwdConfirmIcon'));
-
-        // Password match indicator
-        const pwd        = document.getElementById('pwdField');
-        const pwdConfirm = document.getElementById('pwdConfirm');
-        const matchMsg   = document.getElementById('pwdMatch');
-        function checkMatch() {
-            if (!pwdConfirm.value) { matchMsg.classList.add('d-none'); return; }
-            matchMsg.classList.remove('d-none');
-            if (pwd.value === pwdConfirm.value) {
-                matchMsg.innerHTML = '<i class="bi bi-check-circle-fill text-success me-1"></i><span class="text-success">Password cocok</span>';
-            } else {
-                matchMsg.innerHTML = '<i class="bi bi-x-circle-fill text-danger me-1"></i><span class="text-danger">Password tidak cocok</span>';
-            }
-        }
-        pwd.addEventListener('input', checkMatch);
-        pwdConfirm.addEventListener('input', checkMatch);
-
-        // Role card selection highlight
-        document.querySelectorAll('.role-card').forEach(card => {
-            const radio = card.querySelector('input[type=radio]');
-            const icon  = card.querySelector('.check-icon');
-
-            if (radio.checked) {
-                card.classList.add('selected');
-                if (icon) icon.classList.remove('d-none');
-            }
-
-            card.addEventListener('click', () => {
-                document.querySelectorAll('.role-card').forEach(c => {
-                    c.classList.remove('selected');
-                    const ci = c.querySelector('.check-icon');
-                    if (ci) ci.classList.add('d-none');
-                });
-                card.classList.add('selected');
-                radio.checked = true;
-                if (icon) icon.classList.remove('d-none');
-            });
-        });
-    </script>
 </body>
 </html>

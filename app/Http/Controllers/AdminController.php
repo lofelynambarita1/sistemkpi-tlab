@@ -14,12 +14,12 @@ class AdminController extends Controller
     public function dashboard()
     {
         $user  = Auth::user();
-        $stats = User::select('role', DB::raw('count(*) as total'))
-            ->whereIn('role', ['associate', 'intermediate', 'senior', 'lead', 'principle', 'hr', 'manager'])
+        $roleCounts = User::select('role', DB::raw('count(*) as total'))
+            ->whereIn('role', ['associate', 'intermediate', 'senior', 'lead', 'principle', 'hr', 'manager', 'admin'])
             ->groupBy('role')
             ->pluck('total', 'role');
 
-        return view('admin.dashboard', compact('user', 'stats'));
+        return view('dashboard.admin', compact('user', 'roleCounts'));
     }
 
     /**
@@ -28,7 +28,7 @@ class AdminController extends Controller
     public function users(Request $request)
     {
         $user  = Auth::user();
-        $query = User::withTrashed();
+        $query = User::query()->with('atasan');
 
         if ($request->filled('search')) {
             $query->where(function($q) use ($request) {
@@ -55,7 +55,8 @@ class AdminController extends Controller
     public function createUser()
     {
         $user = Auth::user();
-        return view('admin.users.create', compact('user'));
+        $users = User::where('status_akun', 'aktif')->orderBy('name')->get();
+        return view('admin.users.create', compact('user', 'users'));
     }
 
     public function storeUser(Request $request)
@@ -63,11 +64,12 @@ class AdminController extends Controller
         $request->validate([
             'name'        => 'required|string|max:255',
             'email'       => 'required|email|unique:users,email',
-            'password'    => 'required|string|min:8',
-            'role'        => 'required|in:associate,intermediate,senior,lead,principle,hr,manager',
+            'password'    => 'required|string|min:8|confirmed',
+            'role'        => 'required|in:associate,intermediate,senior,lead,principle,hr,lead_hr,manager,admin',
             'employee_id' => 'nullable|string|unique:users,employee_id',
-            'department'  => 'nullable|string|max:255',
+            'divisi'      => 'nullable|string|max:255',
             'jabatan'     => 'nullable|string|max:255',
+            'atasan_id'   => 'nullable|exists:users,id',
             'status_akun' => 'required|in:aktif,nonaktif',
         ]);
 
@@ -77,18 +79,37 @@ class AdminController extends Controller
             'password'    => Hash::make($request->password),
             'role'        => $request->role,
             'employee_id' => $request->employee_id,
-            'department'  => $request->department,
+            'department'  => $request->divisi,
             'jabatan'     => $request->jabatan,
+            'atasan_id'   => $request->atasan_id,
             'status_akun' => $request->status_akun,
         ]);
 
-        return redirect()->route('admin.users')->with('success', 'Pengguna berhasil ditambahkan!');
+        return redirect()->route('admin.users.index')->with('success', 'Pengguna berhasil ditambahkan!');
+    }
+
+    public function showUser(User $user)
+    {
+        $authUser = Auth::user();
+        $user->load('atasan');
+        return view('admin.users.show', compact('user', 'authUser'));
+    }
+
+    public function toggleStatus(User $user)
+    {
+        $user->status_akun = $user->status_akun === 'aktif' ? 'nonaktif' : 'aktif';
+        $user->save();
+        return back()->with('success', 'Status pengguna berhasil diubah!');
     }
 
     public function editUser(User $user)
     {
         $authUser = Auth::user();
-        return view('admin.users.edit', ['user' => $user, 'authUser' => $authUser]);
+        $users = User::where('status_akun', 'aktif')
+            ->where('id', '!=', $user->id)
+            ->orderBy('name')
+            ->get();
+        return view('admin.users.edit', ['user' => $user, 'authUser' => $authUser, 'users' => $users]);
     }
 
     public function updateUser(Request $request, User $user)
@@ -96,32 +117,39 @@ class AdminController extends Controller
         $request->validate([
             'name'        => 'required|string|max:255',
             'email'       => 'required|email|unique:users,email,'.$user->id,
-            'role'        => 'required|in:associate,intermediate,senior,lead,principle,hr,manager',
+            'role'        => 'required|in:associate,intermediate,senior,lead,principle,hr,lead_hr,manager,admin',
             'employee_id' => 'nullable|string|unique:users,employee_id,'.$user->id,
-            'department'  => 'nullable|string|max:255',
+            'divisi'      => 'nullable|string|max:255',
             'jabatan'     => 'nullable|string|max:255',
+            'atasan_id'   => 'nullable|exists:users,id',
             'status_akun' => 'required|in:aktif,nonaktif',
         ]);
 
-        $data = $request->only(['name','email','role','employee_id','department','jabatan','status_akun']);
+        $data = [
+            'name'        => $request->name,
+            'email'       => $request->email,
+            'role'        => $request->role,
+            'employee_id' => $request->employee_id,
+            'department'  => $request->divisi,
+            'jabatan'     => $request->jabatan,
+            'atasan_id'   => $request->atasan_id,
+            'status_akun' => $request->status_akun,
+        ];
         if ($request->filled('password')) {
-            $request->validate(['password' => 'string|min:8']);
+            $request->validate(['password' => 'string|min:8|confirmed']);
             $data['password'] = Hash::make($request->password);
         }
 
         $user->update($data);
-        return redirect()->route('admin.users')->with('success', 'Data pengguna berhasil diperbarui!');
+        return redirect()->route('admin.users.index')->with('success', 'Data pengguna berhasil diperbarui!');
     }
 
     public function destroyUser(User $user)
     {
-        $user->delete(); // soft delete
-        return back()->with('success', 'Pengguna berhasil dihapus/dinonaktifkan!');
+        $user->delete();
+        return back()->with('success', 'Pengguna berhasil dihapus!');
     }
 
-    /**
-     * Bulk delete
-     */
     public function bulkDelete(Request $request)
     {
         $request->validate(['ids' => 'required|array']);
@@ -129,9 +157,6 @@ class AdminController extends Controller
         return back()->with('success', count($request->ids) . ' pengguna berhasil dihapus!');
     }
 
-    /**
-     * Import user via CSV
-     */
     public function importUsers(Request $request)
     {
         $request->validate(['file' => 'required|mimes:csv,txt|max:2048']);
@@ -151,8 +176,9 @@ class AdminController extends Controller
                     'password'    => Hash::make($data['password'] ?? 'password123'),
                     'role'        => $data['role'] ?? 'associate',
                     'employee_id' => $data['employee_id'] ?? null,
-                    'department'  => $data['department'] ?? null,
+                    'department'  => $data['divisi'] ?? $data['department'] ?? null,
                     'jabatan'     => $data['jabatan'] ?? null,
+                    'atasan_id'   => $data['atasan_id'] ?? null,
                     'status_akun' => 'aktif',
                 ]);
                 $count++;
@@ -163,6 +189,18 @@ class AdminController extends Controller
             DB::rollBack();
             return back()->with('error', 'Gagal import: ' . $e->getMessage());
         }
+    }
+
+    public function exportUsers()
+    {
+        $users = User::with('atasan')->orderBy('name')->get();
+
+        $total = $users->count();
+        $aktif = $users->where('status_akun', 'aktif')->count();
+        $karyawan = $users->whereIn('role', ['associate','intermediate','senior','lead','principle'])->count();
+        $adminManager = $users->whereIn('role', ['admin','manager','lead_hr','hr'])->count();
+
+        return view('admin.users.export', compact('users', 'total', 'aktif', 'karyawan', 'adminManager'));
     }
 
     /**

@@ -16,7 +16,7 @@ class StaffOnly
                 return redirect()->route('hr.kpi.index')
                     ->with('info', 'Halaman ini hanya untuk staff.');
             }
-            abort(403, 'Akses tidak diizinkan.');
+            abort(403, 'Akses tidak diizinkan. Halaman ini hanya untuk karyawan (Associate, Intermediate, Senior, Lead, Principle).');
         }
         return $next($request);
     }

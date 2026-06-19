@@ -13,9 +13,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role', ['associate', 'intermediate', 'senior', 'lead', 'principle', 'hr', 'manager']);
+            $table->string('role');
             $table->string('employee_id')->unique()->nullable();
             $table->string('department')->nullable();
+            $table->string('jabatan')->nullable();
+            $table->string('status_akun')->default('aktif');
             $table->rememberToken();
             $table->timestamps();
         });

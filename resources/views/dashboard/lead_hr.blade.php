@@ -1,91 +1,76 @@
 @extends('layouts.app')
-
 @section('title', 'Dashboard Lead HR')
-
 @section('content')
-<div class="row mt-4 mb-3 align-items-center">
-    <div class="col">
-        <h4 class="fw-bold mb-0">
-            <i class="bi bi-speedometer2 text-primary me-2"></i>Dashboard {{ $user->role_label }}
-        </h4>
-        <small class="text-muted">Kelola & Review Dokumen KPI Seluruh Bawahan</small>
+<nav class="mb-4 text-sm">
+    <ol class="flex text-gray-500 gap-2">
+        <li class="text-gray-700 font-semibold">Dashboard</li>
+    </ol>
+</nav>
+
+<header class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Dashboard {{ $user->role_label }}</h1>
+    <p class="text-gray-600">Kelola &amp; Review Dokumen KPI Seluruh Bawahan</p>
+    <p class="text-sm text-gray-500 mt-1">Login sebagai: <strong>{{ $user->name }}</strong> ({{ $user->role_label }})</p>
+</header>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
+        <p class="text-sm text-gray-500">Total Bawahan</p>
+        <p class="text-3xl font-bold text-gray-800 mt-1">{{ $totalBawahan }}</p>
+        <p class="text-sm text-gray-400">Seluruh staff di bawah kamu</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500">
+        <p class="text-sm text-gray-500">Menunggu Review</p>
+        <p class="text-3xl font-bold text-gray-800 mt-1">{{ $kpiMenunggu }}</p>
+        <p class="text-sm text-gray-400">Perlu ditinjau</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+        <p class="text-sm text-gray-500">Disetujui</p>
+        <p class="text-3xl font-bold text-gray-800 mt-1">{{ $kpiApproved }}</p>
+        <p class="text-sm text-gray-400">Telah di-approve</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-500">
+        <p class="text-sm text-gray-500">Perlu Revisi</p>
+        <p class="text-3xl font-bold text-gray-800 mt-1">{{ $kpiDitolak }}</p>
+        <p class="text-sm text-gray-400">Ditolak / perlu revisi</p>
     </div>
 </div>
 
-{{-- Stat Cards --}}
-<div class="row g-3 mb-4">
-    <div class="col-6 col-xl-3">
-        <div class="stat-card" style="background: linear-gradient(135deg,#2563eb,#3b82f6);">
-            <i class="bi bi-people stat-icon"></i>
-            <div class="stat-value">{{ $totalBawahan }}</div>
-            <div class="stat-label">Total Bawahan</div>
+<div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Rekap Status KPI Bawahan</h3>
+    @php
+    $statusColors = [
+        'draft' => '#475569', 'submitted' => '#f59e0b',
+        'approved' => '#16a34a', 'need_revision' => '#dc2626',
+    ];
+    $statusLabels = [
+        'draft' => 'Draft', 'submitted' => 'Menunggu Review',
+        'approved' => 'Disetujui', 'need_revision' => 'Perlu Revisi',
+    ];
+    $total = max($statusStats->sum(), 1);
+    @endphp
+    @forelse($statusStats as $status => $count)
+    @php
+    $color = $statusColors[$status] ?? '#6b7280';
+    $label = $statusLabels[$status] ?? ucfirst($status);
+    $pct = round(($count / $total) * 100);
+    @endphp
+    <div class="mb-4 last:mb-0">
+        <div class="flex items-center justify-between mb-1">
+            <span class="text-sm font-medium text-gray-700">{{ $label }}</span>
+            <span class="text-sm font-bold" style="color:{{ $color }}">{{ $count }} ({{ $pct }}%)</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="h-2.5 rounded-full" style="width:{{ $pct }}%; background:{{ $color }};"></div>
         </div>
     </div>
-    <div class="col-6 col-xl-3">
-        <div class="stat-card" style="background: linear-gradient(135deg,#f59e0b,#fbbf24);">
-            <i class="bi bi-hourglass-split stat-icon"></i>
-            <div class="stat-value">{{ $kpiMenunggu }}</div>
-            <div class="stat-label">Menunggu Review</div>
-        </div>
+    @empty
+    <p class="text-gray-500 text-sm">Belum ada dokumen KPI dari bawahan.</p>
+    @endforelse
+    @if($kpiMenunggu > 0)
+    <div class="mt-4">
+        <a href="{{ route('hr.kpi.index') }}" class="btn-primary">Review {{ $kpiMenunggu }} Dokumen Sekarang</a>
     </div>
-    <div class="col-6 col-xl-3">
-        <div class="stat-card" style="background: linear-gradient(135deg,#16a34a,#22c55e);">
-            <i class="bi bi-check-circle-fill stat-icon"></i>
-            <div class="stat-value">{{ $kpiApproved }}</div>
-            <div class="stat-label">Disetujui</div>
-        </div>
-    </div>
-    <div class="col-6 col-xl-3">
-        <div class="stat-card" style="background: linear-gradient(135deg,#dc2626,#f87171);">
-            <i class="bi bi-x-circle-fill stat-icon"></i>
-            <div class="stat-value">{{ $kpiDitolak }}</div>
-            <div class="stat-label">Perlu Revisi</div>
-        </div>
-    </div>
-</div>
-
-{{-- Status Breakdown --}}
-<div class="card">
-    <div class="card-header fw-semibold">
-        <i class="bi bi-bar-chart-fill text-primary me-2"></i>Rekap Status KPI Bawahan
-    </div>
-    <div class="card-body">
-        @php
-            $statusColors = [
-                'draft'         => ['bg' => '#475569', 'label' => 'Draft'],
-                'submitted'     => ['bg' => '#f59e0b', 'label' => 'Menunggu Review'],
-                'approved'      => ['bg' => '#16a34a', 'label' => 'Disetujui'],
-                'need_revision' => ['bg' => '#dc2626', 'label' => 'Perlu Revisi'],
-            ];
-            $total = $statusStats->sum() ?: 1;
-        @endphp
-
-        @forelse($statusStats as $status => $count)
-            @php
-                $color = $statusColors[$status]['bg'] ?? '#6b7280';
-                $label = $statusColors[$status]['label'] ?? ucfirst($status);
-                $pct   = round(($count / $total) * 100);
-            @endphp
-            <div class="target-item">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                    <span class="target-label">{{ $label }}</span>
-                    <span class="fw-semibold" style="color:{{ $color }}">{{ $count }} ({{ $pct }}%)</span>
-                </div>
-                <div class="progress-kpi">
-                    <div class="progress-bar" style="width:{{ $pct }}%; background:{{ $color }};"></div>
-                </div>
-            </div>
-        @empty
-            <p class="text-muted mb-0">Belum ada dokumen KPI dari bawahan.</p>
-        @endforelse
-
-        @if($kpiMenunggu > 0)
-        <div class="mt-4">
-            <a href="{{ route('hr.kpi.index') }}" class="btn btn-warning">
-                <i class="bi bi-eye me-1"></i>Review {{ $kpiMenunggu }} Dokumen Sekarang
-            </a>
-        </div>
-        @endif
-    </div>
+    @endif
 </div>
 @endsection

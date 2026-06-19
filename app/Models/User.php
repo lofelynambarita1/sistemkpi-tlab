@@ -11,7 +11,11 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'employee_id', 'department',
+        'name', 'email', 'password', 'role', 'employee_id', 'department', 'jabatan', 'status_akun', 'atasan_id',
+    ];
+
+    protected $attributes = [
+        'status_akun' => 'aktif',
     ];
 
     protected $hidden = [
@@ -29,7 +33,7 @@ class User extends Authenticatable
     // Role checks
     public function isStaff(): bool
     {
-        return in_array($this->role, ['associate', 'intermediate', 'senior', 'lead', 'principle']);
+        return in_array($this->role, ['associate', 'intermediate', 'senior', 'lead', 'principle', 'lead_hr']);
     }
 
     public function isHR(): bool
@@ -44,7 +48,17 @@ class User extends Authenticatable
 
     public function isHROrManager(): bool
     {
-        return in_array($this->role, ['hr', 'manager']);
+        return in_array($this->role, ['hr', 'lead_hr', 'manager']);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function getIsActiveAttribute(): bool
+    {
+        return ($this->status_akun ?? 'aktif') === 'aktif';
     }
 
     public function getRoleLabelAttribute(): string
@@ -55,6 +69,7 @@ class User extends Authenticatable
             'senior'       => 'Senior',
             'lead'         => 'Lead',
             'principle'    => 'Principle',
+            'lead_hr'      => 'Lead HR',
             'hr'           => 'HR',
             'manager'      => 'Manager',
             default        => ucfirst($this->role),
@@ -75,5 +90,25 @@ class User extends Authenticatable
     public function historyChanges()
     {
         return $this->hasMany(KpiDocumentHistory::class, 'changed_by');
+    }
+
+    public function atasan()
+    {
+        return $this->belongsTo(User::class, 'atasan_id');
+    }
+
+    public function bawahan()
+    {
+        return $this->hasMany(User::class, 'atasan_id');
+    }
+
+    public function getDivisiAttribute()
+    {
+        return $this->department;
+    }
+
+    public function setDivisiAttribute($value)
+    {
+        $this->attributes['department'] = $value;
     }
 }

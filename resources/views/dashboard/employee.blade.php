@@ -1,132 +1,114 @@
 @extends('layouts.app')
-
 @section('title', 'Dashboard Karyawan')
-
 @section('content')
-<div class="row mt-4 mb-3 align-items-center">
-    <div class="col">
-        <h4 class="fw-bold mb-0">
-            <i class="bi bi-speedometer2 text-primary me-2"></i>Dashboard KPI
-        </h4>
-        <small class="text-muted">Selamat datang, {{ $user->name }} · {{ $user->role_label }}</small>
+<nav class="mb-4 text-sm">
+    <ol class="flex text-gray-500 gap-2">
+        <li class="text-gray-700 font-semibold">Dashboard</li>
+    </ol>
+</nav>
+
+<header class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Dashboard KPI</h1>
+    <p class="text-gray-600">Ringkasan penilaian kinerja karyawan</p>
+    <p class="text-sm text-gray-500 mt-1">Login sebagai: <strong>{{ $user->name }}</strong> ({{ $user->role_label }})</p>
+</header>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
+        <p class="text-sm text-gray-500">Total KPI</p>
+        <p class="text-3xl font-bold text-gray-800 mt-1">{{ $totalKpi }}</p>
+        <p class="text-sm text-gray-400">Total dokumen KPI</p>
     </div>
-    <div class="col-auto">
-        <a href="{{ route('kpi.create') }}" class="btn btn-primary shadow-sm">
-            <i class="bi bi-plus-lg me-1"></i>Buat Dokumen KPI
-        </a>
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+        <p class="text-sm text-gray-500">Disetujui</p>
+        <p class="text-3xl font-bold text-gray-800 mt-1">{{ $approved }}</p>
+        <p class="text-sm text-gray-400">KPI telah di-approve</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500">
+        <p class="text-sm text-gray-500">Menunggu Review</p>
+        <p class="text-3xl font-bold text-gray-800 mt-1">{{ $submitted }}</p>
+        <p class="text-sm text-gray-400">Menunggu persetujuan</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-500">
+        <p class="text-sm text-gray-500">Perlu Revisi</p>
+        <p class="text-3xl font-bold text-gray-800 mt-1">{{ $needRevision }}</p>
+        <p class="text-sm text-gray-400">Dokumen perlu direvisi</p>
     </div>
 </div>
 
-{{-- Stat Cards --}}
-<div class="row g-3 mb-4">
-    <div class="col-6 col-xl-3">
-        <div class="stat-card" style="background: linear-gradient(135deg,#2563eb,#3b82f6);">
-            <i class="bi bi-files stat-icon"></i>
-            <div class="stat-value">{{ $totalKpi }}</div>
-            <div class="stat-label">Total Dokumen KPI</div>
+@if($latestKpi)
+<div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Dokumen KPI Terbaru</h3>
+    <div class="flex items-center justify-between mb-3">
+        <div>
+            <p class="font-semibold text-gray-800">KPI {{ $latestKpi->period_year }}</p>
+            <p class="text-sm text-gray-500">Dibuat {{ $latestKpi->created_at->diffForHumans() }}</p>
         </div>
+        <span class="badge badge-{{ $latestKpi->status }}">{{ $latestKpi->status_label }}</span>
     </div>
-    <div class="col-6 col-xl-3">
-        <div class="stat-card" style="background: linear-gradient(135deg,#16a34a,#22c55e);">
-            <i class="bi bi-check-circle-fill stat-icon"></i>
-            <div class="stat-value">{{ $approved }}</div>
-            <div class="stat-label">Disetujui</div>
-        </div>
+    <div class="flex gap-2">
+        <a href="{{ route('kpi.show', $latestKpi->id) }}" class="btn-primary">Lihat</a>
+        @if(in_array($latestKpi->status, ['draft', 'need_revision']))
+        <a href="{{ route('kpi.edit', $latestKpi->id) }}" class="btn-secondary">Edit</a>
+        @endif
     </div>
-    <div class="col-6 col-xl-3">
-        <div class="stat-card" style="background: linear-gradient(135deg,#f59e0b,#fbbf24);">
-            <i class="bi bi-hourglass-split stat-icon"></i>
-            <div class="stat-value">{{ $submitted }}</div>
-            <div class="stat-label">Menunggu Review</div>
-        </div>
-    </div>
-    <div class="col-6 col-xl-3">
-        <div class="stat-card" style="background: linear-gradient(135deg,#dc2626,#f87171);">
-            <i class="bi bi-arrow-counterclockwise stat-icon"></i>
-            <div class="stat-value">{{ $needRevision }}</div>
-            <div class="stat-label">Perlu Revisi</div>
-        </div>
-    </div>
-</div>
-
-<div class="row g-3">
-    {{-- Status Terkini --}}
-    @if($latestKpi)
-    <div class="col-lg-5">
-        <div class="card h-100">
-            <div class="card-header fw-semibold">
-                <i class="bi bi-file-earmark-text text-primary me-2"></i>Dokumen KPI Terbaru
-            </div>
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <div class="fw-bold">KPI {{ $latestKpi->period_year }}</div>
-                        <small class="text-muted">Dibuat {{ $latestKpi->created_at->diffForHumans() }}</small>
-                    </div>
-                    <span class="status-badge {{ $latestKpi->status_badge_class }}">{{ $latestKpi->status_label }}</span>
-                </div>
-                <div class="d-flex gap-2">
-                    <a href="{{ route('kpi.show', $latestKpi->id) }}" class="btn btn-sm btn-outline-primary">
-                        <i class="bi bi-eye me-1"></i>Lihat
-                    </a>
-                    @if(in_array($latestKpi->status, ['draft', 'need_revision']))
-                    <a href="{{ route('kpi.edit', $latestKpi->id) }}" class="btn btn-sm btn-outline-warning">
-                        <i class="bi bi-pencil me-1"></i>Edit
-                    </a>
-                    @endif
-                </div>
-
-                @if($draft > 0)
-                <div class="alert alert-warning mt-3 mb-0 py-2 small">
-                    <i class="bi bi-exclamation-triangle me-1"></i>
-                    Kamu punya <strong>{{ $draft }}</strong> dokumen draft yang belum disubmit.
-                </div>
-                @endif
-                @if($needRevision > 0)
-                <div class="alert alert-danger mt-3 mb-0 py-2 small">
-                    <i class="bi bi-arrow-counterclockwise me-1"></i>
-                    <strong>{{ $needRevision }}</strong> dokumen perlu direvisi.
-                </div>
-                @endif
-            </div>
-        </div>
+    @if($draft > 0)
+    <div class="mt-3 px-4 py-3 bg-yellow-50 border border-yellow-200 text-yellow-700 rounded-lg text-sm flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Kamu punya <strong>{{ $draft }}</strong> dokumen draft yang belum disubmit.
     </div>
     @endif
+    @if($needRevision > 0)
+    <div class="mt-3 px-4 py-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <strong>{{ $needRevision }}</strong> dokumen perlu direvisi.
+    </div>
+    @endif
+</div>
+@endif
 
-    {{-- Semua Dokumen --}}
-    <div class="col-lg-{{ $latestKpi ? '7' : '12' }}">
-        <div class="card h-100">
-            <div class="card-header d-flex align-items-center justify-content-between">
-                <span class="fw-semibold"><i class="bi bi-clock-history text-primary me-2"></i>Semua Dokumen KPI</span>
-                <a href="{{ route('kpi.index') }}" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
-            </div>
-            <div class="card-body p-0">
+<div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Aksi Cepat</h3>
+    <div class="flex flex-wrap gap-3">
+        <a href="{{ route('kpi.create') }}" class="btn-primary">Isi Form KPI</a>
+        <a href="{{ route('kpi.index') }}" class="btn-secondary">Lihat History</a>
+        <a href="{{ route('profile.show') }}" class="btn-secondary">Profil Saya</a>
+    </div>
+</div>
+
+<div class="bg-white rounded-lg shadow p-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Semua Dokumen KPI</h3>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Periode</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Diperbarui</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
                 @forelse($myKpis->take(5) as $doc)
-                    <div class="d-flex align-items-center px-3 py-3 border-bottom">
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold small">KPI {{ $doc->period_year }}</div>
-                            <div class="text-muted" style="font-size:.8rem;">
-                                Diperbarui {{ $doc->updated_at->diffForHumans() }}
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="status-badge {{ $doc->status_badge_class }}">{{ $doc->status_label }}</span>
-                            <a href="{{ route('kpi.show', $doc->id) }}" class="btn btn-sm btn-outline-secondary">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                        </div>
-                    </div>
+                <tr>
+                    <td class="px-4 py-3 text-sm font-medium text-gray-800">KPI {{ $doc->period_year }}</td>
+                    <td class="px-4 py-3 text-sm"><span class="badge badge-{{ $doc->status }}">{{ $doc->status_label }}</span></td>
+                    <td class="px-4 py-3 text-sm text-gray-500">{{ $doc->updated_at->diffForHumans() }}</td>
+                    <td class="px-4 py-3 text-sm">
+                        <a href="{{ route('kpi.show', $doc->id) }}" class="btn-primary" style="padding:0.25rem 0.75rem;">Lihat</a>
+                    </td>
+                </tr>
                 @empty
-                    <div class="text-center text-muted py-5">
-                        <i class="bi bi-file-earmark-x" style="font-size:2.5rem;"></i>
-                        <p class="mt-2 mb-0">Belum ada dokumen KPI</p>
-                        <a href="{{ route('kpi.create') }}" class="btn btn-primary btn-sm mt-3">
-                            <i class="bi bi-plus-lg me-1"></i>Buat Sekarang
-                        </a>
-                    </div>
+                <tr>
+                    <td colspan="4" class="px-4 py-8 text-center text-gray-500">
+                        <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        <p class="mb-3">Belum ada dokumen KPI</p>
+                        <a href="{{ route('kpi.create') }}" class="btn-primary">Buat Sekarang</a>
+                    </td>
+                </tr>
                 @endforelse
-            </div>
-        </div>
+            </tbody>
+        </table>
     </div>
 </div>
 @endsection

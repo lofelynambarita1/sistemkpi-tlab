@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('period_year', 4);
-            $table->enum('status', ['draft', 'submitted', 'reviewed', 'approved'])->default('draft');
+            $table->string('status')->default('draft');
             $table->decimal('total_score', 8, 2)->default(0);
             $table->text('notes')->nullable();
             $table->timestamp('submitted_at')->nullable();

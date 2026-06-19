@@ -1,126 +1,125 @@
 @extends('layouts.app')
-
 @section('title', 'Edit KPI Staff — ' . $kpiDocument->user->name)
-
 @push('styles')
 <style>
 .form-section { background:#fff; border-radius:12px; border:1px solid #e2e8f0; margin-bottom:1.5rem; overflow:hidden; }
-.form-section-header { background:linear-gradient(90deg,#7c3aed,#8b5cf6); color:#fff; padding:.9rem 1.25rem; font-weight:600; display:flex; align-items:center; gap:.5rem; }
+.form-section-header { background:linear-gradient(90deg,#7F1D1D,#B91C1C); color:#fff; padding:.9rem 1.25rem; font-weight:600; display:flex; align-items:center; gap:.5rem; }
 .form-section-body { padding:1.25rem; }
 .subform-table th { background:#f8fafc; font-size:.8rem; font-weight:600; text-transform:uppercase; color:#64748b; white-space:nowrap; }
 .subform-table td { vertical-align:middle; }
-.calc-field { background:#eff6ff !important; color:#2563eb; font-weight:600; border-color:#bfdbfe !important; cursor:not-allowed; }
+.calc-field { background:#FEF2F2 !important; color:#B91C1C; font-weight:600; border-color:#FECACA !important; cursor:not-allowed; }
 </style>
 @endpush
-
 @section('content')
-<div class="row mt-4 mb-3 align-items-center">
-    <div class="col">
-        <h4 class="fw-bold mb-0">
-            <i class="bi bi-pencil-square text-primary me-2"></i>
-            Edit/Review KPI — {{ $kpiDocument->user->name }} ({{ $kpiDocument->period_year }})
-        </h4>
-        <small class="text-muted">{{ $user->name }} · {{ $user->role_label }}</small>
-    </div>
-    <div class="col-auto d-flex gap-2">
-        <a href="{{ route('hr.kpi.show', $kpiDocument->id) }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i>Kembali
-        </a>
-    </div>
-</div>
+<nav class="mb-4 text-sm">
+    <ol class="flex text-gray-500 gap-2">
+        <li><a href="{{ route('dashboard') }}" class="text-red-700 hover:underline">Home</a></li>
+        <li>/</li>
+        <li><a href="{{ route('hr.kpi.index') }}" class="text-red-700 hover:underline">Kelola Dokumen KPI</a></li>
+        <li>/</li>
+        <li class="text-gray-700">Edit KPI — {{ $kpiDocument->user->name }}</li>
+    </ol>
+</nav>
 
-<div class="alert alert-warning py-2 mb-4">
-    <i class="bi bi-shield-exclamation me-2"></i>
+<header class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800">Edit/Review KPI — {{ $kpiDocument->user->name }} ({{ $kpiDocument->period_year }})</h1>
+        <p class="text-gray-600 text-sm">{{ auth()->user()->name }} · {{ auth()->user()->role_label }}</p>
+    </div>
+    <a href="{{ route('hr.kpi.show', $kpiDocument->id) }}" class="btn-secondary">Kembali</a>
+</header>
+
+<div class="bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-lg px-4 py-3 mb-6 text-sm flex items-center gap-2">
+    <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
     Segala perubahan yang Anda lakukan akan tercatat di <strong>History</strong> dan dapat dilihat oleh staff yang bersangkutan.
 </div>
 
 <form method="POST" action="{{ route('hr.kpi.update', $kpiDocument->id) }}" id="hrEditForm">
-    @csrf
-    @method('PUT')
+    @csrf @method('PUT')
 
-    {{-- Document Info & Status Update --}}
     <div class="form-section">
         <div class="form-section-header">
-            <i class="bi bi-info-circle"></i> Informasi & Status Dokumen
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Informasi & Status Dokumen
         </div>
         <div class="form-section-body">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label fw-semibold">Staff</label>
-                    <input type="text" class="form-control-plaintext fw-bold" value="{{ $kpiDocument->user->name }}" readonly>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Staff</label>
+                    <p class="font-bold text-gray-800">{{ $kpiDocument->user->name }}</p>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">Periode</label>
-                    <input type="text" class="form-control-plaintext fw-bold" value="{{ $kpiDocument->period_year }}" readonly>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Periode</label>
+                    <p class="font-bold text-gray-800">{{ $kpiDocument->period_year }}</p>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">Total Score</label>
-                    <input type="text" class="form-control-plaintext fw-bold text-primary" value="{{ number_format($kpiDocument->total_score, 2) }}" readonly>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Total Score</label>
+                    <p class="font-bold text-red-700">{{ number_format($kpiDocument->total_score, 2) }}</p>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
-                    <select name="status" class="form-select @error('status') is-invalid @enderror" required>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Status <span class="text-red-500">*</span></label>
+                    <select name="status" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700 @error('status') border-red-500 @enderror" required>
                         <option value="submitted" {{ $kpiDocument->status=='submitted' ? 'selected':'' }}>Disubmit</option>
                         <option value="reviewed"  {{ $kpiDocument->status=='reviewed'  ? 'selected':'' }}>Ditinjau</option>
                         <option value="approved"  {{ $kpiDocument->status=='approved'  ? 'selected':'' }}>Disetujui</option>
                     </select>
                     @if($kpiDocument->status === 'draft')
-                        <small class="text-warning"><i class="bi bi-exclamation-triangle me-1"></i>Dokumen masih Draft</small>
+                        <small class="text-yellow-600"><svg class="w-3 h-3 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Dokumen masih Draft</small>
                     @endif
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label fw-semibold">Catatan HR/Manager</label>
-                    <input type="text" name="notes" class="form-control" placeholder="Catatan review..."
-                           value="{{ old('notes', $kpiDocument->notes) }}">
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Catatan HR/Manager</label>
+                    <input type="text" name="notes" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700" placeholder="Catatan review..." value="{{ old('notes', $kpiDocument->notes) }}">
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- TAB NAVIGATION --}}
-    <ul class="nav tab-form-nav border-bottom mb-0" style="background:#f8fafc;padding:.75rem 1rem 0;border-radius:12px 12px 0 0;border:1px solid #e2e8f0;border-bottom:none;">
-        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#hr-edit-jobdesc">Jobdesc</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#hr-edit-ci">Continues Improvement</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#hr-edit-sd">Self Development</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#hr-edit-hr">HR Activity</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#hr-edit-perilaku">Kinerja Perilaku</a></li>
-    </ul>
+    <div class="border border-gray-200 rounded-t-lg bg-gray-50 px-4 pt-3">
+        <div class="flex flex-wrap gap-1">
+            <a class="px-4 py-2 text-sm font-medium text-red-700 border-b-2 border-red-700 bg-white rounded-t" data-bs-toggle="tab" href="#hr-edit-jobdesc">Jobdesc</a>
+            <a class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-red-700" data-bs-toggle="tab" href="#hr-edit-ci">Continues Improvement</a>
+            <a class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-red-700" data-bs-toggle="tab" href="#hr-edit-sd">Self Development</a>
+            <a class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-red-700" data-bs-toggle="tab" href="#hr-edit-hr">HR Activity</a>
+            <a class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-red-700" data-bs-toggle="tab" href="#hr-edit-perilaku">Kinerja Perilaku</a>
+        </div>
+    </div>
 
-    <div class="tab-content" style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 12px 12px;padding:1.25rem;">
+    <div class="tab-content border border-t-0 border-gray-200 rounded-b-lg p-5 bg-gray-50">
 
-        {{-- JOBDESC --}}
         <div class="tab-pane fade show active" id="hr-edit-jobdesc">
             <div class="form-section">
-                <div class="form-section-header" style="background:linear-gradient(90deg,#1d4ed8,#2563eb);">
-                    <i class="bi bi-briefcase"></i> Jobdesc
+                <div class="form-section-header">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    Jobdesc
                 </div>
                 <div class="form-section-body">
                     @if($kpiDocument->jobdescs->isEmpty())
-                        <p class="text-muted"><i class="bi bi-inbox me-2"></i>Tidak ada data Jobdesc</p>
+                        <p class="text-gray-400"><svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg> Tidak ada data Jobdesc</p>
                     @else
-                    <div class="table-responsive">
-                        <table class="table subform-table table-bordered">
-                            <thead>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 subform-table">
+                            <thead class="bg-gray-50">
                                 <tr>
-                                    <th>#</th>
-                                    <th style="min-width:160px">Koef. OTB</th>
-                                    <th style="min-width:160px">Grade Project</th>
-                                    <th style="min-width:200px">Nama Kegiatan & Bukti</th>
-                                    <th style="min-width:120px">Mandays Proyek</th>
-                                    <th style="min-width:150px" class="text-info">Jumlah Koef. <i class="bi bi-lock-fill"></i></th>
-                                    <th style="min-width:150px" class="text-info">Total Mandays <i class="bi bi-lock-fill"></i></th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">#</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:160px">Koef. OTB</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:160px">Grade Project</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:200px">Nama Kegiatan & Bukti</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:120px">Mandays Proyek</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase text-red-700" style="min-width:150px">Jumlah Koef.</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase text-red-700" style="min-width:150px">Total Mandays</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($kpiDocument->jobdescs as $i => $jd)
                                 <tr>
-                                    <td>{{ $i+1 }}</td>
-                                    <td><input type="number" name="jobdesc[{{ $jd->id }}][penilaian_koefisien_ontime_onbudget]" class="form-control form-control-sm jd-otb" value="{{ $jd->penilaian_koefisien_ontime_onbudget }}" step="0.01" min="0" oninput="hrCalcJD(this.closest('tr'))"></td>
-                                    <td><input type="number" name="jobdesc[{{ $jd->id }}][penilaian_grade_project]" class="form-control form-control-sm jd-grade" value="{{ $jd->penilaian_grade_project }}" step="0.01" min="0" oninput="hrCalcJD(this.closest('tr'))"></td>
-                                    <td><input type="text" name="jobdesc[{{ $jd->id }}][nama_kegiatan_bukti]" class="form-control form-control-sm" value="{{ $jd->nama_kegiatan_bukti }}"></td>
-                                    <td><input type="number" name="jobdesc[{{ $jd->id }}][mandays_proyek]" class="form-control form-control-sm jd-mandays" value="{{ $jd->mandays_proyek }}" step="0.01" min="0" oninput="hrCalcJD(this.closest('tr'))"></td>
-                                    <td><input type="text" class="form-control form-control-sm calc-field jd-jumlah" value="{{ number_format($jd->jumlah_koefisien,2,'.','')}}" readonly tabindex="-1"></td>
-                                    <td><input type="text" class="form-control form-control-sm calc-field jd-total" value="{{ number_format($jd->total_mandays_penugasan,2,'.','')}}" readonly tabindex="-1"></td>
+                                    <td class="px-3 py-2 text-sm">{{ $i+1 }}</td>
+                                    <td class="px-3 py-2"><input type="number" name="jobdesc[{{ $jd->id }}][penilaian_koefisien_ontime_onbudget]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm jd-otb" value="{{ $jd->penilaian_koefisien_ontime_onbudget }}" step="0.01" min="0" oninput="hrCalcJD(this.closest('tr'))"></td>
+                                    <td class="px-3 py-2"><input type="number" name="jobdesc[{{ $jd->id }}][penilaian_grade_project]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm jd-grade" value="{{ $jd->penilaian_grade_project }}" step="0.01" min="0" oninput="hrCalcJD(this.closest('tr'))"></td>
+                                    <td class="px-3 py-2"><input type="text" name="jobdesc[{{ $jd->id }}][nama_kegiatan_bukti]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm" value="{{ $jd->nama_kegiatan_bukti }}"></td>
+                                    <td class="px-3 py-2"><input type="number" name="jobdesc[{{ $jd->id }}][mandays_proyek]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm jd-mandays" value="{{ $jd->mandays_proyek }}" step="0.01" min="0" oninput="hrCalcJD(this.closest('tr'))"></td>
+                                    <td class="px-3 py-2"><input type="text" class="w-full px-2 py-1 border rounded text-sm calc-field jd-jumlah" value="{{ number_format($jd->jumlah_koefisien,2,'.','')}}" readonly tabindex="-1"></td>
+                                    <td class="px-3 py-2"><input type="text" class="w-full px-2 py-1 border rounded text-sm calc-field jd-total" value="{{ number_format($jd->total_mandays_penugasan,2,'.','')}}" readonly tabindex="-1"></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -131,34 +130,36 @@
             </div>
         </div>
 
-        {{-- CI --}}
         <div class="tab-pane fade" id="hr-edit-ci">
             <div class="form-section">
-                <div class="form-section-header" style="background:linear-gradient(90deg,#16a34a,#22c55e);">
-                    <i class="bi bi-arrow-repeat"></i> Continues Improvement
+                <div class="form-section-header">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    Continues Improvement
                 </div>
                 <div class="form-section-body">
                     @if($kpiDocument->continuesImprovements->isEmpty())
-                        <p class="text-muted"><i class="bi bi-inbox me-2"></i>Tidak ada data CI</p>
+                        <p class="text-gray-400">Tidak ada data CI</p>
                     @else
-                    <div class="table-responsive">
-                        <table class="table subform-table table-bordered">
-                            <thead><tr><th>#</th><th style="min-width:230px">Jenis Kegiatan/Bukti</th><th style="min-width:200px">Kegiatan</th><th style="min-width:110px">Mandays</th><th style="min-width:100px" class="text-info">Koefisien <i class="bi bi-lock-fill"></i></th><th style="min-width:100px" class="text-info">Point <i class="bi bi-lock-fill"></i></th></tr></thead>
-                            <tbody>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 subform-table">
+                            <thead class="bg-gray-50">
+                                <tr><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">#</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:230px">Jenis Kegiatan/Bukti</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:200px">Kegiatan</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:110px">Mandays</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase text-red-700" style="min-width:100px">Koefisien</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase text-red-700" style="min-width:100px">Point</th></tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($kpiDocument->continuesImprovements as $i => $ci)
                                 <tr>
-                                    <td>{{ $i+1 }}</td>
-                                    <td>
-                                        <select name="ci_edit[{{ $ci->id }}][jenis_kegiatan_bukti]" class="form-select form-select-sm ci-jenis" onchange="hrCalcCI(this.closest('tr'))">
+                                    <td class="px-3 py-2 text-sm">{{ $i+1 }}</td>
+                                    <td class="px-3 py-2">
+                                        <select name="ci_edit[{{ $ci->id }}][jenis_kegiatan_bukti]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm ci-jenis" onchange="hrCalcCI(this.closest('tr'))">
                                             @foreach(array_keys(\App\Models\KpiContinuesImprovement::$koefisienMap) as $opt)
                                                 <option value="{{ $opt }}" {{ $ci->jenis_kegiatan_bukti===$opt?'selected':'' }}>{{ $opt }}</option>
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td><input type="text" name="ci_edit[{{ $ci->id }}][kegiatan]" class="form-control form-control-sm" value="{{ $ci->kegiatan }}"></td>
-                                    <td><input type="number" name="ci_edit[{{ $ci->id }}][mandays]" class="form-control form-control-sm ci-mandays" value="{{ $ci->mandays }}" step="0.01" min="0" oninput="hrCalcCI(this.closest('tr'))"></td>
-                                    <td><input type="text" class="form-control form-control-sm calc-field ci-koef" value="{{ number_format($ci->koefisien,4,'.','')}}" readonly tabindex="-1"></td>
-                                    <td><input type="text" class="form-control form-control-sm calc-field ci-point" value="{{ number_format($ci->point,4,'.','')}}" readonly tabindex="-1"></td>
+                                    <td class="px-3 py-2"><input type="text" name="ci_edit[{{ $ci->id }}][kegiatan]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm" value="{{ $ci->kegiatan }}"></td>
+                                    <td class="px-3 py-2"><input type="number" name="ci_edit[{{ $ci->id }}][mandays]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm ci-mandays" value="{{ $ci->mandays }}" step="0.01" min="0" oninput="hrCalcCI(this.closest('tr'))"></td>
+                                    <td class="px-3 py-2"><input type="text" class="w-full px-2 py-1 border rounded text-sm calc-field ci-koef" value="{{ number_format($ci->koefisien,4,'.','')}}" readonly tabindex="-1"></td>
+                                    <td class="px-3 py-2"><input type="text" class="w-full px-2 py-1 border rounded text-sm calc-field ci-point" value="{{ number_format($ci->point,4,'.','')}}" readonly tabindex="-1"></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -169,34 +170,36 @@
             </div>
         </div>
 
-        {{-- SD --}}
         <div class="tab-pane fade" id="hr-edit-sd">
             <div class="form-section">
-                <div class="form-section-header" style="background:linear-gradient(90deg,#ca8a04,#fbbf24);">
-                    <i class="bi bi-person-check"></i> Self Development
+                <div class="form-section-header">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    Self Development
                 </div>
                 <div class="form-section-body">
                     @if($kpiDocument->selfDevelopments->isEmpty())
-                        <p class="text-muted"><i class="bi bi-inbox me-2"></i>Tidak ada data SD</p>
+                        <p class="text-gray-400">Tidak ada data SD</p>
                     @else
-                    <div class="table-responsive">
-                        <table class="table subform-table table-bordered">
-                            <thead><tr><th>#</th><th style="min-width:230px">Jenis SD</th><th style="min-width:200px">Kegiatan</th><th style="min-width:110px">Mandays</th><th style="min-width:100px" class="text-info">Koefisien <i class="bi bi-lock-fill"></i></th><th style="min-width:100px" class="text-info">Point <i class="bi bi-lock-fill"></i></th></tr></thead>
-                            <tbody>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 subform-table">
+                            <thead class="bg-gray-50">
+                                <tr><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">#</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:230px">Jenis SD</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:200px">Kegiatan</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:110px">Mandays</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase text-red-700" style="min-width:100px">Koefisien</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase text-red-700" style="min-width:100px">Point</th></tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($kpiDocument->selfDevelopments as $i => $sd)
                                 <tr>
-                                    <td>{{ $i+1 }}</td>
-                                    <td>
-                                        <select name="sd_edit[{{ $sd->id }}][jenis_sd]" class="form-select form-select-sm sd-jenis" onchange="hrCalcSD(this.closest('tr'))">
+                                    <td class="px-3 py-2 text-sm">{{ $i+1 }}</td>
+                                    <td class="px-3 py-2">
+                                        <select name="sd_edit[{{ $sd->id }}][jenis_sd]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm sd-jenis" onchange="hrCalcSD(this.closest('tr'))">
                                             @foreach(array_keys(\App\Models\KpiSelfDevelopment::$koefisienMap) as $opt)
                                                 <option value="{{ $opt }}" {{ $sd->jenis_sd===$opt?'selected':'' }}>{{ $opt }}</option>
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td><input type="text" name="sd_edit[{{ $sd->id }}][kegiatan]" class="form-control form-control-sm" value="{{ $sd->kegiatan }}"></td>
-                                    <td><input type="number" name="sd_edit[{{ $sd->id }}][mandays]" class="form-control form-control-sm sd-mandays" value="{{ $sd->mandays }}" step="0.01" min="0" oninput="hrCalcSD(this.closest('tr'))"></td>
-                                    <td><input type="text" class="form-control form-control-sm calc-field sd-koef" value="{{ number_format($sd->koefisien,4,'.','')}}" readonly tabindex="-1"></td>
-                                    <td><input type="text" class="form-control form-control-sm calc-field sd-point" value="{{ number_format($sd->point,4,'.','')}}" readonly tabindex="-1"></td>
+                                    <td class="px-3 py-2"><input type="text" name="sd_edit[{{ $sd->id }}][kegiatan]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm" value="{{ $sd->kegiatan }}"></td>
+                                    <td class="px-3 py-2"><input type="number" name="sd_edit[{{ $sd->id }}][mandays]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm sd-mandays" value="{{ $sd->mandays }}" step="0.01" min="0" oninput="hrCalcSD(this.closest('tr'))"></td>
+                                    <td class="px-3 py-2"><input type="text" class="w-full px-2 py-1 border rounded text-sm calc-field sd-koef" value="{{ number_format($sd->koefisien,4,'.','')}}" readonly tabindex="-1"></td>
+                                    <td class="px-3 py-2"><input type="text" class="w-full px-2 py-1 border rounded text-sm calc-field sd-point" value="{{ number_format($sd->point,4,'.','')}}" readonly tabindex="-1"></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -207,34 +210,36 @@
             </div>
         </div>
 
-        {{-- HR ACTIVITY --}}
         <div class="tab-pane fade" id="hr-edit-hr">
             <div class="form-section">
-                <div class="form-section-header" style="background:linear-gradient(90deg,#7c3aed,#8b5cf6);">
-                    <i class="bi bi-people"></i> HR Activity
+                <div class="form-section-header">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    HR Activity
                 </div>
                 <div class="form-section-body">
                     @if($kpiDocument->hrActivities->isEmpty())
-                        <p class="text-muted"><i class="bi bi-inbox me-2"></i>Tidak ada data HR Activity</p>
+                        <p class="text-gray-400">Tidak ada data HR Activity</p>
                     @else
-                    <div class="table-responsive">
-                        <table class="table subform-table table-bordered">
-                            <thead><tr><th>#</th><th style="min-width:230px">Jenis Kegiatan</th><th style="min-width:200px">Kegiatan</th><th style="min-width:110px">Mandays</th><th style="min-width:100px" class="text-info">Koefisien <i class="bi bi-lock-fill"></i></th><th style="min-width:100px" class="text-info">Point <i class="bi bi-lock-fill"></i></th></tr></thead>
-                            <tbody>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 subform-table">
+                            <thead class="bg-gray-50">
+                                <tr><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">#</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:230px">Jenis Kegiatan</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:200px">Kegiatan</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:110px">Mandays</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase text-red-700" style="min-width:100px">Koefisien</th><th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase text-red-700" style="min-width:100px">Point</th></tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($kpiDocument->hrActivities as $i => $hr)
                                 <tr>
-                                    <td>{{ $i+1 }}</td>
-                                    <td>
-                                        <select name="hr_edit[{{ $hr->id }}][jenis_kegiatan]" class="form-select form-select-sm hr-jenis" onchange="hrCalcHR(this.closest('tr'))">
+                                    <td class="px-3 py-2 text-sm">{{ $i+1 }}</td>
+                                    <td class="px-3 py-2">
+                                        <select name="hr_edit[{{ $hr->id }}][jenis_kegiatan]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm hr-jenis" onchange="hrCalcHR(this.closest('tr'))">
                                             @foreach(array_keys(\App\Models\KpiHrActivity::$koefisienMap) as $opt)
                                                 <option value="{{ $opt }}" {{ $hr->jenis_kegiatan===$opt?'selected':'' }}>{{ $opt }}</option>
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td><input type="text" name="hr_edit[{{ $hr->id }}][kegiatan]" class="form-control form-control-sm" value="{{ $hr->kegiatan }}"></td>
-                                    <td><input type="number" name="hr_edit[{{ $hr->id }}][mandays]" class="form-control form-control-sm hr-mandays" value="{{ $hr->mandays }}" step="0.01" min="0" oninput="hrCalcHR(this.closest('tr'))"></td>
-                                    <td><input type="text" class="form-control form-control-sm calc-field hr-koef" value="{{ number_format($hr->koefisien,4,'.','')}}" readonly tabindex="-1"></td>
-                                    <td><input type="text" class="form-control form-control-sm calc-field hr-point" value="{{ number_format($hr->point,4,'.','')}}" readonly tabindex="-1"></td>
+                                    <td class="px-3 py-2"><input type="text" name="hr_edit[{{ $hr->id }}][kegiatan]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm" value="{{ $hr->kegiatan }}"></td>
+                                    <td class="px-3 py-2"><input type="number" name="hr_edit[{{ $hr->id }}][mandays]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm hr-mandays" value="{{ $hr->mandays }}" step="0.01" min="0" oninput="hrCalcHR(this.closest('tr'))"></td>
+                                    <td class="px-3 py-2"><input type="text" class="w-full px-2 py-1 border rounded text-sm calc-field hr-koef" value="{{ number_format($hr->koefisien,4,'.','')}}" readonly tabindex="-1"></td>
+                                    <td class="px-3 py-2"><input type="text" class="w-full px-2 py-1 border rounded text-sm calc-field hr-point" value="{{ number_format($hr->point,4,'.','')}}" readonly tabindex="-1"></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -245,44 +250,40 @@
             </div>
         </div>
 
-        {{-- KINERJA PERILAKU --}}
         <div class="tab-pane fade" id="hr-edit-perilaku">
             <div class="form-section">
-                <div class="form-section-header" style="background:linear-gradient(90deg,#0891b2,#22d3ee);">
-                    <i class="bi bi-star-half"></i> Kinerja Perilaku
+                <div class="form-section-header">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                    Kinerja Perilaku
                 </div>
                 <div class="form-section-body">
                     @if($kpiDocument->kinerjaPerilakus->isEmpty())
-                        <p class="text-muted"><i class="bi bi-inbox me-2"></i>Tidak ada data Kinerja Perilaku</p>
+                        <p class="text-gray-400">Tidak ada data Kinerja Perilaku</p>
                     @else
-                    <div class="table-responsive">
-                        <table class="table subform-table table-bordered">
-                            <thead>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 subform-table">
+                            <thead class="bg-gray-50">
                                 <tr>
-                                    <th>#</th>
-                                    <th>Aspek Kinerja <i class="bi bi-lock-fill text-info"></i></th>
-                                    <th>Definisi <i class="bi bi-lock-fill text-info"></i></th>
-                                    <th>Min. Capaian <i class="bi bi-lock-fill text-info"></i></th>
-                                    <th>Indikator <i class="bi bi-lock-fill text-info"></i></th>
-                                    <th>Deskripsi <i class="bi bi-lock-fill text-info"></i></th>
-                                    <th style="min-width:110px">Score</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">#</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Aspek Kinerja</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Definisi</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Min. Capaian</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Indikator</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Deskripsi</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase" style="min-width:110px">Score</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($kpiDocument->kinerjaPerilakus as $i => $kp)
                                 <tr>
-                                    <td>{{ $i+1 }}</td>
-                                    <td><strong>{{ $kp->aspek_kinerja }}</strong></td>
-                                    <td><small>{{ $kp->definisi }}</small></td>
-                                    <td class="text-center"><span class="badge bg-warning text-dark">≥ {{ $kp->minimum_capaian }}</span></td>
-                                    <td><small>{{ $kp->indikator }}</small></td>
-                                    <td><small>{{ $kp->deskripsi }}</small></td>
-                                    <td>
-                                        <input type="number"
-                                               name="perilaku_edit[{{ $kp->id }}][score]"
-                                               class="form-control form-control-sm"
-                                               value="{{ $kp->score }}"
-                                               min="0" max="100" step="0.01">
+                                    <td class="px-3 py-2 text-sm">{{ $i+1 }}</td>
+                                    <td class="px-3 py-2 text-sm font-medium">{{ $kp->aspek_kinerja }}</td>
+                                    <td class="px-3 py-2 text-sm"><small>{{ $kp->definisi }}</small></td>
+                                    <td class="px-3 py-2 text-sm text-center"><span class="badge badge-draft">≥ {{ $kp->minimum_capaian }}</span></td>
+                                    <td class="px-3 py-2 text-sm"><small>{{ $kp->indikator }}</small></td>
+                                    <td class="px-3 py-2 text-sm"><small>{{ $kp->deskripsi }}</small></td>
+                                    <td class="px-3 py-2">
+                                        <input type="number" name="perilaku_edit[{{ $kp->id }}][score]" class="w-full px-2 py-1 border border-gray-300 rounded text-sm" value="{{ $kp->score }}" min="0" max="100" step="0.01">
                                     </td>
                                 </tr>
                                 @endforeach
@@ -294,22 +295,17 @@
             </div>
         </div>
 
-    </div>{{-- end tab-content --}}
+    </div>
 
-    {{-- ACTION BUTTONS --}}
-    <div class="card border-warning mt-4">
-        <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
-            <div>
-                <i class="bi bi-info-circle text-warning me-2"></i>
-                <small class="text-muted">Perubahan akan dicatat di history dan dapat dilihat oleh staff.</small>
+    <div class="bg-white rounded-lg shadow p-4 mt-6 border border-yellow-200">
+        <div class="flex justify-between items-center flex-wrap gap-3">
+            <div class="flex items-center gap-2 text-sm text-gray-600">
+                <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Perubahan akan dicatat di history dan dapat dilihat oleh staff.
             </div>
-            <div class="d-flex gap-2">
-                <a href="{{ route('hr.kpi.show', $kpiDocument->id) }}" class="btn btn-outline-secondary">
-                    <i class="bi bi-x-lg me-1"></i>Batal
-                </a>
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-floppy me-1"></i>Simpan Perubahan
-                </button>
+            <div class="flex gap-2">
+                <a href="{{ route('hr.kpi.show', $kpiDocument->id) }}" class="btn-secondary">Batal</a>
+                <button type="submit" class="btn-primary">Simpan Perubahan</button>
             </div>
         </div>
     </div>

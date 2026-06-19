@@ -1,31 +1,63 @@
-<ul class="space-y-1">
+<nav class="flex-1 px-3 space-y-1 mt-2">
     @php $role = auth()->user()->role; @endphp
 
     @if($role === 'admin')
-        <li><a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('admin.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-gauge w-4"></i> Dashboard</a></li>
-        <li><a href="{{ route('admin.users.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('admin.users*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-users w-4"></i> Management User</a></li>
-        <li><a href="{{ route('admin.profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('admin.profile') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-user w-4"></i> Profile</a></li>
-    @elseif($role === 'manager')
-        <li><a href="{{ route('manager.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('manager.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-gauge w-4"></i> Dashboard</a></li>
-        <li><a href="{{ route('manager.review.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('manager.review*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-clipboard-check w-4"></i> Review KPI</a></li>
-        <li><a href="{{ route('manager.profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('manager.profile') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-user w-4"></i> Profile</a></li>
-    @elseif($role === 'lead_hr')
-        <li><a href="{{ route('leadhr.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('leadhr.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-gauge w-4"></i> Dashboard</a></li>
-        <li><a href="{{ route('leadhr.kpi.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('leadhr.kpi*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-file-alt w-4"></i> Form KPI</a></li>
-        <li><a href="{{ route('leadhr.review.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('leadhr.review*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-clipboard-check w-4"></i> Review KPI</a></li>
-        <li><a href="{{ route('leadhr.profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('leadhr.profile') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-user w-4"></i> Profile</a></li>
-    @elseif($role === 'lead')
-        <li><a href="{{ route('lead.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('lead.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-gauge w-4"></i> Dashboard</a></li>
-        <li><a href="{{ route('lead.kpi.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('lead.kpi*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-file-alt w-4"></i> Form KPI</a></li>
-        <li><a href="{{ route('lead.review.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('lead.review*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-clipboard-check w-4"></i> Review KPI</a></li>
-        <li><a href="{{ route('lead.profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('lead.profile') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-user w-4"></i> Profile</a></li>
-    @elseif($role === 'principle')
-        <li><a href="{{ route('principle.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('principle.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-gauge w-4"></i> Dashboard</a></li>
-        <li><a href="{{ route('principle.kpi.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('principle.kpi*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-file-alt w-4"></i> Form KPI</a></li>
-        <li><a href="{{ route('principle.profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('principle.profile') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-user w-4"></i> Profile</a></li>
+        <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('dashboard') ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-gauge w-5 text-center"></i> Dashboard
+        </a>
+        <a href="{{ route('admin.users.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('admin.users*') ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-users w-5 text-center"></i> Manajemen User
+        </a>
+        <a href="{{ route('admin.profile') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('admin.profile') ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-user w-5 text-center"></i> Profil Saya
+        </a>
+    @elseif(in_array($role, ['lead', 'lead_hr', 'manager']))
+        <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('dashboard') ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-gauge w-5 text-center"></i> Dashboard
+        </a>
+        @php
+            $isReviewRoute = request()->routeIs('review*') || request()->routeIs('lead.review*') || request()->routeIs('leadhr.review*') || request()->routeIs('manager.review*');
+            $reviewRoute = match($role) {
+                'lead' => 'lead.review.index',
+                'lead_hr' => 'leadhr.review.index',
+                'manager' => 'manager.review.index',
+                default => 'review.index'
+            };
+        @endphp
+        <a href="{{ route($reviewRoute) }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ $isReviewRoute ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-clipboard-check w-5 text-center"></i> Review KPI
+        </a>
+        @if($role === 'lead')
+        <a href="{{ route('kpi.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('kpi*') ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-file-alt w-5 text-center"></i> Form KPI
+        </a>
+        @endif
+        <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('profile.show') ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-user w-5 text-center"></i> Profil Saya
+        </a>
+    @elseif($role === 'hr')
+        <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('dashboard') ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-gauge w-5 text-center"></i> Dashboard
+        </a>
+        <a href="{{ route('hr.kpi.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('hr.kpi*') ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-file-contract w-5 text-center"></i> Kelola Dokumen KPI
+        </a>
+        <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('profile.show') ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-user w-5 text-center"></i> Profil Saya
+        </a>
     @else
-        <li><a href="{{ route('employee.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('employee.dashboard') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-gauge w-4"></i> Dashboard</a></li>
-        <li><a href="{{ route('employee.kpi.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('employee.kpi*') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-file-alt w-4"></i> Form KPI</a></li>
-        <li><a href="{{ route('employee.profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('employee.profile') ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100' }}"><i class="fa-solid fa-user w-4"></i> Profile</a></li>
+        <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('dashboard') ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-gauge w-5 text-center"></i> Dashboard
+        </a>
+        <a href="{{ route('kpi.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('kpi*') ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-file-alt w-5 text-center"></i> Form KPI
+        </a>
+        <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('profile.show') ? 'bg-sip-sidebar-act text-white' : '' }}">
+            <i class="fa-solid fa-user w-5 text-center"></i> Profil Saya
+        </a>
     @endif
-</ul>
+
+    <a href="{{ route('panduan') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition {{ request()->routeIs('panduan') ? 'bg-sip-sidebar-act text-white' : '' }}">
+        <i class="fa-solid fa-book w-5 text-center"></i> Panduan
+    </a>
+</nav>
