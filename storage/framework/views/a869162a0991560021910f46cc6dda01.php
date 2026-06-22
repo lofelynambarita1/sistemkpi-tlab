@@ -45,9 +45,9 @@
                 <label class="block text-xs font-medium text-gray-600 mb-1">Tahun</label>
                 <select name="year" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700">
                     <option value="">Semua Tahun</option>
-                    <?php $__currentLoopData = $years ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $y): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $years ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $y): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                     <option value="<?php echo e($y); ?>" <?php echo e(request('year')==$y ? 'selected':''); ?>><?php echo e($y); ?></option>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                 </select>
             </div>
             <div class="flex items-end gap-2">
@@ -81,7 +81,7 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                <?php $__empty_1 = true; $__currentLoopData = $documents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $documents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                 <tr>
                     <td class="px-4 py-4 text-sm text-gray-600"><?php echo e(($documents->currentPage()-1)*$documents->perPage() + $loop->iteration); ?></td>
                     <td class="px-4 py-4">
@@ -98,12 +98,12 @@
                     <td class="px-4 py-4"><span class="badge <?php echo e($doc->status_badge_class); ?>"><?php echo e($doc->status_label); ?></span></td>
                     <td class="px-4 py-4 font-semibold text-red-700"><?php echo e(number_format($doc->total_score, 2)); ?></td>
                     <td class="px-4 py-4 text-sm text-gray-500">
-                        <?php if($doc->submitted_at): ?>
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($doc->submitted_at): ?>
                             <?php echo e($doc->submitted_at->format('d M Y')); ?>
 
                         <?php else: ?>
                             —
-                        <?php endif; ?>
+                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </td>
                     <td class="px-4 py-4 text-sm text-gray-500"><?php echo e($doc->updated_at->diffForHumans()); ?></td>
                     <td class="px-4 py-4 text-center">
@@ -119,26 +119,26 @@
                         </div>
                     </td>
                 </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                 <tr>
                     <td colspan="9" class="px-4 py-8 text-center text-gray-400">
                         Tidak ada dokumen KPI ditemukan
-                        <?php if(request()->anyFilled(['search','status','role','year'])): ?>
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(request()->anyFilled(['search','status','role','year'])): ?>
                         <br><a href="<?php echo e(route('hr.kpi.index')); ?>" class="text-red-700 hover:underline text-sm mt-2 inline-block">Reset Filter</a>
-                        <?php endif; ?>
+                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </td>
                 </tr>
-                <?php endif; ?>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </tbody>
         </table>
     </div>
-    <?php if($documents->hasPages()): ?>
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($documents->hasPages()): ?>
     <div class="px-6 py-4 border-t border-gray-200 bg-white flex justify-between items-center">
         <small class="text-gray-500">Menampilkan <?php echo e($documents->firstItem()); ?>–<?php echo e($documents->lastItem()); ?> dari <?php echo e($documents->total()); ?> dokumen</small>
         <?php echo e($documents->links()); ?>
 
     </div>
-    <?php endif; ?>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 </div>
 <?php $__env->stopSection(); ?>
 

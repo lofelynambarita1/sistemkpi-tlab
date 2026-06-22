@@ -17,9 +17,9 @@
     <form method="GET" class="flex flex-col md:flex-row gap-3 mb-4">
         <input type="text" name="search" value="<?php echo e(request('search')); ?>" placeholder="Cari karyawan..." class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700">
         <button type="submit" class="btn-primary">Cari</button>
-        <?php if(request('search')): ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(request('search')): ?>
             <a href="<?php echo e(route('review.index')); ?>" class="btn-secondary">Reset</a>
-        <?php endif; ?>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     </form>
 
     <div class="flex gap-3 mb-4">
@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                <?php $__empty_1 = true; $__currentLoopData = $forms; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $form): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $forms; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $form): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                 <tr>
                     <td class="px-4 py-4"><input type="checkbox" class="row-checkbox-review" value="<?php echo e($form->id); ?>"></td>
                     <td class="px-4 py-4 font-medium text-gray-800"><?php echo e($form->user->name ?? 'N/A'); ?></td>
@@ -51,11 +51,11 @@
                         <a href="<?php echo e(route('review.show', $form->id)); ?>" class="text-red-700 hover:underline text-sm">Review KPI</a>
                     </td>
                 </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                 <tr>
                     <td colspan="6" class="px-4 py-8 text-center text-gray-400">Tidak ada dokumen KPI untuk direview.</td>
                 </tr>
-                <?php endif; ?>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </tbody>
         </table>
     </div>
@@ -66,9 +66,9 @@
     </div>
 </div>
 
-<?php if($forms instanceof \Illuminate\Pagination\LengthAwarePaginator && $forms->hasPages()): ?>
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($forms instanceof \Illuminate\Pagination\LengthAwarePaginator && $forms->hasPages()): ?>
 <div class="mt-4"><?php echo e($forms->links()); ?></div>
-<?php endif; ?>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
 <div id="bulk-modal-review" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center">
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">

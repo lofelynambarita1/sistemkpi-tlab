@@ -37,7 +37,7 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                <?php $__empty_1 = true; $__currentLoopData = $documents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $documents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                     <tr class="hover:bg-gray-50">
                         <td class="px-4 py-4 text-sm text-gray-500"><?php echo e($loop->iteration); ?></td>
                         <td class="px-4 py-4 text-sm font-semibold text-gray-800"><?php echo e($doc->period_year); ?></td>
@@ -47,12 +47,12 @@
                         <td class="px-4 py-4 text-sm font-semibold text-red-700"><?php echo e(number_format($doc->total_score, 2)); ?></td>
                         <td class="px-4 py-4 text-sm text-gray-500"><?php echo e($doc->created_at->format('d M Y')); ?></td>
                         <td class="px-4 py-4 text-sm text-gray-500">
-                            <?php if($doc->submitted_at): ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($doc->submitted_at): ?>
                                 <?php echo e($doc->submitted_at->format('d M Y')); ?>
 
                             <?php else: ?>
                                 —
-                            <?php endif; ?>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </td>
                         <td class="px-4 py-4 text-center">
                             <div class="flex justify-center gap-2">
@@ -65,7 +65,7 @@
                                     </svg>
                                     Lihat
                                 </a>
-                                <?php if($doc->status === 'draft'): ?>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($doc->status === 'draft'): ?>
                                     <a href="<?php echo e(route('kpi.edit', $doc->id)); ?>"
                                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded border border-gray-300 text-yellow-700 hover:bg-yellow-50 transition"
                                        title="Edit">
@@ -74,11 +74,11 @@
                                         </svg>
                                         Edit
                                     </a>
-                                <?php endif; ?>
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </div>
                         </td>
                     </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                     <tr>
                         <td colspan="7" class="text-center py-12">
                             <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,7 +88,7 @@
                             <a href="<?php echo e(route('kpi.create')); ?>" class="btn-primary text-sm">Buat Sekarang</a>
                         </td>
                     </tr>
-                <?php endif; ?>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </tbody>
         </table>
     </div>

@@ -25,7 +25,7 @@
         </div>
 
         <nav class="flex-1 px-3 py-4 space-y-1">
-            <?php if(auth()->guard()->check()): ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
                 <?php $role = auth()->user()->role; ?>
 
                 <a href="<?php echo e(route('dashboard')); ?>" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition <?php echo e(request()->routeIs('dashboard') ? 'bg-sip-sidebar-act text-white' : ''); ?>">
@@ -33,7 +33,7 @@
                     Dashboard
                 </a>
 
-                <?php if($role === 'admin'): ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($role === 'admin'): ?>
                     <div class="text-[10px] uppercase tracking-wider text-white/40 px-3 pt-4 pb-1">Administrator</div>
                     <a href="<?php echo e(route('admin.users.index')); ?>" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition <?php echo e(request()->routeIs('admin.users*') ? 'bg-sip-sidebar-act text-white' : ''); ?>">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,12 +53,12 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         History KPI
                     </a>
-                    <?php if($role === 'principle'): ?>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($role === 'principle'): ?>
                     <a href="<?php echo e(route('kpi.index')); ?>" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         Review KPI
                     </a>
-                    <?php endif; ?>
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     <div class="text-[10px] uppercase tracking-wider text-white/40 px-3 pt-4 pb-1">Akun</div>
                     <a href="<?php echo e(route('profile.show')); ?>" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition <?php echo e(request()->routeIs('profile.show') ? 'bg-sip-sidebar-act text-white' : ''); ?>">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
@@ -123,17 +123,17 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                         Profil Saya
                     </a>
-                <?php endif; ?>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                 <div class="text-[10px] uppercase tracking-wider text-white/40 px-3 pt-4 pb-1">Lainnya</div>
                 <a href="<?php echo e(route('panduan')); ?>" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/80 hover:bg-sip-sidebar-sec hover:text-white transition <?php echo e(request()->routeIs('panduan') ? 'bg-sip-sidebar-act text-white' : ''); ?>">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                     Panduan
                 </a>
-            <?php endif; ?>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </nav>
 
-        <?php if(auth()->guard()->check()): ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
         <div class="px-3 py-3 border-t border-white/10">
             <form method="POST" action="<?php echo e(route('logout')); ?>">
                 <?php echo csrf_field(); ?>
@@ -143,7 +143,7 @@
                 </button>
             </form>
         </div>
-        <?php endif; ?>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     </aside>
 
     
@@ -155,48 +155,92 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
                 </svg>
             </button>
-            <?php if(auth()->guard()->check()): ?>
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full avatar-primary flex items-center justify-center text-white text-xs font-bold">
-                    <?php echo e(strtoupper(substr(auth()->user()->name, 0, 2))); ?>
 
-                </div>
-                <div class="hidden md:block text-right">
-                    <div class="text-sm font-semibold text-gray-800"><?php echo e(auth()->user()->name); ?></div>
-                    <div class="text-xs text-gray-500"><?php echo e(auth()->user()->role_label); ?></div>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
+            <?php
+                $profileRoute = auth()->user()->role === 'admin' ? 'admin.profile' : 'profile.show';
+            ?>
+            <div class="relative">
+                <button type="button" id="userDropdownBtn"
+                        class="flex items-center gap-3 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <div class="w-9 h-9 rounded-full avatar-primary flex items-center justify-center text-white text-xs font-bold">
+                        <?php echo e(strtoupper(substr(auth()->user()->name, 0, 2))); ?>
+
+                    </div>
+                    <div class="hidden md:block text-right">
+                        <div class="text-sm font-semibold text-gray-800 dark:text-white"><?php echo e(auth()->user()->name); ?></div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400"><?php echo e(auth()->user()->role_label); ?></div>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+
+                <div id="userDropdownMenu"
+                     class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
+                    <div class="p-4 border-b border-gray-100 dark:border-gray-700">
+                        <p class="text-sm font-semibold text-gray-800 dark:text-white"><?php echo e(auth()->user()->name); ?></p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400"><?php echo e(auth()->user()->email); ?></p>
+                        <span class="inline-block mt-2 px-2 py-0.5 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 text-xs font-medium rounded-full">
+                            <?php echo e(auth()->user()->role_label); ?>
+
+                        </span>
+                    </div>
+                    <div class="p-1">
+                        <a href="<?php echo e(route($profileRoute)); ?>"
+                           class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            Profil Saya
+                        </a>
+                        <a href="<?php echo e(route($profileRoute)); ?>"
+                           class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                            Ubah Password
+                        </a>
+                    </div>
+                    <div class="border-t border-gray-100 dark:border-gray-700 p-1">
+                        <form method="POST" action="<?php echo e(route('logout')); ?>">
+                            <?php echo csrf_field(); ?>
+                            <button type="submit"
+                                    class="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition text-left">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <?php endif; ?>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
     </header>
 
     
     <main class="page-main">
         
-        <?php if(session('success')): ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('success')): ?>
             <div class="mb-4 px-4 py-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 <?php echo e(session('success')); ?>
 
                 <button type="button" class="ml-auto text-green-500 hover:text-green-700" onclick="this.parentElement.remove()">&times;</button>
             </div>
-        <?php endif; ?>
-        <?php if(session('error')): ?>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('error')): ?>
             <div class="mb-4 px-4 py-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 <?php echo e(session('error')); ?>
 
                 <button type="button" class="ml-auto text-red-500 hover:text-red-700" onclick="this.parentElement.remove()">&times;</button>
             </div>
-        <?php endif; ?>
-        <?php if(session('info')): ?>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('info')): ?>
             <div class="mb-4 px-4 py-3 bg-blue-50 border border-blue-200 text-blue-700 rounded-lg text-sm flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 <?php echo e(session('info')); ?>
 
                 <button type="button" class="ml-auto text-blue-500 hover:text-blue-700" onclick="this.parentElement.remove()">&times;</button>
             </div>
-        <?php endif; ?>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
         <?php echo $__env->yieldContent('content'); ?>
     </main>
@@ -224,6 +268,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Delete confirmation modal
         document.querySelectorAll('[data-delete-url]').forEach(btn => {
             btn.addEventListener('click', function () {
                 const url = this.dataset.deleteUrl;
@@ -234,6 +279,7 @@
             });
         });
 
+        // Dark mode toggle
         const darkToggle = document.getElementById('darkModeToggle');
         const isDark = localStorage.getItem('kpi_dark_mode') === 'true';
         if (isDark) document.body.classList.add('dark');
@@ -241,6 +287,21 @@
             document.body.classList.toggle('dark');
             localStorage.setItem('kpi_dark_mode', document.body.classList.contains('dark'));
         });
+
+        // User dropdown menu (Profil Saya / Ubah Password / Logout)
+        const userDropdownBtn  = document.getElementById('userDropdownBtn');
+        const userDropdownMenu = document.getElementById('userDropdownMenu');
+        if (userDropdownBtn && userDropdownMenu) {
+            userDropdownBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                userDropdownMenu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', function (e) {
+                if (!userDropdownMenu.contains(e.target) && !userDropdownBtn.contains(e.target)) {
+                    userDropdownMenu.classList.add('hidden');
+                }
+            });
+        }
     });
     function closeDeleteModal() {
         document.getElementById('deleteConfirmModal').classList.add('hidden');

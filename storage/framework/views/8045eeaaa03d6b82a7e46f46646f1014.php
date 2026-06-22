@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<?php if($latestKpi): ?>
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($latestKpi): ?>
 <div class="bg-white rounded-lg shadow p-6 mb-6">
     <h3 class="text-lg font-semibold text-gray-800 mb-4">Dokumen KPI Terbaru</h3>
     <div class="flex items-center justify-between mb-3">
@@ -47,24 +47,24 @@
     </div>
     <div class="flex gap-2">
         <a href="<?php echo e(route('kpi.show', $latestKpi->id)); ?>" class="btn-primary">Lihat</a>
-        <?php if(in_array($latestKpi->status, ['draft', 'need_revision'])): ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(in_array($latestKpi->status, ['draft', 'need_revision'])): ?>
         <a href="<?php echo e(route('kpi.edit', $latestKpi->id)); ?>" class="btn-secondary">Edit</a>
-        <?php endif; ?>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     </div>
-    <?php if($draft > 0): ?>
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($draft > 0): ?>
     <div class="mt-3 px-4 py-3 bg-yellow-50 border border-yellow-200 text-yellow-700 rounded-lg text-sm flex items-center gap-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         Kamu punya <strong><?php echo e($draft); ?></strong> dokumen draft yang belum disubmit.
     </div>
-    <?php endif; ?>
-    <?php if($needRevision > 0): ?>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($needRevision > 0): ?>
     <div class="mt-3 px-4 py-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm flex items-center gap-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         <strong><?php echo e($needRevision); ?></strong> dokumen perlu direvisi.
     </div>
-    <?php endif; ?>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 </div>
-<?php endif; ?>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
 <div class="bg-white rounded-lg shadow p-6 mb-6">
     <h3 class="text-lg font-semibold text-gray-800 mb-4">Aksi Cepat</h3>
@@ -88,7 +88,7 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                <?php $__empty_1 = true; $__currentLoopData = $myKpis->take(5); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $myKpis->take(5); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $doc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                 <tr>
                     <td class="px-4 py-3 text-sm font-medium text-gray-800">KPI <?php echo e($doc->period_year); ?></td>
                     <td class="px-4 py-3 text-sm"><span class="badge badge-<?php echo e($doc->status); ?>"><?php echo e($doc->status_label); ?></span></td>
@@ -97,7 +97,7 @@
                         <a href="<?php echo e(route('kpi.show', $doc->id)); ?>" class="btn-primary" style="padding:0.25rem 0.75rem;">Lihat</a>
                     </td>
                 </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                 <tr>
                     <td colspan="4" class="px-4 py-8 text-center text-gray-500">
                         <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -105,7 +105,7 @@
                         <a href="<?php echo e(route('kpi.create')); ?>" class="btn-primary">Buat Sekarang</a>
                     </td>
                 </tr>
-                <?php endif; ?>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </tbody>
         </table>
     </div>

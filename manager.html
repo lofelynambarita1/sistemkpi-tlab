@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review KPI — Manager — Sistem KPI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sip-sidebar':     '#7F1D1D',
+                        'sip-sidebar-sec': '#991B1B',
+                        'sip-sidebar-act': '#B91C1C',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div id="topbar-container"></div>
+    <div id="sidebar-container"></div>
+
+    <main class="page-main">
+        <nav class="mb-4 text-sm">
+            <ol class="flex text-gray-500 gap-2">
+                <li><a href="../../index.html" class="text-red-700 hover:underline">Home</a></li>
+                <li>/</li>
+                <li class="text-gray-700">Review KPI — Manager</li>
+            </ol>
+        </nav>
+
+        <header class="mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">Review KPI — Manager</h1>
+            <p class="text-gray-600">Final approval dan ekspor data KPI ke Excel</p>
+        </header>
+
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <div class="flex flex-col md:flex-row gap-3 mb-4">
+                <input type="text" placeholder="Cari karyawan..." class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700">
+                <select class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700">
+                    <option>Semua Status</option>
+                    <option>Lead HR Approved</option>
+                    <option>Need Revision</option>
+                    <option>Approved</option>
+                </select>
+                <select class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-700">
+                    <option>Urutkan: Nama A-Z</option>
+                    <option>Urutkan: Nama Z-A</option>
+                    <option>Urutkan: Score Tertinggi</option>
+                    <option>Urutkan: Score Terendah</option>
+                </select>
+            </div>
+
+            <div class="flex gap-3 mb-4">
+                <button class="text-sm text-blue-600 hover:underline" onclick="selectAll()">Select All</button>
+                <button class="text-sm text-blue-600 hover:underline" onclick="deselectAll()">Deselect All</button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase"><input type="checkbox" id="select-all" onchange="toggleSelectAll()"></th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Periode</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Final Score</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Predikat</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                            <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-4"><input type="checkbox" class="row-checkbox"></td>
+                            <td class="px-4 py-4 font-medium">Rian Pratama</td>
+                            <td class="px-4 py-4">Associate</td>
+                            <td class="px-4 py-4">Q1 2025</td>
+                            <td class="px-4 py-4 font-bold">7.85</td>
+                            <td class="px-4 py-4"><span class="badge badge-aktif">Baik Sekali</span></td>
+                            <td class="px-4 py-4"><span class="badge badge-diproses">LEAD HR APPROVED</span></td>
+                            <td class="px-4 py-4 text-right">
+                                <a href="detail.html" class="text-red-700 hover:underline text-sm mr-3">Final Review</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-4"><input type="checkbox" class="row-checkbox"></td>
+                            <td class="px-4 py-4 font-medium">Dewi Lestari</td>
+                            <td class="px-4 py-4">Intermediate</td>
+                            <td class="px-4 py-4">Q1 2025</td>
+                            <td class="px-4 py-4 font-bold">6.42</td>
+                            <td class="px-4 py-4"><span class="badge badge-aktif">Baik</span></td>
+                            <td class="px-4 py-4"><span class="badge badge-diproses">LEAD HR APPROVED</span></td>
+                            <td class="px-4 py-4 text-right">
+                                <a href="detail.html" class="text-red-700 hover:underline text-sm mr-3">Final Review</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-4"><input type="checkbox" class="row-checkbox"></td>
+                            <td class="px-4 py-4 font-medium">Andi Wijaya</td>
+                            <td class="px-4 py-4">Senior</td>
+                            <td class="px-4 py-4">Q1 2025</td>
+                            <td class="px-4 py-4 font-bold">8.12</td>
+                            <td class="px-4 py-4"><span class="badge badge-aktif">Excellent</span></td>
+                            <td class="px-4 py-4"><span class="badge badge-diproses">LEAD HR APPROVED</span></td>
+                            <td class="px-4 py-4 text-right">
+                                <a href="detail.html" class="text-red-700 hover:underline text-sm mr-3">Final Review</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-4"><input type="checkbox" class="row-checkbox"></td>
+                            <td class="px-4 py-4 font-medium">Budi Santosa</td>
+                            <td class="px-4 py-4">Lead</td>
+                            <td class="px-4 py-4">Q1 2025</td>
+                            <td class="px-4 py-4 font-bold">7.50</td>
+                            <td class="px-4 py-4"><span class="badge badge-aktif">Baik Sekali</span></td>
+                            <td class="px-4 py-4"><span class="badge badge-diproses">LEAD HR APPROVED</span></td>
+                            <td class="px-4 py-4 text-right">
+                                <a href="detail.html" class="text-red-700 hover:underline text-sm mr-3">Final Review</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-4"><input type="checkbox" class="row-checkbox"></td>
+                            <td class="px-4 py-4 font-medium">Sari Indah</td>
+                            <td class="px-4 py-4">Principle</td>
+                            <td class="px-4 py-4">Q1 2025</td>
+                            <td class="px-4 py-4 font-bold">8.50</td>
+                            <td class="px-4 py-4"><span class="badge badge-aktif">Excellent</span></td>
+                            <td class="px-4 py-4"><span class="badge badge-diproses">LEAD HR APPROVED</span></td>
+                            <td class="px-4 py-4 text-right">
+                                <a href="detail.html" class="text-red-700 hover:underline text-sm mr-3">Final Review</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-4"><input type="checkbox" class="row-checkbox"></td>
+                            <td class="px-4 py-4 font-medium">Maya Putri</td>
+                            <td class="px-4 py-4">Lead HR</td>
+                            <td class="px-4 py-4">Q1 2025</td>
+                            <td class="px-4 py-4 font-bold">7.90</td>
+                            <td class="px-4 py-4"><span class="badge badge-aktif">Baik Sekali</span></td>
+                            <td class="px-4 py-4"><span class="badge badge-diproses">LEAD HR APPROVED</span></td>
+                            <td class="px-4 py-4 text-right">
+                                <a href="detail.html" class="text-red-700 hover:underline text-sm mr-3">Final Review</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Bulk Action -->
+            <div class="flex justify-end gap-3 mt-4 pt-4 border-t">
+                <button onclick="exportExcel()" class="btn-secondary">Export Excel</button>
+                <button onclick="bulkApprove()" class="btn-primary">Approve Selected</button>
+                <button onclick="bulkReject()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Reject Selected</button>
+            </div>
+        </div>
+
+        <!-- Bulk Action Modal -->
+        <div id="bulk-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center">
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-2" id="bulk-title">Konfirmasi Bulk Action</h3>
+                <p class="text-sm text-gray-600 mb-4" id="bulk-message">Apakah Anda yakin?</p>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Komentar (untuk semua data terpilih)</label>
+                    <textarea id="bulk-komentar" class="w-full border border-gray-300 rounded px-3 py-2" rows="2" placeholder="Tambahkan komentar..."></textarea>
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeBulkModal()" class="btn-secondary">Batal</button>
+                    <button onclick="confirmBulkAction()" class="btn-primary" id="bulk-confirm-btn">Konfirmasi</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/sidebar-component.js"></script>
+    <script>
+        checkSession(); initSidebar('review-manager');
+
+        let currentBulkAction = null;
+
+        function toggleSelectAll() {
+            const checked = document.getElementById('select-all').checked;
+            document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = checked);
+        }
+
+        function selectAll() {
+            document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = true);
+        }
+
+        function deselectAll() {
+            document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = false);
+        }
+
+        function getSelectedCount() {
+            return document.querySelectorAll('.row-checkbox:checked').length;
+        }
+
+        function bulkApprove() {
+            const count = getSelectedCount();
+            if (count === 0) {
+                alert('Pilih minimal 1 data terlebih dahulu.');
+                return;
+            }
+            currentBulkAction = 'approve';
+            document.getElementById('bulk-title').textContent = 'Konfirmasi Approve Selected';
+            document.getElementById('bulk-message').textContent = 'Apakah Anda yakin ingin menyetujui ' + count + ' KPI terpilih?';
+            document.getElementById('bulk-confirm-btn').textContent = 'Approve';
+            document.getElementById('bulk-modal').classList.remove('hidden');
+        }
+
+        function bulkReject() {
+            const count = getSelectedCount();
+            if (count === 0) {
+                alert('Pilih minimal 1 data terlebih dahulu.');
+                return;
+            }
+            currentBulkAction = 'reject';
+            document.getElementById('bulk-title').textContent = 'Konfirmasi Reject Selected';
+            document.getElementById('bulk-message').textContent = 'Apakah Anda yakin ingin menolak ' + count + ' KPI terpilih? Status akan berubah menjadi Need Revision.';
+            document.getElementById('bulk-confirm-btn').textContent = 'Reject';
+            document.getElementById('bulk-modal').classList.remove('hidden');
+        }
+
+        function closeBulkModal() {
+            document.getElementById('bulk-modal').classList.add('hidden');
+            document.getElementById('bulk-komentar').value = '';
+        }
+
+        function confirmBulkAction() {
+            const komentar = document.getElementById('bulk-komentar').value;
+            const count = getSelectedCount();
+
+            if (currentBulkAction === 'reject' && !komentar) {
+                alert('Harap isi komentar alasan penolakan.');
+                return;
+            }
+
+            const actionText = currentBulkAction === 'approve' ? 'disetujui' : 'ditolak';
+            alert(count + ' KPI berhasil ' + actionText + '!' + (komentar ? '\nKomentar: ' + komentar : ''));
+            closeBulkModal();
+        }
+
+        const kpiData = [
+            { nama: 'Rian Pratama', role: 'Associate', periode: 'Q1 2025', final_score: 7.85, predikat: 'Baik Sekali', status: 'LEAD HR APPROVED' },
+            { nama: 'Dewi Lestari', role: 'Intermediate', periode: 'Q1 2025', final_score: 6.42, predikat: 'Baik', status: 'LEAD HR APPROVED' },
+            { nama: 'Andi Wijaya', role: 'Senior', periode: 'Q1 2025', final_score: 8.12, predikat: 'Excellent', status: 'LEAD HR APPROVED' },
+            { nama: 'Budi Santosa', role: 'Lead', periode: 'Q1 2025', final_score: 7.50, predikat: 'Baik Sekali', status: 'LEAD HR APPROVED' },
+            { nama: 'Sari Indah', role: 'Principle', periode: 'Q1 2025', final_score: 8.50, predikat: 'Excellent', status: 'LEAD HR APPROVED' },
+            { nama: 'Maya Putri', role: 'Lead HR', periode: 'Q1 2025', final_score: 7.90, predikat: 'Baik Sekali', status: 'LEAD HR APPROVED' },
+        ];
+
+        function exportExcel() {
+            const checkboxes = document.querySelectorAll('.row-checkbox');
+            let selected = [];
+            checkboxes.forEach((cb, index) => {
+                if (cb.checked && kpiData[index]) {
+                    selected.push(kpiData[index]);
+                }
+            });
+
+            const dataToExport = selected.length > 0 ? selected : kpiData;
+            const ws = XLSX.utils.json_to_sheet(dataToExport);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Review KPI");
+            const filename = selected.length > 0 ? 'Review_KPI_Selected.xlsx' : 'Review_KPI_Semua.xlsx';
+            XLSX.writeFile(wb, filename);
+        }
+    </script>
+</body>
+</html>

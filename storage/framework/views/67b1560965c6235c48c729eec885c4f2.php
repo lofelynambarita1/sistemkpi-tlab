@@ -5,11 +5,11 @@
     <ol class="flex text-gray-500 gap-2">
         <li><a href="<?php echo e(route('dashboard')); ?>" class="text-red-700 hover:underline">Home</a></li>
         <li>/</li>
-        <?php if(auth()->user()->isStaff()): ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->isStaff()): ?>
             <li><a href="<?php echo e(route('kpi.index')); ?>" class="text-red-700 hover:underline">KPI Saya</a></li>
         <?php else: ?>
             <li><a href="<?php echo e(route('hr.kpi.index')); ?>" class="text-red-700 hover:underline">Kelola KPI</a></li>
-        <?php endif; ?>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         <li>/</li>
         <li class="text-gray-700">Detail KPI</li>
     </ol>
@@ -23,29 +23,29 @@
 
             &nbsp;·&nbsp; Dibuat: <?php echo e($kpiDocument->created_at->format('d M Y')); ?>
 
-            <?php if($kpiDocument->submitted_at): ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($kpiDocument->submitted_at): ?>
                 &nbsp;·&nbsp; Disubmit: <?php echo e($kpiDocument->submitted_at->format('d M Y H:i')); ?>
 
-            <?php endif; ?>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </p>
         <span class="badge <?php echo e($kpiDocument->status_badge_class); ?> mt-2 inline-block"><?php echo e($kpiDocument->status_label); ?></span>
     </div>
     <div class="flex gap-2 flex-wrap">
-        <?php if(auth()->user()->isStaff()): ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->isStaff()): ?>
             <a href="<?php echo e(route('kpi.index')); ?>" class="btn-secondary">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
                 Kembali
             </a>
-            <?php if($kpiDocument->status === 'draft'): ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($kpiDocument->status === 'draft'): ?>
                 <a href="<?php echo e(route('kpi.edit', $kpiDocument->id)); ?>" class="btn-primary">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                     </svg>
                     Edit
                 </a>
-            <?php endif; ?>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         <?php else: ?>
             <a href="<?php echo e(route('hr.kpi.index')); ?>" class="btn-secondary">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,7 +67,7 @@
                 </svg>
                 Hapus
             </button>
-        <?php endif; ?>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         <button onclick="window.print()" class="btn-secondary">
             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
@@ -121,7 +121,7 @@
         </svg>
         A. Kinerja Hasil — Subform Jobdesc
     </h2>
-    <?php if($kpiDocument->jobdescs->isEmpty()): ?>
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($kpiDocument->jobdescs->isEmpty()): ?>
         <div class="text-center py-8">
             <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
@@ -143,7 +143,7 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                <?php $__currentLoopData = $kpiDocument->jobdescs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $jd): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $kpiDocument->jobdescs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $jd): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                 <tr class="hover:bg-gray-50">
                     <td class="px-3 py-2 text-sm"><?php echo e($i+1); ?></td>
                     <td class="px-3 py-2 text-sm"><?php echo e(number_format($jd->penilaian_koefisien_ontime_onbudget, 2)); ?></td>
@@ -153,7 +153,7 @@
                     <td class="px-3 py-2 text-sm bg-blue-50 font-semibold text-blue-700"><?php echo e(number_format($jd->jumlah_koefisien, 2)); ?></td>
                     <td class="px-3 py-2 text-sm bg-blue-50 font-semibold text-blue-700"><?php echo e(number_format($jd->total_mandays_penugasan, 2)); ?></td>
                 </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
             </tbody>
         </table>
     </div>
@@ -161,7 +161,7 @@
         <span class="font-medium text-gray-700">Total Mandays Jobdesc:</span>
         <span class="font-bold text-red-700"><?php echo e(number_format($jdTotal, 2)); ?></span>
     </div>
-    <?php endif; ?>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 </div>
 
 
@@ -180,10 +180,10 @@
                 <span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
                 Continuous Improvement (CI)
             </h3>
-            <?php if($kpiDocument->continuesImprovements->isEmpty()): ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($kpiDocument->continuesImprovements->isEmpty()): ?>
                 <p class="text-sm text-gray-400">Belum ada data</p>
             <?php else: ?>
-                <?php $__currentLoopData = $kpiDocument->continuesImprovements; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ci): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $kpiDocument->continuesImprovements; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ci): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                 <div class="mb-3 pb-3 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
                     <p class="text-xs text-gray-500 mb-1"><span class="badge badge-aktif text-[10px]"><?php echo e($ci->jenis_kegiatan_bukti); ?></span></p>
                     <p class="text-sm text-gray-700 mb-1"><?php echo e($ci->kegiatan); ?></p>
@@ -193,8 +193,8 @@
                         <span>Point: <strong class="text-green-700"><?php echo e(number_format($ci->point, 4)); ?></strong></span>
                     </div>
                 </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php endif; ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
 
         
@@ -203,10 +203,10 @@
                 <span class="w-2 h-2 rounded-full bg-yellow-500 inline-block"></span>
                 Self Development (SD)
             </h3>
-            <?php if($kpiDocument->selfDevelopments->isEmpty()): ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($kpiDocument->selfDevelopments->isEmpty()): ?>
                 <p class="text-sm text-gray-400">Belum ada data</p>
             <?php else: ?>
-                <?php $__currentLoopData = $kpiDocument->selfDevelopments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sd): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $kpiDocument->selfDevelopments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sd): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                 <div class="mb-3 pb-3 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
                     <p class="text-xs text-gray-500 mb-1"><span class="badge badge-draft text-[10px]"><?php echo e($sd->jenis_sd); ?></span></p>
                     <p class="text-sm text-gray-700 mb-1"><?php echo e($sd->kegiatan); ?></p>
@@ -216,8 +216,8 @@
                         <span>Point: <strong class="text-yellow-600"><?php echo e(number_format($sd->point, 4)); ?></strong></span>
                     </div>
                 </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php endif; ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
 
         
@@ -226,10 +226,10 @@
                 <span class="w-2 h-2 rounded-full bg-purple-500 inline-block"></span>
                 HR Activity (HRA)
             </h3>
-            <?php if($kpiDocument->hrActivities->isEmpty()): ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($kpiDocument->hrActivities->isEmpty()): ?>
                 <p class="text-sm text-gray-400">Belum ada data</p>
             <?php else: ?>
-                <?php $__currentLoopData = $kpiDocument->hrActivities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $hr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $kpiDocument->hrActivities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $hr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                 <div class="mb-3 pb-3 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
                     <p class="text-xs text-gray-500 mb-1"><span class="badge badge-diproses text-[10px]"><?php echo e($hr->jenis_kegiatan); ?></span></p>
                     <p class="text-sm text-gray-700 mb-1"><?php echo e($hr->kegiatan); ?></p>
@@ -239,8 +239,8 @@
                         <span>Point: <strong class="text-purple-700"><?php echo e(number_format($hr->point, 4)); ?></strong></span>
                     </div>
                 </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php endif; ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
     </div>
 
@@ -293,7 +293,7 @@
         </svg>
         D. Penilaian Kinerja Perilaku (<?php echo e($kpiDocument->kinerjaPerilakus->count()); ?> Aspek)
     </h2>
-    <?php if($kpiDocument->kinerjaPerilakus->isEmpty()): ?>
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($kpiDocument->kinerjaPerilakus->isEmpty()): ?>
         <div class="text-center py-8">
             <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
@@ -302,7 +302,7 @@
         </div>
     <?php else: ?>
     <div class="space-y-3">
-        <?php $__currentLoopData = $kpiDocument->kinerjaPerilakus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $kp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $kpiDocument->kinerjaPerilakus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $kp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
         <div class="flex justify-between items-center border-b border-gray-100 pb-3">
             <div class="flex-1">
                 <p class="font-medium text-sm text-gray-800">
@@ -321,7 +321,7 @@
             </div>
             <p class="text-xs text-gray-500 max-w-xs text-right ml-4"><?php echo e($kp->indikator); ?></p>
         </div>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
     </div>
     <div class="mt-4 bg-gray-50 rounded p-3 text-sm">
         <p class="font-medium text-gray-700">
@@ -329,7 +329,7 @@
             &nbsp;|&nbsp; Rata-Rata: <span class="font-bold text-red-700"><?php echo e($kpiDocument->kinerjaPerilakus->count() > 0 ? number_format($pkTotal / $kpiDocument->kinerjaPerilakus->count(), 2) : 0); ?></span>
         </p>
     </div>
-    <?php endif; ?>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 </div>
 
 
@@ -378,7 +378,7 @@
         </svg>
         F. Riwayat Perubahan
     </h2>
-    <?php if($kpiDocument->histories->isEmpty()): ?>
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($kpiDocument->histories->isEmpty()): ?>
         <div class="text-center py-8">
             <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -387,14 +387,14 @@
         </div>
     <?php else: ?>
         <div class="space-y-4">
-            <?php $__currentLoopData = $kpiDocument->histories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $hist): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $kpiDocument->histories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $hist): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
             <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
                 <div class="flex items-start justify-between flex-wrap gap-2 mb-1">
                     <div class="flex items-center gap-2 flex-wrap">
                         <span class="badge <?php echo e($hist->action_badge_class); ?>"><?php echo e($hist->action_label); ?></span>
-                        <?php if($hist->section): ?>
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hist->section): ?>
                             <span class="text-xs bg-white border border-gray-300 text-gray-600 rounded px-2 py-0.5"><?php echo e($hist->section_label); ?></span>
-                        <?php endif; ?>
+                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         <span class="text-sm text-gray-700"><?php echo e($hist->description); ?></span>
                     </div>
                     <span class="text-xs text-gray-500 whitespace-nowrap"><?php echo e($hist->created_at->format('d M Y H:i')); ?></span>
@@ -402,7 +402,7 @@
                 <div class="text-xs text-gray-500 mt-1">
                     Oleh: <strong><?php echo e($hist->changedBy->name); ?></strong> (<?php echo e($hist->changedBy->role_label); ?>)
                 </div>
-                <?php if($hist->old_data && $hist->action === 'update'): ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hist->old_data && $hist->action === 'update'): ?>
                     <div class="mt-2">
                         <button type="button" onclick="this.nextElementSibling.classList.toggle('hidden')"
                                 class="text-xs text-blue-600 hover:underline">
@@ -419,21 +419,21 @@
                             </div>
                         </div>
                     </div>
-                <?php endif; ?>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
         </div>
-    <?php endif; ?>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 </div>
 
-<?php if($kpiDocument->notes): ?>
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($kpiDocument->notes): ?>
 <div class="bg-blue-50 border border-blue-200 text-blue-700 rounded-lg p-4 text-sm flex items-start gap-2">
     <svg class="w-4 h-4 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
     </svg>
     <span><strong>Catatan:</strong> <?php echo e($kpiDocument->notes); ?></span>
 </div>
-<?php endif; ?>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\New folder (20)\New folder\sistemkpi-tlab\resources\views/kpi/show.blade.php ENDPATH**/ ?>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Review KPI — Sistem KPI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sip-sidebar':     '#7F1D1D',
+                        'sip-sidebar-sec': '#991B1B',
+                        'sip-sidebar-act': '#B91C1C',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../../css/styles.css">
+</head>
+<body class="bg-gray-50">
+    <div id="topbar-container"></div>
+    <div id="sidebar-container"></div>
+
+    <main class="page-main">
+        <nav class="mb-4 text-sm">
+            <ol class="flex text-gray-500 gap-2">
+                <li><a href="../../index.html" class="text-red-700 hover:underline">Home</a></li>
+                <li>/</li>
+                <li><a href="javascript:history.back()" class="text-red-700 hover:underline">Review</a></li>
+                <li>/</li>
+                <li class="text-gray-700">Detail Review</li>
+            </ol>
+        </nav>
+
+        <header class="mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">Detail KPI — Rian Pratama</h1>
+            <p class="text-gray-600">Q1 2025 | Role: Associate | Atasan: Budi Santosa (Lead)</p>
+            <span class="badge badge-diproses mt-2 inline-block">SUBMITTED — Waiting Lead</span>
+        </header>
+
+        <!-- A. Kinerja Hasil — Jobdesc -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">A. Kinerja Hasil — Subform Jobdesc</h2>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Koefisien OnTime</th>
+                        <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Grade</th>
+                        <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Koef. Grade</th>
+                        <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Kegiatan & Bukti</th>
+                        <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Mandays</th>
+                        <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Jml Koef</th>
+                        <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total Mandays</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="px-3 py-2">1.00 (Sesuai Ekspektasi)</td>
+                        <td class="px-3 py-2">B</td>
+                        <td class="px-3 py-2">1.125</td>
+                        <td class="px-3 py-2">Pengembangan Modul KPI, bukti: dokumentasi di repository</td>
+                        <td class="px-3 py-2">10</td>
+                        <td class="px-3 py-2">2.125</td>
+                        <td class="px-3 py-2">10.625</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="mt-3 bg-gray-50 rounded p-3 text-sm">
+                <p class="font-medium text-gray-700">Total Mandays Jobdesc: <span class="font-bold text-red-700">10.625</span></p>
+            </div>
+        </div>
+
+        <!-- B. Kinerja Hasil — CI, SD, HRA -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">B. Kinerja Hasil — Subform CI, SD, HRA</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="border rounded-lg p-4">
+                    <h3 class="font-medium text-gray-700 mb-2">Continuous Improvement (CI)</h3>
+                    <p class="text-sm text-gray-600 mb-1">Jenis: CI Individu (Didaftarkan, surat tugas Manajer)</p>
+                    <p class="text-sm text-gray-600 mb-1">Koefisien: <span class="font-medium">0.750</span></p>
+                    <p class="text-sm text-gray-600 mb-1">Kegiatan: Membuat tools otomatisasi testing untuk modul KPI</p>
+                    <p class="text-sm text-gray-600 mb-1">Mandays: 5</p>
+                    <p class="text-sm text-gray-600">Point: <span class="font-medium text-red-700">3.75</span></p>
+                </div>
+                <div class="border rounded-lg p-4">
+                    <h3 class="font-medium text-gray-700 mb-2">Self Development (SD)</h3>
+                    <p class="text-sm text-gray-600 mb-1">Jenis: Sertifikasi BNSP</p>
+                    <p class="text-sm text-gray-600 mb-1">Koefisien: <span class="font-medium">0.750</span></p>
+                    <p class="text-sm text-gray-600 mb-1">Kegiatan: Sertifikasi BNSP Junior Web Developer</p>
+                    <p class="text-sm text-gray-600 mb-1">Mandays: 3</p>
+                    <p class="text-sm text-gray-600">Point: <span class="font-medium text-red-700">2.25</span></p>
+                </div>
+                <div class="border rounded-lg p-4">
+                    <h3 class="font-medium text-gray-700 mb-2">HR Activity (HRA)</h3>
+                    <p class="text-sm text-gray-600 mb-1">Jenis: Ikut sebagai peserta (kegiatan non pelatihan)</p>
+                    <p class="text-sm text-gray-600 mb-1">Koefisien: <span class="font-medium">0.750</span></p>
+                    <p class="text-sm text-gray-600 mb-1">Kegiatan: Employee Gathering TLab</p>
+                    <p class="text-sm text-gray-600 mb-1">Mandays: 4</p>
+                    <p class="text-sm text-gray-600">Point: <span class="font-medium text-red-700">3.00</span></p>
+                </div>
+            </div>
+            <div class="mt-4 bg-gray-50 rounded-lg p-3 text-sm">
+                <p class="font-medium text-gray-700">Total Point Semua Subform: <span class="font-bold text-red-700">19.625</span> (Jobdesc 10.625 + CI 3.75 + SD 2.25 + HRA 3.00)</p>
+            </div>
+        </div>
+
+        <!-- C. Total Cuti & Target -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">C. Total Cuti & Target Point</h2>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div class="text-center bg-gray-50 rounded p-3">
+                    <p class="text-xs text-gray-500">Total Cuti</p>
+                    <p class="font-bold text-lg">2</p>
+                </div>
+                <div class="text-center bg-gray-50 rounded p-3">
+                    <p class="text-xs text-gray-500">Hari Kerja Efektif</p>
+                    <p class="font-bold text-lg">238</p>
+                </div>
+                <div class="text-center bg-gray-50 rounded p-3">
+                    <p class="text-xs text-gray-500">Koefisien Role</p>
+                    <p class="font-bold text-lg">1.000</p>
+                </div>
+                <div class="text-center bg-gray-50 rounded p-3">
+                    <p class="text-xs text-gray-500">Target Point Minimal</p>
+                    <p class="font-bold text-lg">238</p>
+                </div>
+                <div class="text-center bg-red-50 rounded p-3 border border-red-200">
+                    <p class="text-xs text-red-600">Total Point Diperoleh</p>
+                    <p class="font-bold text-lg text-red-700">19.625</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- D. Penilaian Perilaku -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">D. Penilaian Kinerja Perilaku (14 Aspek)</h2>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">1. Integritas</p>
+                        <p class="text-xs text-gray-500">Score: 4 / Min: 2</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Mampu mempengaruhi orang lain untuk bertindak dengan integritas</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">2. Speed</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 2</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Penyelesaian tugas kurang dari deadline (intime)</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">3. Ketelitian Kerja</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 3</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Mampu menyelesaikan tugas dengan ketelitian konsisten</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">4. Penyesuaian Diri</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 3</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Menyesuaikan situasi dengan metode baru</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">5. Hasrat Berprestasi</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 2</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Mampu bekerja mencapai standar kinerja manajemen</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">6. Komunikasi Interpersonal</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 3</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Mampu menyampaikan pesan jelas dan persuasif</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">7. Pengelolaan Hubungan</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 3</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Mempertahankan hubungan pekerjaan</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">8. Kerjasama</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 3</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Berpartisipasi sebagai anggota tim yang baik</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">9. Fokus Pada Kualitas</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 3</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Bertanggung jawab memberikan hasil sesuai standar</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">10. Customer Centric</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 3</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Memonitor kepuasan customer</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">11. Inovasi</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 2</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Melakukan pengembangan untuk meningkatkan tim</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">12. Berpikir Analitis</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 2</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Melihat hubungan mendasar antar bagian persoalan</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">13. Berpikir Konseptual</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 2</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Mampu menerapkan konsep dasar memecahkan masalah</span>
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>
+                        <p class="font-medium text-sm">14. Business Acumen</p>
+                        <p class="text-xs text-gray-500">Score: 3 / Min: 2</p>
+                    </div>
+                    <span class="text-sm text-gray-600 max-w-md text-right">Mampu menerapkan konsep bisnis dalam pekerjaan</span>
+                </div>
+            </div>
+            <div class="mt-4 bg-gray-50 rounded p-3 text-sm">
+                <p class="font-medium text-gray-700">Rata-Rata Score Kinerja Perilaku: <span class="font-bold text-red-700">3.00</span></p>
+            </div>
+        </div>
+
+        <!-- E. Final Score -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">E. Preview Final Score</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <p class="text-sm text-gray-500">Final Score Hasil</p>
+                    <p class="text-2xl font-bold text-gray-800">4.50</p>
+                    <p class="text-xs text-gray-500">70% × 5 × (19.63 ÷ 238)</p>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <p class="text-sm text-gray-500">Final Score Perilaku</p>
+                    <p class="text-2xl font-bold text-gray-800">3.35</p>
+                    <p class="text-xs text-gray-500">30% × 5 × 3.00</p>
+                </div>
+                <div class="text-center p-4 bg-red-50 rounded-lg border border-red-200">
+                    <p class="text-sm text-red-600">Final KPI Score</p>
+                    <p class="text-2xl font-bold text-red-700">7.85</p>
+                    <p class="text-xs text-red-600">Hasil + Perilaku</p>
+                </div>
+                <div class="text-center p-4 bg-red-50 rounded-lg border border-red-200">
+                    <p class="text-sm text-red-600">Predikat</p>
+                    <p class="text-2xl font-bold text-red-700">Baik Sekali</p>
+                    <p class="text-xs text-red-600">Rentang 6.25 – 7.50</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- F. Komentar Reviewer -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">F. Komentar Reviewer</h2>
+            <div class="space-y-3">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <p class="text-sm font-medium text-blue-800">Budi Santosa (Lead) — 06/06/2026 10:00</p>
+                    <p class="text-sm text-blue-700">"KPI sudah sesuai, lanjutkan ke Lead HR"</p>
+                    <span class="inline-block mt-1 px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">Approved</span>
+                </div>
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <p class="text-sm font-medium text-blue-800">Maya Putri (Lead HR) — 07/06/2026 11:00</p>
+                    <p class="text-sm text-blue-700">"Lanjutkan ke Manager"</p>
+                    <span class="inline-block mt-1 px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">Approved</span>
+                </div>
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <p class="text-sm font-medium text-blue-800">Hendra Kusuma (Manager) — 08/06/2026 13:00</p>
+                    <p class="text-sm text-blue-700">"Approved, kerja bagus"</p>
+                    <span class="inline-block mt-1 px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded">Final Approved</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- G. Keputusan Review -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">G. Keputusan Review</h2>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Komentar (opsional)</label>
+                <textarea id="komentar-review" class="w-full border border-gray-300 rounded px-3 py-2" rows="3" placeholder="Tambahkan komentar..."></textarea>
+            </div>
+            <div class="flex gap-3">
+                <button type="button" onclick="history.back()" class="btn-secondary">Kembali</button>
+                <button type="button" onclick="rejectKPI()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Reject</button>
+                <button type="button" onclick="approveKPI()" class="btn-primary">Approve</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/sidebar-component.js"></script>
+    <script>
+        checkSession(); initSidebar('review-detail');
+
+        function approveKPI() {
+            const komentar = document.getElementById('komentar-review').value;
+            if (confirm('Apakah Anda yakin ingin menyetujui KPI ini?')) {
+                alert('KPI berhasil di-approve!' + (komentar ? '\nKomentar: ' + komentar : ''));
+                history.back();
+            }
+        }
+
+        function rejectKPI() {
+            const komentar = document.getElementById('komentar-review').value;
+            if (!komentar) {
+                alert('Harap isi komentar alasan penolakan.');
+                return;
+            }
+            if (confirm('Apakah Anda yakin ingin menolak KPI ini? Status akan berubah menjadi Need Revision.')) {
+                alert('KPI berhasil ditolak. Status: Need Revision.\nKomentar: ' + komentar);
+                history.back();
+            }
+        }
+    </script>
+</body>
+</html>

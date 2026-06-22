@@ -155,14 +155,57 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
                 </svg>
             </button>
+
             @auth
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full avatar-primary flex items-center justify-center text-white text-xs font-bold">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
-                </div>
-                <div class="hidden md:block text-right">
-                    <div class="text-sm font-semibold text-gray-800">{{ auth()->user()->name }}</div>
-                    <div class="text-xs text-gray-500">{{ auth()->user()->role_label }}</div>
+            @php
+                $profileRoute = auth()->user()->role === 'admin' ? 'admin.profile' : 'profile.show';
+            @endphp
+            <div class="relative">
+                <button type="button" id="userDropdownBtn"
+                        class="flex items-center gap-3 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <div class="w-9 h-9 rounded-full avatar-primary flex items-center justify-center text-white text-xs font-bold">
+                        {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                    </div>
+                    <div class="hidden md:block text-right">
+                        <div class="text-sm font-semibold text-gray-800 dark:text-white">{{ auth()->user()->name }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ auth()->user()->role_label }}</div>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+
+                <div id="userDropdownMenu"
+                     class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
+                    <div class="p-4 border-b border-gray-100 dark:border-gray-700">
+                        <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ auth()->user()->name }}</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">{{ auth()->user()->email }}</p>
+                        <span class="inline-block mt-2 px-2 py-0.5 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 text-xs font-medium rounded-full">
+                            {{ auth()->user()->role_label }}
+                        </span>
+                    </div>
+                    <div class="p-1">
+                        <a href="{{ route($profileRoute) }}"
+                           class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            Profil Saya
+                        </a>
+                        <a href="{{ route($profileRoute) }}"
+                           class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                            Ubah Password
+                        </a>
+                    </div>
+                    <div class="border-t border-gray-100 dark:border-gray-700 p-1">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                    class="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition text-left">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
             @endauth
@@ -220,6 +263,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Delete confirmation modal
         document.querySelectorAll('[data-delete-url]').forEach(btn => {
             btn.addEventListener('click', function () {
                 const url = this.dataset.deleteUrl;
@@ -230,6 +274,7 @@
             });
         });
 
+        // Dark mode toggle
         const darkToggle = document.getElementById('darkModeToggle');
         const isDark = localStorage.getItem('kpi_dark_mode') === 'true';
         if (isDark) document.body.classList.add('dark');
@@ -237,6 +282,21 @@
             document.body.classList.toggle('dark');
             localStorage.setItem('kpi_dark_mode', document.body.classList.contains('dark'));
         });
+
+        // User dropdown menu (Profil Saya / Ubah Password / Logout)
+        const userDropdownBtn  = document.getElementById('userDropdownBtn');
+        const userDropdownMenu = document.getElementById('userDropdownMenu');
+        if (userDropdownBtn && userDropdownMenu) {
+            userDropdownBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                userDropdownMenu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', function (e) {
+                if (!userDropdownMenu.contains(e.target) && !userDropdownBtn.contains(e.target)) {
+                    userDropdownMenu.classList.add('hidden');
+                }
+            });
+        }
     });
     function closeDeleteModal() {
         document.getElementById('deleteConfirmModal').classList.add('hidden');

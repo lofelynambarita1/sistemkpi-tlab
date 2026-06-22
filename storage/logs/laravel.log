@@ -2955,3 +2955,79 @@
 #58 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(23): require_once('D://New folder (...')
 #59 {main}
 "} 
+[2026-06-22 11:18:12] local.ERROR: Unclosed '[' on line 31 does not match '}' {"exception":"[object] (ParseError(code: 0): Unclosed '[' on line 31 does not match '}' at D:/New folder (20)/New folder/sistemkpi-tlab/app/Providers/Filament/AdminPanelProvider.php:33)
+[stacktrace]
+#0 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/composer/ClassLoader.php(427): {closure:Composer/Autoload/ClassLoader::initializeIncludeClosure():575}('D://New folder (...')
+#1 [internal function]: Composer/Autoload/ClassLoader->loadClass('App//Providers//F...')
+#2 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(52): class_exists('App//Providers//F...')
+#3 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(34): Illuminate/Foundation/Bootstrap/RegisterProviders->mergeAdditionalProviders(Object(Illuminate/Foundation/Application))
+#4 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#5 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#6 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#7 D:/New folder (20)/New folder/sistemkpi-tlab/artisan(15): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#8 {main}
+"} 
+[2026-06-22 11:18:28] local.ERROR: Unclosed '[' on line 31 does not match '}' {"exception":"[object] (ParseError(code: 0): Unclosed '[' on line 31 does not match '}' at D:/New folder (20)/New folder/sistemkpi-tlab/app/Providers/Filament/AdminPanelProvider.php:33)
+[stacktrace]
+#0 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/composer/ClassLoader.php(427): {closure:Composer/Autoload/ClassLoader::initializeIncludeClosure():575}('D://New folder (...')
+#1 [internal function]: Composer/Autoload/ClassLoader->loadClass('App//Providers//F...')
+#2 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(52): class_exists('App//Providers//F...')
+#3 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(34): Illuminate/Foundation/Bootstrap/RegisterProviders->mergeAdditionalProviders(Object(Illuminate/Foundation/Application))
+#4 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#5 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#6 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#7 D:/New folder (20)/New folder/sistemkpi-tlab/artisan(15): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#8 {main}
+"} 
+[2026-06-22 11:18:29] local.ERROR: Unclosed '[' on line 31 does not match '}' {"exception":"[object] (ParseError(code: 0): Unclosed '[' on line 31 does not match '}' at D:/New folder (20)/New folder/sistemkpi-tlab/app/Providers/Filament/AdminPanelProvider.php:33)
+[stacktrace]
+#0 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/composer/ClassLoader.php(427): {closure:Composer/Autoload/ClassLoader::initializeIncludeClosure():575}('D://New folder (...')
+#1 [internal function]: Composer/Autoload/ClassLoader->loadClass('App//Providers//F...')
+#2 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(52): class_exists('App//Providers//F...')
+#3 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterProviders.php(34): Illuminate/Foundation/Bootstrap/RegisterProviders->mergeAdditionalProviders(Object(Illuminate/Foundation/Application))
+#4 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate/Foundation/Bootstrap/RegisterProviders->bootstrap(Object(Illuminate/Foundation/Application))
+#5 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(474): Illuminate/Foundation/Application->bootstrapWith(Array)
+#6 D:/New folder (20)/New folder/sistemkpi-tlab/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Illuminate/Foundation/Console/Kernel->bootstrap()
+#7 D:/New folder (20)/New folder/sistemkpi-tlab/artisan(15): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#8 {main}
+"} 
+[2026-06-22 11:18:58] local.ERROR: Type of App\Filament\Resources\KpiAnnualTargetResource::$navigationIcon must be BackedEnum|string|null (as in class Filament\Resources\Resource) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Type of App\\Filament\\Resources\\KpiAnnualTargetResource::$navigationIcon must be BackedEnum|string|null (as in class Filament\\Resources\\Resource) at D:/New folder (20)/New folder/sistemkpi-tlab/app/Filament/Resources/KpiAnnualTargetResource.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2026-06-22 11:19:15] local.ERROR: Type of App\Filament\Resources\KpiAnnualTargetResource::$navigationIcon must be BackedEnum|string|null (as in class Filament\Resources\Resource) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Type of App\\Filament\\Resources\\KpiAnnualTargetResource::$navigationIcon must be BackedEnum|string|null (as in class Filament\\Resources\\Resource) at D:/New folder (20)/New folder/sistemkpi-tlab/app/Filament/Resources/KpiAnnualTargetResource.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2026-06-22 11:19:31] local.ERROR: Type of App\Filament\Resources\KpiAnnualTargetResource::$navigationIcon must be BackedEnum|string|null (as in class Filament\Resources\Resource) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Type of App\\Filament\\Resources\\KpiAnnualTargetResource::$navigationIcon must be BackedEnum|string|null (as in class Filament\\Resources\\Resource) at D:/New folder (20)/New folder/sistemkpi-tlab/app/Filament/Resources/KpiAnnualTargetResource.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2026-06-22 11:20:14] local.ERROR: Type of App\Filament\Resources\KpiAnnualTargetResource::$navigationIcon must be BackedEnum|string|null (as in class Filament\Resources\Resource) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Type of App\\Filament\\Resources\\KpiAnnualTargetResource::$navigationIcon must be BackedEnum|string|null (as in class Filament\\Resources\\Resource) at D:/New folder (20)/New folder/sistemkpi-tlab/app/Filament/Resources/KpiAnnualTargetResource.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2026-06-22 11:21:15] local.ERROR: Type of App\Filament\Resources\KpiAnnualTargetResource::$navigationIcon must be BackedEnum|string|null (as in class Filament\Resources\Resource) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Type of App\\Filament\\Resources\\KpiAnnualTargetResource::$navigationIcon must be BackedEnum|string|null (as in class Filament\\Resources\\Resource) at D:/New folder (20)/New folder/sistemkpi-tlab/app/Filament/Resources/KpiAnnualTargetResource.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2026-06-22 11:21:24] local.ERROR: Type of App\Filament\Resources\KpiAnnualTargetResource::$navigationIcon must be BackedEnum|string|null (as in class Filament\Resources\Resource) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Type of App\\Filament\\Resources\\KpiAnnualTargetResource::$navigationIcon must be BackedEnum|string|null (as in class Filament\\Resources\\Resource) at D:/New folder (20)/New folder/sistemkpi-tlab/app/Filament/Resources/KpiAnnualTargetResource.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2026-06-22 11:22:07] local.ERROR: Could not check compatibility between App\Filament\Resources\KpiAnnualTargetResource::form(Filament\Forms\Form $form): Filament\Forms\Form and Filament\Resources\Resource::form(Filament\Schemas\Schema $schema): Filament\Schemas\Schema, because class Filament\Forms\Form is not available {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Could not check compatibility between App\\Filament\\Resources\\KpiAnnualTargetResource::form(Filament\\Forms\\Form $form): Filament\\Forms\\Form and Filament\\Resources\\Resource::form(Filament\\Schemas\\Schema $schema): Filament\\Schemas\\Schema, because class Filament\\Forms\\Form is not available at D:/New folder (20)/New folder/sistemkpi-tlab/app/Filament/Resources/KpiAnnualTargetResource.php:25)
+[stacktrace]
+#0 {main}
+"} 
+[2026-06-22 11:22:13] local.ERROR: Could not check compatibility between App\Filament\Resources\KpiAnnualTargetResource::form(Filament\Forms\Form $form): Filament\Forms\Form and Filament\Resources\Resource::form(Filament\Schemas\Schema $schema): Filament\Schemas\Schema, because class Filament\Forms\Form is not available {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Could not check compatibility between App\\Filament\\Resources\\KpiAnnualTargetResource::form(Filament\\Forms\\Form $form): Filament\\Forms\\Form and Filament\\Resources\\Resource::form(Filament\\Schemas\\Schema $schema): Filament\\Schemas\\Schema, because class Filament\\Forms\\Form is not available at D:/New folder (20)/New folder/sistemkpi-tlab/app/Filament/Resources/KpiAnnualTargetResource.php:25)
+[stacktrace]
+#0 {main}
+"} 
+[2026-06-22 11:22:20] local.ERROR: Could not check compatibility between App\Filament\Resources\KpiAnnualTargetResource::form(Filament\Forms\Form $form): Filament\Forms\Form and Filament\Resources\Resource::form(Filament\Schemas\Schema $schema): Filament\Schemas\Schema, because class Filament\Forms\Form is not available {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Could not check compatibility between App\\Filament\\Resources\\KpiAnnualTargetResource::form(Filament\\Forms\\Form $form): Filament\\Forms\\Form and Filament\\Resources\\Resource::form(Filament\\Schemas\\Schema $schema): Filament\\Schemas\\Schema, because class Filament\\Forms\\Form is not available at D:/New folder (20)/New folder/sistemkpi-tlab/app/Filament/Resources/KpiAnnualTargetResource.php:25)
+[stacktrace]
+#0 {main}
+"} 
+[2026-06-22 11:23:37] local.ERROR: Cannot redeclare non static Filament\Pages\Page::$view as static App\Filament\Pages\ReviewKpi::$view {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare non static Filament\\Pages\\Page::$view as static App\\Filament\\Pages\\ReviewKpi::$view at D:/New folder (20)/New folder/sistemkpi-tlab/app/Filament/Pages/ReviewKpi.php:14)
+[stacktrace]
+#0 {main}
+"} 

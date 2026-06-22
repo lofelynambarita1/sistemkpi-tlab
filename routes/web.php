@@ -29,19 +29,15 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile',        [ProfileController::class, 'update'])->name('profile.update');
 
     // ─── ADMIN ────────────────────────────────────────────────────────────────
+    // Admin functionality now handled by Filament panel at /admin
+    // Kept for backward compatibility — redirects to Filament
     Route::middleware(['admin.only'])->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/dashboard',          [AdminController::class, 'dashboard'])->name('dashboard');
-        Route::get('/users',              [AdminController::class, 'users'])->name('users.index');
-        Route::get('/users/create',       [AdminController::class, 'createUser'])->name('users.create');
-        Route::post('/users',             [AdminController::class, 'storeUser'])->name('users.store');
-        Route::get('/users/{user}',       [AdminController::class, 'showUser'])->name('users.show');
-        Route::get('/users/{user}/edit',  [AdminController::class, 'editUser'])->name('users.edit');
-        Route::put('/users/{user}',       [AdminController::class, 'updateUser'])->name('users.update');
-        Route::delete('/users/{user}',    [AdminController::class, 'destroyUser'])->name('users.destroy');
-        Route::post('/users/{user}/toggle-status', [AdminController::class, 'toggleStatus'])->name('users.toggle-status');
-        Route::post('/users/bulk-delete', [AdminController::class, 'bulkDelete'])->name('users.bulk-delete');
-        Route::post('/users/import',      [AdminController::class, 'importUsers'])->name('users.import');
-        Route::get('/users/export',       [AdminController::class, 'exportUsers'])->name('users.export');
+        Route::get('/dashboard', function () {
+            return redirect('/admin');
+        })->name('dashboard');
+        Route::get('/users', function () {
+            return redirect('/admin/users');
+        })->name('users.index');
         Route::get('/profile',            [AdminController::class, 'profile'])->name('profile');
         Route::put('/profile',            [AdminController::class, 'updateProfile'])->name('profile.update');
     });
