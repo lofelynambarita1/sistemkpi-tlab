@@ -7,8 +7,6 @@ use App\Models\User;
 use App\Services\KpiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\KpiFormsExport;
 
 class ReviewKpiController extends Controller
 {
@@ -138,6 +136,21 @@ class ReviewKpiController extends Controller
     public function export(Request $request)
     {
         $ids = $request->input('ids', []);
-        return Excel::download(new KpiFormsExport($ids), 'kpi-forms.xlsx');
+        $forms = KpiForm::whereIn('id', $ids)->with('user')->get();
+
+        $csv = "Nama,Periode,Status,Skor Akhir\n";
+        foreach ($forms as $form) {
+            $csv .= implode(',', [
+                '"' . str_replace('"', '""', $form->user->name) . '"',
+                $form->periode,
+                $form->status,
+                $form->final_kpi_score,
+            ]) . "\n";
+        }
+
+        return response($csv, 200, [
+            'Content-Type'        => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="kpi-forms.csv"',
+        ]);
     }
 }

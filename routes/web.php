@@ -57,28 +57,33 @@ Route::middleware(['auth'])->group(function () {
     // Manager
     Route::get('/manager/dashboard',        [DashboardController::class, 'index'])->name('manager.dashboard');
     Route::get('/manager/review',           [ReviewKpiController::class, 'index'])->name('manager.review.index');
+    Route::get('/manager/history',          [DashboardController::class, 'index'])->name('manager.history');
     Route::get('/manager/profile',          [ProfileController::class, 'show'])->name('manager.profile');
 
     // Lead HR
     Route::get('/leadhr/dashboard',         [DashboardController::class, 'index'])->name('leadhr.dashboard');
     Route::get('/leadhr/kpi',               [KpiController::class, 'index'])->name('leadhr.kpi.index');
     Route::get('/leadhr/review',            [ReviewKpiController::class, 'index'])->name('leadhr.review.index');
+    Route::get('/leadhr/history',           [DashboardController::class, 'index'])->name('leadhr.history');
     Route::get('/leadhr/profile',           [ProfileController::class, 'show'])->name('leadhr.profile');
 
     // Lead
     Route::get('/lead/dashboard',           [DashboardController::class, 'index'])->name('lead.dashboard');
     Route::get('/lead/kpi',                 [KpiController::class, 'index'])->name('lead.kpi.index');
     Route::get('/lead/review',              [ReviewKpiController::class, 'index'])->name('lead.review.index');
+    Route::get('/lead/history',             [DashboardController::class, 'index'])->name('lead.history');
     Route::get('/lead/profile',             [ProfileController::class, 'show'])->name('lead.profile');
 
     // Principle
     Route::get('/principle/dashboard',      [DashboardController::class, 'index'])->name('principle.dashboard');
     Route::get('/principle/kpi',            [KpiController::class, 'index'])->name('principle.kpi.index');
+    Route::get('/principle/history',        [DashboardController::class, 'index'])->name('principle.history');
     Route::get('/principle/profile',        [ProfileController::class, 'show'])->name('principle.profile');
 
     // Employee (associate / intermediate / senior)
     Route::get('/employee/dashboard',       [DashboardController::class, 'index'])->name('employee.dashboard');
     Route::get('/employee/kpi',             [KpiController::class, 'index'])->name('employee.kpi.index');
+    Route::get('/employee/history',         [DashboardController::class, 'index'])->name('employee.history');
     Route::get('/employee/profile',         [ProfileController::class, 'show'])->name('employee.profile');
 
     // ─── PANDUAN ─────────────────────────────────────────────────────────────

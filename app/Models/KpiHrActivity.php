@@ -17,6 +17,19 @@ class KpiHrActivity extends Model
         'point'     => 'decimal:4',
     ];
 
+    public static array $jenisOptions = [
+        'Rekrutmen / Seleksi'              => 1.5,
+        'Pelatihan & Pengembangan'         => 1.5,
+        'Evaluasi Kinerja'                 => 1.0,
+        'Employee Engagement'              => 1.0,
+        'Administrasi HR'                  => 0.5,
+        'Hubungan Industrial'              => 1.5,
+        'Kompensasi & Benefit'             => 1.0,
+        'Keselamatan & Kesehatan Kerja'    => 1.0,
+        'Budaya Perusahaan'                => 1.0,
+        'Lainnya'                          => 0.5,
+    ];
+
     public static array $koefisienMap = [
         'Rekrutmen / Seleksi'              => 1.5,
         'Pelatihan & Pengembangan'         => 1.5,

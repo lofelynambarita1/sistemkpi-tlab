@@ -22,6 +22,6 @@ return [
     ],
     'maintenance' => ['driver' => 'file'],
     'providers'   => ServiceProvider::defaultProviders()->merge([
-        // App\Providers\AppServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
     ])->toArray(),
 ];

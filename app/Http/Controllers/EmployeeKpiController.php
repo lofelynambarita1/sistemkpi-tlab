@@ -64,7 +64,7 @@ class EmployeeKpiController extends Controller
                 'status' => 'Submitted',
             ]);
 
-            $koefisienGrade = $this->calcService->getGradeProjectCoefficient($user->role->name, $validated['jobdesc']['grade_project']);
+            $koefisienGrade = $this->calcService->getGradeProjectCoefficient($user->role, $validated['jobdesc']['grade_project']);
             $totalMandays = $this->calcService->calculateTotalMandaysPenugasan(
                 $validated['jobdesc']['mandays_proyek'],
                 $validated['jobdesc']['koefisien_ontime_budget'],

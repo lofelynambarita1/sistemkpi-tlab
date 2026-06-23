@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class KpiJobdesc extends Model
 {
+    public static array $ontimeOptions = [
+        'Tidak Tepat'  => 0,
+        'Kurang Tepat' => 0.5,
+        'Tepat'        => 1.0,
+        'Sangat Tepat' => 1.5,
+        'Luar Biasa'   => 2.0,
+    ];
+
     protected $fillable = [
         'kpi_document_id',
         'penilaian_koefisien_ontime_onbudget',

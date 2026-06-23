@@ -17,6 +17,19 @@ class KpiSelfDevelopment extends Model
         'point'     => 'decimal:4',
     ];
 
+    public static array $jenisOptions = [
+        'Pelatihan Teknis Bersertifikat Internasional' => 2.0,
+        'Pelatihan Teknis Bersertifikat Nasional'      => 1.5,
+        'Pelatihan Teknis Non-Sertifikat'              => 1.0,
+        'Seminar/Workshop Internasional'               => 1.5,
+        'Seminar/Workshop Nasional'                    => 1.0,
+        'Kursus Online (Berbayar)'                     => 1.0,
+        'Kursus Online (Gratis)'                       => 0.5,
+        'Studi Mandiri / Autodidak'                    => 0.5,
+        'Mentoring/Coaching'                           => 1.0,
+        'Lainnya'                                      => 0.5,
+    ];
+
     public static array $koefisienMap = [
         'Pelatihan Teknis Bersertifikat Internasional' => 2.0,
         'Pelatihan Teknis Bersertifikat Nasional'      => 1.5,

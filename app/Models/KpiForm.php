@@ -31,6 +31,27 @@ class KpiForm extends Model
         'submitted_at',
     ];
 
+    // Sub-form relationships (kpi_document_id based, mapped to this form)
+    public function jobdescs(): HasMany
+    {
+        return $this->hasMany(KpiJobdesc::class, 'kpi_form_id');
+    }
+
+    public function selfDevelopments(): HasMany
+    {
+        return $this->hasMany(KpiSelfDevelopment::class, 'kpi_form_id');
+    }
+
+    public function hrActivities(): HasMany
+    {
+        return $this->hasMany(KpiHrActivity::class, 'kpi_form_id');
+    }
+
+    public function kinerjaPerilakus(): HasMany
+    {
+        return $this->hasMany(KpiKinerjaPerilaku::class, 'kpi_form_id');
+    }
+
     protected $casts = [
         'total_cuti'                         => 'integer',
         'hari_kerja_efektif'                 => 'integer',
@@ -117,5 +138,25 @@ class KpiForm extends Model
             self::STATUS_APPROVED      => 'success',
             default                    => 'gray',
         };
+    }
+
+    public function isEditable(): bool
+    {
+        return in_array($this->status, [self::STATUS_DRAFT, self::STATUS_NEED_REVISION]);
+    }
+
+    public function recalculateTargets(): void
+    {
+        $jobdescTotal = $this->jobdescs()->sum('total_mandays_penugasan');
+        $ciTotal      = $this->continuousImprovements()->sum('point_ci');
+        $sdTotal      = $this->selfDevelopments()->sum('point');
+        $hrTotal      = $this->hrActivities()->sum('point');
+
+        $this->target_jobdesc                = $jobdescTotal;
+        $this->target_self_development       = $sdTotal;
+        $this->target_hr_activity            = $hrTotal;
+        $this->target_continuous_improvement = $ciTotal;
+        $this->target_total                  = $jobdescTotal + $sdTotal + $hrTotal + $ciTotal;
+        $this->save();
     }
 }

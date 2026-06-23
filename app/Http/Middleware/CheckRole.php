@@ -14,7 +14,7 @@ class CheckRole
     {
         $user = $request->user();
         
-        if (!$user || !in_array($user->role->name, $roles)) {
+        if (!$user || !in_array($user->role, $roles)) {
             return response()->json(['message' => 'Unauthorized. Anda tidak memiliki akses ke fitur ini.'], 403);
         }
         

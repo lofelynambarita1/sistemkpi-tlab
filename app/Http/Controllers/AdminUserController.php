@@ -14,12 +14,11 @@ class AdminUserController extends Controller
 {
         public function dashboardStats()
     {
-        $stats = User::select('role_id', DB::raw('count(*) as total'))
-            ->groupBy('role_id')
-            ->with('role')
+        $stats = User::select('role', DB::raw('count(*) as total'))
+            ->groupBy('role')
             ->get()
             ->mapWithKeys(function ($item) {
-                return [$item->role->name => $item->total];
+                return [$item->role => $item->total];
             });
         return response()->json($stats);
     }

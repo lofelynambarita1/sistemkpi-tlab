@@ -7,9 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\UsersExport;
-use App\Imports\UsersImport;
+
 
 class UserManagementController extends Controller
 {
@@ -123,9 +121,28 @@ class UserManagementController extends Controller
 
     public function importUsers(Request $request)
     {
-        $request->validate(['file' => 'required|mimes:xlsx,csv']);
-        Excel::import(new UsersImport, $request->file('file'));
-        return back()->with('success', 'Pengguna berhasil diimport.');
+        $request->validate(['file' => 'required|mimes:csv,txt']);
+        $file = $request->file('file');
+        $handle = fopen($file->getPathname(), 'r');
+        $header = fgetcsv($handle);
+
+        $count = 0;
+        while (($row = fgetcsv($handle)) !== false) {
+            $data = array_combine($header, $row);
+            User::create([
+                'name'     => $data['name'] ?? $data['Nama'] ?? '',
+                'email'    => $data['email'] ?? $data['Email'] ?? '',
+                'password' => Hash::make($data['password'] ?? $data['Password'] ?? 'password'),
+                'role'     => $data['role'] ?? $data['Role'] ?? 'associate',
+                'jabatan'  => $data['jabatan'] ?? $data['Jabatan'] ?? null,
+                'divisi'   => $data['divisi'] ?? $data['Divisi'] ?? $data['department'] ?? null,
+                'is_active' => true,
+            ]);
+            $count++;
+        }
+        fclose($handle);
+
+        return back()->with('success', "{$count} pengguna berhasil diimport.");
     }
 
     public function dashboard()

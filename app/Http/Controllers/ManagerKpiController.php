@@ -1,79 +1,71 @@
 <?php
 
-// app/Http/Controllers/ManagerKpiController.php
-
 namespace App\Http\Controllers;
 
-use App\Models\Kpi;
-use App\Models\KpiReview;
-use App\Models\History;
+use App\Models\KpiForm;
+use App\Models\KpiApproval;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Auth;
 
 class ManagerKpiController extends Controller
 {
     public function indexPending()
     {
-        $user = auth()->user();
-        $kpis = Kpi::where('manager_id', $user->user_id)
-            ->where('status', 'Submitted')
-            ->with('employee')
+        $forms = KpiForm::with('user')
+            ->where('status', KpiForm::STATUS_WAITING_MGR)
+            ->where('current_approver_id', Auth::id())
+            ->orderBy('submitted_at', 'desc')
             ->get();
-            
-        return response()->json($kpis);
+
+        return response()->json($forms);
     }
 
-    
     public function bulkAction(Request $request)
     {
         $request->validate([
-            'kpi_ids' => 'required|array|min:1',
-            'kpi_ids.*' => 'exists:kpis,kpi_id',
-            'action' => 'required|in:Accept,Decline',
-            'komentar' => 'required_if:action,Decline|string'
+            'ids'    => 'required|array',
+            'action' => 'required|in:approve,reject',
         ]);
 
-        
-        DB::beginTransaction();
-        try {
-            $managerId = auth()->user()->user_id;
-            $newStatus = $request->action === 'Accept' ? 'Approved' : 'Rejected';
+        foreach ($request->ids as $id) {
+            $form = KpiForm::findOrFail($id);
 
-            foreach ($request->kpi_ids as $kpiId) {
-                $kpi = Kpi::findOrFail($kpiId);
-                $kpi->update(['status' => $newStatus]);
+            if ($request->action === 'approve') {
+                $form->status = KpiForm::STATUS_APPROVED;
+                $form->current_approver_id = null;
+                $form->save();
 
-                KpiReview::create([
-                    'kpi_id' => $kpiId,
-                    'reviewer_id' => $managerId,
-                    'komentar' => $request->komentar,
-                    'keputusan' => $request->action,
+                KpiApproval::create([
+                    'kpi_form_id' => $form->id,
+                    'actor_id'    => Auth::id(),
+                    'action'      => 'approved_manager',
+                    'acted_at'    => now(),
                 ]);
+            } else {
+                $form->status = KpiForm::STATUS_NEED_REVISION;
+                $form->current_approver_id = null;
+                $form->save();
 
-                
-                History::create([
-                    'user_id' => $managerId,
-                    'action' => "Bulk {$request->action} KPI",
-                    'model_type' => Kpi::class,
-                    'model_id' => $kpiId,
+                KpiApproval::create([
+                    'kpi_form_id' => $form->id,
+                    'actor_id'    => Auth::id(),
+                    'action'      => 'rejected_manager',
+                    'acted_at'    => now(),
                 ]);
             }
-
-            DB::commit();
-            return response()->json(['message' => "Berhasil melakukan {$request->action} pada " . count($request->kpi_ids) . " KPI"]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['error' => 'Gagal memproses bulk action'], 500);
         }
+
+        $actionLabel = $request->action === 'approve' ? 'diapprove' : 'direject';
+        return response()->json(['message' => count($request->ids) . " KPI berhasil {$actionLabel}."]);
     }
 
-    
     public function history()
     {
-        $histories = History::where('user_id', auth()->user()->user_id)
-            ->orderBy('created_at', 'desc')
+        $histories = KpiApproval::with(['form.user', 'actor'])
+            ->where('actor_id', Auth::id())
+            ->orderBy('acted_at', 'desc')
             ->get();
+
         return response()->json($histories);
     }
 }
